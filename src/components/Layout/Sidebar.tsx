@@ -58,36 +58,6 @@ const Sidebar: React.FC = () => {
       roles: ['admin'],
     },
     {
-      name: 'Customers',
-      path: '/customers',
-      icon: <Users className="h-5 w-5" />,
-      roles: ['admin', 'user'],
-    },
-    {
-      name: 'Completed Applications',
-      path: '/completed',
-      icon: <CheckSquare className="h-5 w-5" />,
-      roles: ['admin', 'user'],
-    },
-    {
-      name: 'Rejected Applications',
-      path: '/rejected',
-      icon: <XCircle className="h-5 w-5" />,
-      roles: ['admin', 'user'],
-    },
-    {
-      name: 'Manager Management',
-      path: '/users',
-      icon: <UserCog className="h-5 w-5" />,
-      roles: ['admin'],
-    },
-    {
-      name: 'Product Management',
-      path: '/products',
-      icon: <Package className="h-5 w-5" />,
-      roles: ['admin'],
-    },
-    {
       name: 'Settings',
       path: '/settings',
       icon: <Settings className="h-5 w-5" />,
@@ -97,7 +67,7 @@ const Sidebar: React.FC = () => {
 
   const isActiveRoute = (path: string) => {
     // Exact match for most routes
-    if (path === '/completed' || path === '/rejected' || path === '/settings' || path === '/users' || path === '/dashboard' || path === '/products') {
+    if (path === '/settings' || path === '/dashboard') {
       return location.pathname === path;
     }
     
@@ -106,12 +76,7 @@ const Sidebar: React.FC = () => {
       return location.pathname.startsWith('/managers');
     }
     
-    // Special handling for customers - only active when exactly on /customers
-    if (path === '/customers') {
-      return location.pathname === '/customers';
-    }
-    
-    // For customer detail pages, don't highlight any sidebar item to avoid confusion
+    // For other routes, don't highlight any sidebar item to avoid confusion
     return false;
   };
 

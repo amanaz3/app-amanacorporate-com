@@ -10,7 +10,9 @@ import {
   DollarSign, 
   CheckCircle, 
   XCircle,
-  UserCog
+  UserCog,
+  Users,
+  Package
 } from 'lucide-react';
 
 const ManagerSubHeader = () => {
@@ -75,11 +77,39 @@ const ManagerSubHeader = () => {
       description: "Final rejection"
     },
     { 
-      title: "Management", 
+      title: "Customers", 
+      path: "/customers", 
+      icon: Users, 
+      priority: "info",
+      description: "Manage customers"
+    },
+    { 
+      title: "Completed Applications", 
+      path: "/completed", 
+      icon: CheckCircle, 
+      priority: "info",
+      description: "View completed applications"
+    },
+    { 
+      title: "Rejected Applications", 
+      path: "/rejected", 
+      icon: XCircle, 
+      priority: "info",
+      description: "View rejected applications"
+    },
+    { 
+      title: "Manager Management", 
       path: "/managers/management", 
       icon: UserCog, 
       priority: "info",
       description: "Manage system managers"
+    },
+    { 
+      title: "Product Management", 
+      path: "/products", 
+      icon: Package, 
+      priority: "info",
+      description: "Manage products"
     }
   ];
 
