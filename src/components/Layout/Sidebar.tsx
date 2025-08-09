@@ -56,6 +56,12 @@ const Sidebar: React.FC = () => {
       roles: ['admin', 'user'],
     },
     {
+      name: 'Managers',
+      path: '/managers',
+      icon: <UserCog className="h-5 w-5" />,
+      roles: ['admin'],
+    },
+    {
       name: 'Customers',
       path: '/customers',
       icon: <Users className="h-5 w-5" />,
@@ -95,7 +101,7 @@ const Sidebar: React.FC = () => {
 
   const isActiveRoute = (path: string) => {
     // Exact match for most routes
-    if (path === '/completed' || path === '/rejected' || path === '/settings' || path === '/users' || path === '/dashboard' || path === '/products') {
+    if (path === '/completed' || path === '/rejected' || path === '/settings' || path === '/users' || path === '/dashboard' || path === '/products' || path === '/managers') {
       return location.pathname === path;
     }
     
