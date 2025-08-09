@@ -1,7 +1,7 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { User, Session } from '@supabase/supabase-js';
-import { supabase } from '@/lib/supabase';
+import { supabase } from '@/integrations/supabase/client';
 import { AuthUser, UserRole } from '@/contexts/SecureAuthContext';
 
 export const useAuthState = () => {
@@ -15,7 +15,7 @@ export const useAuthState = () => {
     const { error } = await supabase
       .from('profiles')
       .insert({
-        id: userId,
+        user_id: userId,
         email,
         name: email.split('@')[0],
         role
@@ -32,7 +32,7 @@ export const useAuthState = () => {
       const { data: profile, error } = await supabase
         .from('profiles')
         .select('name, role')
-        .eq('id', userId)
+        .eq('user_id', userId)
         .single();
 
       if (error) {

@@ -350,9 +350,9 @@ export class OptimizedCustomerService {
       comments: (commentsRes.data || []).map(comment => ({
         id: comment.id,
         customer_id: comment.customer_id,
-        content: comment.comment,
-        author: comment.created_by,
-        timestamp: comment.created_at || new Date().toISOString()
+        content: comment.content,
+        author: comment.author,
+        timestamp: comment.timestamp || new Date().toISOString()
       })),
       statusHistory: statusHistoryRes.data || []
     };
