@@ -77,13 +77,15 @@ const CustomerList = () => {
               }
             </p>
           </div>
-          <Button
-            onClick={handleNewApplication}
-            className="mt-4 md:mt-0"
-          >
-            <Plus className="w-4 h-4 mr-2" />
-            New Application
-          </Button>
+          {!isAdmin && (
+            <Button
+              onClick={handleNewApplication}
+              className="mt-4 md:mt-0"
+            >
+              <Plus className="w-4 h-4 mr-2" />
+              New Application
+            </Button>
+          )}
         </div>
         
         {/* Admin Filters */}
