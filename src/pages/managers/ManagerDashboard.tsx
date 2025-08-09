@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useAuth } from '@/contexts/SecureAuthContext';
 import { useCustomer } from '@/contexts/CustomerContext';
+import ManagerSubHeader from '@/components/managers/ManagerSubHeader';
 import { 
   AlertCircle, 
   ArrowLeft, 
@@ -68,7 +69,9 @@ const ManagerDashboard = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div>
+      <ManagerSubHeader />
+      <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold flex items-center gap-2">
@@ -159,6 +162,7 @@ const ManagerDashboard = () => {
           </div>
         </CardContent>
       </Card>
+      </div>
     </div>
   );
 };

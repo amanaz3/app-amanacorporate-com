@@ -14,9 +14,7 @@ import {
   ChevronRight,
   Menu,
   X,
-  Package,
-  ChevronDown,
-  ChevronUp
+  Package
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -24,7 +22,6 @@ import { Button } from '@/components/ui/button';
 const Sidebar: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [expandedItems, setExpandedItems] = useState<string[]>(['Managers']);
   const { isAdmin } = useAuth();
   const location = useLocation();
   const isMobile = useIsMobile();
@@ -47,23 +44,6 @@ const Sidebar: React.FC = () => {
     }
   }, [location.pathname, isMobile]);
 
-  const toggleExpanded = (title: string) => {
-    setExpandedItems(prev => 
-      prev.includes(title) 
-        ? prev.filter(item => item !== title)
-        : [...prev, title]
-    );
-  };
-
-  const getPriorityColor = (priority: string) => {
-    switch (priority) {
-      case 'high': return 'text-red-600';
-      case 'medium': return 'text-yellow-600';
-      case 'low': return 'text-green-600';
-      default: return 'text-muted-foreground';
-    }
-  };
-
   const navItems = [
     {
       name: 'Dashboard',
@@ -76,17 +56,6 @@ const Sidebar: React.FC = () => {
       path: '/managers',
       icon: <UserCog className="h-5 w-5" />,
       roles: ['admin'],
-      submenu: [
-        { title: "Dashboard", path: "/managers", priority: "info" },
-        { title: "Need More Info", path: "/managers/need-more-info", priority: "high" },
-        { title: "Return", path: "/managers/return", priority: "high" },
-        { title: "Submit", path: "/managers/submit", priority: "medium" },
-        { title: "Draft", path: "/managers/draft", priority: "medium" },
-        { title: "Paid", path: "/managers/paid", priority: "low" },
-        { title: "Completed", path: "/managers/completed", priority: "low" },
-        { title: "Rejected", path: "/managers/rejected", priority: "low" },
-        { title: "Management", path: "/managers/management", priority: "info" }
-      ]
     },
     {
       name: 'Customers',
@@ -107,7 +76,7 @@ const Sidebar: React.FC = () => {
       roles: ['admin', 'user'],
     },
     {
-      name: 'User Management',
+      name: 'Manager Management',
       path: '/users',
       icon: <UserCog className="h-5 w-5" />,
       roles: ['admin'],
@@ -144,10 +113,6 @@ const Sidebar: React.FC = () => {
     
     // For customer detail pages, don't highlight any sidebar item to avoid confusion
     return false;
-  };
-
-  const isSubmenuActive = (submenu: any[]) => {
-    return submenu?.some(item => location.pathname === item.path);
   };
 
   if (isMobile) {
@@ -206,49 +171,19 @@ const Sidebar: React.FC = () => {
 
                 return (
                   <li key={item.name}>
-                    <div>
-                      <Link
-                        to={item.path}
-                        className={cn(
-                          "flex items-center px-3 py-3 rounded-md text-sm font-medium responsive-transition touch-friendly",
-                          isActiveRoute(item.path)
-                            ? "bg-sidebar-primary text-sidebar-primary-foreground"
-                            : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-                        )}
-                        onClick={() => setMobileOpen(false)}
-                      >
-                        {item.icon}
-                        <span className="ml-3 flex-1">{item.name}</span>
-                        {item.submenu && (
-                          expandedItems.includes(item.name) ? 
-                            <ChevronUp className="h-4 w-4" /> : 
-                            <ChevronDown className="h-4 w-4" />
-                        )}
-                      </Link>
-                      
-                      {/* Mobile Submenu */}
-                      {item.submenu && expandedItems.includes(item.name) && (
-                        <div className="ml-4 mt-1 space-y-1">
-                          {item.submenu.map((subItem: any) => (
-                            <Link
-                              key={subItem.path}
-                              to={subItem.path}
-                              className={cn(
-                                "flex items-center px-3 py-2 rounded-md text-sm",
-                                location.pathname === subItem.path
-                                  ? "bg-sidebar-primary text-sidebar-primary-foreground"
-                                  : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-                              )}
-                              onClick={() => setMobileOpen(false)}
-                            >
-                              <span className={cn("flex-1", getPriorityColor(subItem.priority))}>
-                                {subItem.title}
-                              </span>
-                            </Link>
-                          ))}
-                        </div>
+                    <Link
+                      to={item.path}
+                      className={cn(
+                        "flex items-center px-3 py-3 rounded-md text-sm font-medium responsive-transition touch-friendly",
+                        isActiveRoute(item.path)
+                          ? "bg-sidebar-primary text-sidebar-primary-foreground"
+                          : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
                       )}
-                    </div>
+                      onClick={() => setMobileOpen(false)}
+                    >
+                      {item.icon}
+                      <span className="ml-3">{item.name}</span>
+                    </Link>
                   </li>
                 );
               })}
@@ -306,59 +241,20 @@ const Sidebar: React.FC = () => {
 
             return (
               <li key={item.name}>
-                <div>
-                  <Link
-                    to={item.path}
-                    className={cn(
-                      "flex items-center rounded-md text-sm font-medium responsive-transition touch-friendly",
-                      "px-3 py-2.5",
-                      isActiveRoute(item.path) || isSubmenuActive(item.submenu)
-                        ? "bg-sidebar-primary text-sidebar-primary-foreground"
-                        : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
-                      collapsed ? "justify-center px-2" : ""
-                    )}
-                    onClick={(e) => {
-                      if (item.submenu && !collapsed) {
-                        e.preventDefault();
-                        toggleExpanded(item.name);
-                      }
-                    }}
-                  >
-                    {item.icon}
-                    {!collapsed && (
-                      <>
-                        <span className="ml-3 flex-1">{item.name}</span>
-                        {item.submenu && (
-                          expandedItems.includes(item.name) ? 
-                            <ChevronUp className="h-4 w-4" /> : 
-                            <ChevronDown className="h-4 w-4" />
-                        )}
-                      </>
-                    )}
-                  </Link>
-                  
-                  {/* Desktop Submenu */}
-                  {item.submenu && !collapsed && expandedItems.includes(item.name) && (
-                    <div className="ml-4 mt-1 space-y-1">
-                      {item.submenu.map((subItem: any) => (
-                        <Link
-                          key={subItem.path}
-                          to={subItem.path}
-                          className={cn(
-                            "flex items-center px-3 py-2 rounded-md text-sm responsive-transition touch-friendly",
-                            location.pathname === subItem.path
-                              ? "bg-sidebar-primary text-sidebar-primary-foreground"
-                              : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-                          )}
-                        >
-                          <span className={cn("flex-1", getPriorityColor(subItem.priority))}>
-                            {subItem.title}
-                          </span>
-                        </Link>
-                      ))}
-                    </div>
+                <Link
+                  to={item.path}
+                  className={cn(
+                    "flex items-center rounded-md text-sm font-medium responsive-transition touch-friendly",
+                    "px-3 py-2.5",
+                    isActiveRoute(item.path)
+                      ? "bg-sidebar-primary text-sidebar-primary-foreground"
+                      : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+                    collapsed ? "justify-center px-2" : ""
                   )}
-                </div>
+                >
+                  {item.icon}
+                  {!collapsed && <span className="ml-3">{item.name}</span>}
+                </Link>
               </li>
             );
           })}

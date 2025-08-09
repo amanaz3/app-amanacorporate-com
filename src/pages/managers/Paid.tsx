@@ -4,6 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { useCustomer } from '@/contexts/CustomerContext';
 import { DollarSign } from 'lucide-react';
 import ResponsiveCustomerTable from '@/components/Customer/ResponsiveCustomerTable';
+import ManagerSubHeader from '@/components/managers/ManagerSubHeader';
 
 const Paid = () => {
   const { customers } = useCustomer();
@@ -13,7 +14,9 @@ const Paid = () => {
   );
 
   return (
-    <div className="space-y-6">
+    <div>
+      <ManagerSubHeader />
+      <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold flex items-center gap-2">
@@ -49,6 +52,7 @@ const Paid = () => {
           )}
         </CardContent>
       </Card>
+      </div>
     </div>
   );
 };

@@ -34,6 +34,7 @@ import { z } from 'zod';
 import { useAuth } from '@/contexts/SecureAuthContext';
 import { Users, Shield, Trash2, Plus, Key, UserCog } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
+import ManagerSubHeader from '@/components/managers/ManagerSubHeader';
 
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -52,7 +53,7 @@ interface UserProfile {
   created_at: string;
 }
 
-const Managers = () => {
+const ManagerManagement = () => {
   const [managers, setManagers] = useState<UserProfile[]>([]);
   const [loading, setLoading] = useState(true);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -246,12 +247,14 @@ const Managers = () => {
   }
 
   return (
-    <div className="space-y-6">
+    <div>
+      <ManagerSubHeader />
+      <div className="space-y-6">
       <div className="flex flex-col md:flex-row md:items-center md:justify-between">
         <div>
           <h1 className="text-3xl font-bold flex items-center gap-2">
             <UserCog className="h-8 w-8" />
-            Managers
+            Manager Management
           </h1>
           <p className="text-muted-foreground">
             Manage admin users and system managers
@@ -425,8 +428,9 @@ const Managers = () => {
           </form>
         </DialogContent>
       </Dialog>
+      </div>
     </div>
   );
 };
 
-export default Managers;
+export default ManagerManagement;
