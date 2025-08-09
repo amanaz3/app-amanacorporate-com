@@ -1,7 +1,7 @@
 // Optimized auth hook for production load handling
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { User, Session } from '@supabase/supabase-js';
-import { supabase } from '@/lib/supabase';
+import { supabase } from '@/integrations/supabase/client';
 
 export const useAuthOptimized = () => {
   const [user, setUser] = useState<User | null>(null);
