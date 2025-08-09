@@ -6,7 +6,6 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import {
   LayoutDashboard,
   Users,
-  UserPlus,
   CheckSquare,
   XCircle,
   UserCog,
@@ -63,12 +62,6 @@ const Sidebar: React.FC = () => {
       roles: ['admin', 'user'],
     },
     {
-      name: 'New Application',
-      path: '/customers/new',
-      icon: <UserPlus className="h-5 w-5" />,
-      roles: ['admin', 'user'],
-    },
-    {
       name: 'Completed Applications',
       path: '/completed',
       icon: <CheckSquare className="h-5 w-5" />,
@@ -111,10 +104,6 @@ const Sidebar: React.FC = () => {
       return location.pathname === '/customers';
     }
     
-    // Special handling for new application - only active when on /customers/new
-    if (path === '/customers/new') {
-      return location.pathname === '/customers/new';
-    }
     
     // For customer detail pages, don't highlight any sidebar item to avoid confusion
     return false;

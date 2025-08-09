@@ -14,7 +14,6 @@ import SecureLogin from '@/pages/SecureLogin';
 import {
   LazyOptimizedDashboard,
   LazyCustomerList,
-  LazyCustomerNew,
   LazyCustomerDetail,
   LazySecureUserManagement,
   LazyCompletedApplications,
@@ -97,15 +96,6 @@ function App() {
                     </ProtectedRoute>
                   } />
                   
-                  <Route path="/customers/new" element={
-                    <ProtectedRoute>
-                      <MainLayout>
-                        <PageErrorBoundary pageName="New Customer">
-                          <LazyCustomerNew />
-                        </PageErrorBoundary>
-                      </MainLayout>
-                    </ProtectedRoute>
-                  } />
                   
                   <Route path="/customers/:id" element={
                     <ProtectedRoute>
