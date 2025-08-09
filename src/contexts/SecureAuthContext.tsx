@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useMemo, useState, useEffect } from 'react';
 import { User, Session } from '@supabase/supabase-js';
-import { supabase, getFunctionUrl } from '@/lib/supabase';
+import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { useAuthOptimized } from '@/hooks/useAuthOptimized';
 import ErrorTracker from '@/utils/errorTracking';
@@ -55,7 +55,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         const { data, error } = await supabase
           .from('profiles')
           .select('role, name')
-          .eq('id', authUser.id)
+          .eq('user_id', authUser.id)
           .eq('is_active', true)
           .single();
 
@@ -64,7 +64,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           setProfile(null);
         } else {
           console.log('Profile loaded:', data);
-          setProfile(data);
+          setProfile(data as { role: UserRole; name: string });
         }
       } catch (error) {
         console.error('Profile fetch error:', error);
@@ -218,7 +218,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         const { error: profileError } = await supabase
           .from('profiles')
           .insert({
-            id: data.user.id,
+            user_id: data.user.id,
             email,
             name,
             role
@@ -263,7 +263,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const { error } = await supabase
         .from('profiles')
         .update({ role, updated_at: new Date().toISOString() })
-        .eq('id', userId);
+        .eq('user_id', userId);
 
       if (!error) {
         FeatureAnalytics.trackUserAction('user_role_updated', { new_role: role }, user?.id);
@@ -297,7 +297,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         return { error: { message: 'No active session' } };
       }
 
-      const response = await fetch(getFunctionUrl('delete-user'), {
+      const response = await fetch(`https://syzkbimsyjkfxukxsadl.supabase.co/functions/v1/delete-user`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -368,7 +368,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         return { error: { message: 'No active session' } };
       }
 
-      const response = await fetch(getFunctionUrl('reset-user-password'), {
+      const response = await fetch(`https://syzkbimsyjkfxukxsadl.supabase.co/functions/v1/reset-user-password`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

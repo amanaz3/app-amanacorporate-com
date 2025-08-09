@@ -8,7 +8,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/contexts/SecureAuthContext';
-import { supabase } from '@/lib/supabase';
+import { supabase } from '@/integrations/supabase/client';
 import { ProductionRateLimit } from '@/utils/productionRateLimit';
 import FeatureAnalytics from '@/utils/featureAnalytics';
 import ErrorTracker from '@/utils/errorTracking';

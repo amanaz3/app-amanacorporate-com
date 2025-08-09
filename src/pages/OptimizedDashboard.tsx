@@ -12,7 +12,7 @@ import DashboardHeader from '@/components/Dashboard/DashboardHeader';
 import { useOptimizedCustomerData } from '@/hooks/useOptimizedCustomerData';
 import { useDashboardFilters } from '@/hooks/useDashboardFilters';
 import { useAuth } from '@/contexts/SecureAuthContext';
-import { supabase } from '@/lib/supabase';
+import { supabase } from '@/integrations/supabase/client';
 import { BarChart3, Users, Calendar, ChevronDown, X, CheckCircle, Clock, DollarSign, Loader2 } from 'lucide-react';
 import { format } from 'date-fns';
 import { useNavigate } from 'react-router-dom';

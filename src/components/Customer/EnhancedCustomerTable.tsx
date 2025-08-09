@@ -7,7 +7,7 @@ import { useAuth } from '@/contexts/SecureAuthContext';
 import { useTableSelection } from '@/hooks/useTableSelection';
 import { useBulkReassignment } from '@/hooks/useBulkReassignment';
 import { cn } from '@/lib/utils';
-import { supabase } from '@/lib/supabase';
+import { supabase } from '@/integrations/supabase/client';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import {
   Table,

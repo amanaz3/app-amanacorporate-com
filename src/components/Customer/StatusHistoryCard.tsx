@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { StatusChange } from '@/contexts/CustomerContext';
 import { formatDate } from '@/lib/utils';
 import { Clock, User, Shield } from 'lucide-react';
-import { supabase } from '@/lib/supabase';
+import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/SecureAuthContext';
 
 interface StatusHistoryCardProps {

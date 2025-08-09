@@ -4,7 +4,7 @@ import { Customer } from '@/types/customer';
 import { useRealtimeSubscription } from '@/hooks/useRealtimeSubscription';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useAuth } from '@/contexts/SecureAuthContext';
-import { supabase } from '@/lib/supabase';
+import { supabase } from '@/integrations/supabase/client';
 import { cn } from '@/lib/utils';
 import {
   Table,

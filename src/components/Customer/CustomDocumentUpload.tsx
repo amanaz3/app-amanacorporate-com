@@ -26,7 +26,7 @@ import {
 } from '@/utils/fileUpload';
 import type { UploadProgress } from '@/utils/fileUpload';
 import { Upload, CheckCircle, Eye, Download, X, Plus, FileText } from 'lucide-react';
-import { supabase } from '@/lib/supabase';
+import { supabase } from '@/integrations/supabase/client';
 
 interface CustomDocument {
   id: string;
