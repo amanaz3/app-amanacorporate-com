@@ -15,66 +15,66 @@ import {
   Package
 } from 'lucide-react';
 
-const ManagerSubHeader = () => {
+const PartnerSubHeader = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
   const subPages = [
     { 
       title: "Dashboard", 
-      path: "/managers", 
+      path: "/partners", 
       icon: BarChart3, 
       priority: "info",
-      description: "Overview and statistics"
+      description: "Partner overview"
     },
     { 
       title: "Need More Info", 
-      path: "/managers/need-more-info", 
+      path: "/partners/need-more-info", 
       icon: AlertCircle, 
       priority: "high",
-      description: "Awaiting client information"
+      description: "Partner apps needing info"
     },
     { 
       title: "Return", 
-      path: "/managers/return", 
+      path: "/partners/return", 
       icon: ArrowLeft, 
       priority: "high",
-      description: "Returned for corrections"
+      description: "Returned partner apps"
     },
     { 
       title: "Submit", 
-      path: "/managers/submit", 
+      path: "/partners/submit", 
       icon: FileText, 
       priority: "medium",
-      description: "Awaiting initial review"
+      description: "Submitted partner apps"
     },
     { 
       title: "Draft", 
-      path: "/managers/draft", 
+      path: "/partners/draft", 
       icon: FileText, 
       priority: "medium",
-      description: "Incomplete applications"
+      description: "Draft partner apps"
     },
     { 
       title: "Paid", 
-      path: "/managers/paid", 
+      path: "/partners/paid", 
       icon: DollarSign, 
       priority: "low",
-      description: "Payment received"
+      description: "Paid partner apps"
     },
     { 
       title: "Completed", 
-      path: "/managers/completed", 
+      path: "/partners/completed", 
       icon: CheckCircle, 
       priority: "low",
-      description: "Fully processed"
+      description: "Completed partner apps"
     },
     { 
       title: "Rejected", 
-      path: "/managers/rejected", 
+      path: "/partners/rejected", 
       icon: XCircle, 
       priority: "low",
-      description: "Final rejection"
+      description: "Rejected partner apps"
     },
     { 
       title: "Customers", 
@@ -98,18 +98,25 @@ const ManagerSubHeader = () => {
       description: "View rejected applications"
     },
     { 
-      title: "Manager Management", 
-      path: "/managers/management", 
+      title: "Partner Management", 
+      path: "/partners/management", 
       icon: UserCog, 
       priority: "info",
-      description: "Manage system managers"
+      description: "Manage partners"
     },
     { 
-      title: "Product Management", 
-      path: "/products", 
+      title: "Company Management", 
+      path: "/partners/company-management", 
       icon: Package, 
       priority: "info",
-      description: "Manage products"
+      description: "Manage partner companies"
+    },
+    { 
+      title: "Partner Signup", 
+      path: "/partners/signup", 
+      icon: UserCog, 
+      priority: "info",
+      description: "Partner application form"
     }
   ];
 
@@ -155,4 +162,4 @@ const ManagerSubHeader = () => {
   );
 };
 
-export default ManagerSubHeader;
+export default PartnerSubHeader;

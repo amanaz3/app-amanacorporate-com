@@ -58,6 +58,12 @@ const Sidebar: React.FC = () => {
       roles: ['admin'],
     },
     {
+      name: 'Partners',
+      path: '/partners',
+      icon: <Users className="h-5 w-5" />,
+      roles: ['admin'],
+    },
+    {
       name: 'Settings',
       path: '/settings',
       icon: <Settings className="h-5 w-5" />,
@@ -74,6 +80,10 @@ const Sidebar: React.FC = () => {
     // Manager routes - check if any manager route is active
     if (path === '/managers') {
       return location.pathname.startsWith('/managers');
+    }
+    
+    if (path === '/partners') {
+      return location.pathname.startsWith('/partners');
     }
     
     // For other routes, don't highlight any sidebar item to avoid confusion

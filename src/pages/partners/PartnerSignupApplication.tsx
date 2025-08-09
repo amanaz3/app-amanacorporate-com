@@ -6,12 +6,12 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { UserPlus } from 'lucide-react';
-import ManagerSubHeader from '@/components/managers/ManagerSubHeader';
+import PartnerSubHeader from '@/components/partners/PartnerSubHeader';
 
 const PartnerSignupApplication = () => {
   return (
     <div className="min-h-screen bg-background">
-      <ManagerSubHeader />
+      <PartnerSubHeader />
       <div className="container mx-auto px-4 py-8">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-foreground mb-2">Partner Signup Application</h1>

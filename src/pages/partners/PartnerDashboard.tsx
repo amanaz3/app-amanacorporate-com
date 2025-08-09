@@ -1,12 +1,12 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { BarChart3, Users, FileText, DollarSign } from 'lucide-react';
-import ManagerSubHeader from '@/components/managers/ManagerSubHeader';
+import PartnerSubHeader from '@/components/partners/PartnerSubHeader';
 
 const PartnerDashboard = () => {
   return (
     <div className="min-h-screen bg-background">
-      <ManagerSubHeader />
+      <PartnerSubHeader />
       <div className="container mx-auto px-4 py-8">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-foreground mb-2">Partner Dashboard</h1>

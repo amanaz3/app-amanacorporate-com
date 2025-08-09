@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { XCircle, Clock, User } from 'lucide-react';
-import ManagerSubHeader from '@/components/managers/ManagerSubHeader';
+import PartnerSubHeader from '@/components/partners/PartnerSubHeader';
 
 const PartnerRejected = () => {
   const applications = [
@@ -19,7 +19,7 @@ const PartnerRejected = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <ManagerSubHeader />
+      <PartnerSubHeader />
       <div className="container mx-auto px-4 py-8">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-foreground mb-2">Partners - Rejected Applications</h1>
