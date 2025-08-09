@@ -14,7 +14,219 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      comments: {
+        Row: {
+          author: string
+          content: string
+          customer_id: string
+          id: string
+          timestamp: string
+        }
+        Insert: {
+          author: string
+          content: string
+          customer_id: string
+          id?: string
+          timestamp?: string
+        }
+        Update: {
+          author?: string
+          content?: string
+          customer_id?: string
+          id?: string
+          timestamp?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "comments_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "customers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      customers: {
+        Row: {
+          amount: number
+          annual_turnover: number | null
+          company: string
+          created_at: string
+          customer_notes: string | null
+          document_checklist_complete: boolean | null
+          email: string
+          id: string
+          jurisdiction: string | null
+          lead_source: string
+          license_type: string
+          mobile: string
+          name: string
+          preferred_bank: string | null
+          product_id: string | null
+          status: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          amount?: number
+          annual_turnover?: number | null
+          company: string
+          created_at?: string
+          customer_notes?: string | null
+          document_checklist_complete?: boolean | null
+          email: string
+          id?: string
+          jurisdiction?: string | null
+          lead_source: string
+          license_type: string
+          mobile: string
+          name: string
+          preferred_bank?: string | null
+          product_id?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          amount?: number
+          annual_turnover?: number | null
+          company?: string
+          created_at?: string
+          customer_notes?: string | null
+          document_checklist_complete?: boolean | null
+          email?: string
+          id?: string
+          jurisdiction?: string | null
+          lead_source?: string
+          license_type?: string
+          mobile?: string
+          name?: string
+          preferred_bank?: string | null
+          product_id?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      documents: {
+        Row: {
+          category: string
+          created_at: string
+          customer_id: string
+          file_path: string | null
+          id: string
+          is_mandatory: boolean
+          is_uploaded: boolean
+          name: string
+          requires_license_type: string | null
+          updated_at: string
+        }
+        Insert: {
+          category: string
+          created_at?: string
+          customer_id: string
+          file_path?: string | null
+          id?: string
+          is_mandatory?: boolean
+          is_uploaded?: boolean
+          name: string
+          requires_license_type?: string | null
+          updated_at?: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          customer_id?: string
+          file_path?: string | null
+          id?: string
+          is_mandatory?: boolean
+          is_uploaded?: boolean
+          name?: string
+          requires_license_type?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "documents_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "customers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          email: string | null
+          id: string
+          name: string | null
+          role: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          id?: string
+          name?: string | null
+          role?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          id?: string
+          name?: string | null
+          role?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      status_changes: {
+        Row: {
+          changed_by: string
+          changed_by_role: string
+          comment: string | null
+          created_at: string
+          customer_id: string
+          id: string
+          new_status: string
+          previous_status: string
+        }
+        Insert: {
+          changed_by: string
+          changed_by_role: string
+          comment?: string | null
+          created_at?: string
+          customer_id: string
+          id?: string
+          new_status: string
+          previous_status: string
+        }
+        Update: {
+          changed_by?: string
+          changed_by_role?: string
+          comment?: string | null
+          created_at?: string
+          customer_id?: string
+          id?: string
+          new_status?: string
+          previous_status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "status_changes_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "customers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
