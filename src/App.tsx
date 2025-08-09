@@ -14,7 +14,15 @@ import SecureLogin from '@/pages/SecureLogin';
 import {
   LazyOptimizedDashboard,
   LazyCustomerList,
-  LazyManagers,
+  LazyManagerDashboard,
+  LazyNeedMoreInfo,
+  LazyReturn,
+  LazySubmit,
+  LazyDraft,
+  LazyPaid,
+  LazyCompleted,
+  LazyRejected,
+  LazyManagerManagement,
   LazyCustomerDetail,
   LazySecureUserManagement,
   LazyCompletedApplications,
@@ -98,11 +106,84 @@ function App() {
                   } />
                   
                   
+                  {/* Manager routes */}
                   <Route path="/managers" element={
                     <ProtectedRoute requireAdmin>
                       <MainLayout>
-                        <PageErrorBoundary pageName="Managers">
-                          <LazyManagers />
+                        <PageErrorBoundary pageName="Manager Dashboard">
+                          <LazyManagerDashboard />
+                        </PageErrorBoundary>
+                      </MainLayout>
+                    </ProtectedRoute>
+                  } />
+                  <Route path="/managers/need-more-info" element={
+                    <ProtectedRoute requireAdmin>
+                      <MainLayout>
+                        <PageErrorBoundary pageName="Need More Info">
+                          <LazyNeedMoreInfo />
+                        </PageErrorBoundary>
+                      </MainLayout>
+                    </ProtectedRoute>
+                  } />
+                  <Route path="/managers/return" element={
+                    <ProtectedRoute requireAdmin>
+                      <MainLayout>
+                        <PageErrorBoundary pageName="Return">
+                          <LazyReturn />
+                        </PageErrorBoundary>
+                      </MainLayout>
+                    </ProtectedRoute>
+                  } />
+                  <Route path="/managers/submit" element={
+                    <ProtectedRoute requireAdmin>
+                      <MainLayout>
+                        <PageErrorBoundary pageName="Submit">
+                          <LazySubmit />
+                        </PageErrorBoundary>
+                      </MainLayout>
+                    </ProtectedRoute>
+                  } />
+                  <Route path="/managers/draft" element={
+                    <ProtectedRoute requireAdmin>
+                      <MainLayout>
+                        <PageErrorBoundary pageName="Draft">
+                          <LazyDraft />
+                        </PageErrorBoundary>
+                      </MainLayout>
+                    </ProtectedRoute>
+                  } />
+                  <Route path="/managers/paid" element={
+                    <ProtectedRoute requireAdmin>
+                      <MainLayout>
+                        <PageErrorBoundary pageName="Paid">
+                          <LazyPaid />
+                        </PageErrorBoundary>
+                      </MainLayout>
+                    </ProtectedRoute>
+                  } />
+                  <Route path="/managers/completed" element={
+                    <ProtectedRoute requireAdmin>
+                      <MainLayout>
+                        <PageErrorBoundary pageName="Completed">
+                          <LazyCompleted />
+                        </PageErrorBoundary>
+                      </MainLayout>
+                    </ProtectedRoute>
+                  } />
+                  <Route path="/managers/rejected" element={
+                    <ProtectedRoute requireAdmin>
+                      <MainLayout>
+                        <PageErrorBoundary pageName="Rejected">
+                          <LazyRejected />
+                        </PageErrorBoundary>
+                      </MainLayout>
+                    </ProtectedRoute>
+                  } />
+                  <Route path="/managers/management" element={
+                    <ProtectedRoute requireAdmin>
+                      <MainLayout>
+                        <PageErrorBoundary pageName="Manager Management">
+                          <LazyManagerManagement />
                         </PageErrorBoundary>
                       </MainLayout>
                     </ProtectedRoute>

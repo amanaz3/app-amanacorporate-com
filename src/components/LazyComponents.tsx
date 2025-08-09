@@ -5,7 +5,17 @@ import { Loader2 } from 'lucide-react';
 // Lazy load components for better performance
 const OptimizedDashboard = React.lazy(() => import('@/pages/OptimizedDashboard'));
 const CustomerList = React.lazy(() => import('@/pages/CustomerList'));
-const Managers = React.lazy(() => import('@/pages/Managers'));
+
+// Manager components
+const ManagerDashboard = React.lazy(() => import('@/pages/managers/ManagerDashboard'));
+const NeedMoreInfo = React.lazy(() => import('@/pages/managers/NeedMoreInfo'));
+const Return = React.lazy(() => import('@/pages/managers/Return'));
+const Submit = React.lazy(() => import('@/pages/managers/Submit'));
+const Draft = React.lazy(() => import('@/pages/managers/Draft'));
+const Paid = React.lazy(() => import('@/pages/managers/Paid'));
+const Completed = React.lazy(() => import('@/pages/managers/Completed'));
+const Rejected = React.lazy(() => import('@/pages/managers/Rejected'));
+const ManagerManagement = React.lazy(() => import('@/pages/managers/ManagerManagement'));
 
 const CustomerDetail = React.lazy(() => import('@/pages/CustomerDetail'));
 const SecureUserManagement = React.lazy(() => import('@/pages/SecureUserManagement'));
@@ -63,7 +73,17 @@ const withLazyLoading = <P extends object>(
 // Export lazy-loaded components with proper loading states
 export const LazyOptimizedDashboard = withLazyLoading(OptimizedDashboard, "Loading dashboard...");
 export const LazyCustomerList = withLazyLoading(CustomerList, "Loading customer list...");
-export const LazyManagers = withLazyLoading(Managers, "Loading managers...");
+
+// Manager components
+export const LazyManagerDashboard = withLazyLoading(ManagerDashboard, "Loading manager dashboard...");
+export const LazyNeedMoreInfo = withLazyLoading(NeedMoreInfo, "Loading applications needing more info...");
+export const LazyReturn = withLazyLoading(Return, "Loading returned applications...");
+export const LazySubmit = withLazyLoading(Submit, "Loading submitted applications...");
+export const LazyDraft = withLazyLoading(Draft, "Loading draft applications...");
+export const LazyPaid = withLazyLoading(Paid, "Loading paid applications...");
+export const LazyCompleted = withLazyLoading(Completed, "Loading completed applications...");
+export const LazyRejected = withLazyLoading(Rejected, "Loading rejected applications...");
+export const LazyManagerManagement = withLazyLoading(ManagerManagement, "Loading manager management...");
 
 export const LazyCustomerDetail = withLazyLoading(CustomerDetail, "Loading customer details...");
 export const LazySecureUserManagement = withLazyLoading(SecureUserManagement, "Loading user management...");
