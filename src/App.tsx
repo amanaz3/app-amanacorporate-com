@@ -23,6 +23,17 @@ import {
   LazyCompleted,
   LazyRejected,
   LazyManagerManagement,
+  LazyPartnerDashboard,
+  LazyPartnerNeedMoreInfo,
+  LazyPartnerReturn,
+  LazyPartnerSubmit,
+  LazyPartnerDraft,
+  LazyPartnerPaid,
+  LazyPartnerCompleted,
+  LazyPartnerRejected,
+  LazyPartnerManagement,
+  LazyCompanyManagement,
+  LazyPartnerSignupApplication,
   LazyCustomerDetail,
   LazySecureUserManagement,
   LazyCompletedApplications,
@@ -179,15 +190,116 @@ function App() {
                       </MainLayout>
                     </ProtectedRoute>
                   } />
-                  <Route path="/managers/management" element={
-                    <ProtectedRoute requireAdmin>
-                      <MainLayout>
-                        <PageErrorBoundary pageName="Manager Management">
-                          <LazyManagerManagement />
-                        </PageErrorBoundary>
-                      </MainLayout>
-                    </ProtectedRoute>
-                  } />
+                   <Route path="/managers/management" element={
+                     <ProtectedRoute requireAdmin>
+                       <MainLayout>
+                         <PageErrorBoundary pageName="Manager Management">
+                           <LazyManagerManagement />
+                         </PageErrorBoundary>
+                       </MainLayout>
+                     </ProtectedRoute>
+                   } />
+                   
+                   {/* Partner routes */}
+                   <Route path="/partners" element={
+                     <ProtectedRoute requireAdmin>
+                       <MainLayout>
+                         <PageErrorBoundary pageName="Partner Dashboard">
+                           <LazyPartnerDashboard />
+                         </PageErrorBoundary>
+                       </MainLayout>
+                     </ProtectedRoute>
+                   } />
+                   <Route path="/partners/need-more-info" element={
+                     <ProtectedRoute requireAdmin>
+                       <MainLayout>
+                         <PageErrorBoundary pageName="Partner Need More Info">
+                           <LazyPartnerNeedMoreInfo />
+                         </PageErrorBoundary>
+                       </MainLayout>
+                     </ProtectedRoute>
+                   } />
+                   <Route path="/partners/return" element={
+                     <ProtectedRoute requireAdmin>
+                       <MainLayout>
+                         <PageErrorBoundary pageName="Partner Return">
+                           <LazyPartnerReturn />
+                         </PageErrorBoundary>
+                       </MainLayout>
+                     </ProtectedRoute>
+                   } />
+                   <Route path="/partners/submit" element={
+                     <ProtectedRoute requireAdmin>
+                       <MainLayout>
+                         <PageErrorBoundary pageName="Partner Submit">
+                           <LazyPartnerSubmit />
+                         </PageErrorBoundary>
+                       </MainLayout>
+                     </ProtectedRoute>
+                   } />
+                   <Route path="/partners/draft" element={
+                     <ProtectedRoute requireAdmin>
+                       <MainLayout>
+                         <PageErrorBoundary pageName="Partner Draft">
+                           <LazyPartnerDraft />
+                         </PageErrorBoundary>
+                       </MainLayout>
+                     </ProtectedRoute>
+                   } />
+                   <Route path="/partners/paid" element={
+                     <ProtectedRoute requireAdmin>
+                       <MainLayout>
+                         <PageErrorBoundary pageName="Partner Paid">
+                           <LazyPartnerPaid />
+                         </PageErrorBoundary>
+                       </MainLayout>
+                     </ProtectedRoute>
+                   } />
+                   <Route path="/partners/completed" element={
+                     <ProtectedRoute requireAdmin>
+                       <MainLayout>
+                         <PageErrorBoundary pageName="Partner Completed">
+                           <LazyPartnerCompleted />
+                         </PageErrorBoundary>
+                       </MainLayout>
+                     </ProtectedRoute>
+                   } />
+                   <Route path="/partners/rejected" element={
+                     <ProtectedRoute requireAdmin>
+                       <MainLayout>
+                         <PageErrorBoundary pageName="Partner Rejected">
+                           <LazyPartnerRejected />
+                         </PageErrorBoundary>
+                       </MainLayout>
+                     </ProtectedRoute>
+                   } />
+                   <Route path="/partners/management" element={
+                     <ProtectedRoute requireAdmin>
+                       <MainLayout>
+                         <PageErrorBoundary pageName="Partner Management">
+                           <LazyPartnerManagement />
+                         </PageErrorBoundary>
+                       </MainLayout>
+                     </ProtectedRoute>
+                   } />
+                   <Route path="/partners/company-management" element={
+                     <ProtectedRoute requireAdmin>
+                       <MainLayout>
+                         <PageErrorBoundary pageName="Company Management">
+                           <LazyCompanyManagement />
+                         </PageErrorBoundary>
+                       </MainLayout>
+                     </ProtectedRoute>
+                   } />
+                   <Route path="/partners/signup" element={
+                     <ProtectedRoute requireAdmin>
+                       <MainLayout>
+                         <PageErrorBoundary pageName="Partner Signup Application">
+                           <LazyPartnerSignupApplication />
+                         </PageErrorBoundary>
+                       </MainLayout>
+                     </ProtectedRoute>
+                   } />
                   
                   <Route path="/customers/:id" element={
                     <ProtectedRoute>

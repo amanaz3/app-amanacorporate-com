@@ -28,6 +28,13 @@ const ManagerSubHeader = () => {
       description: "Overview and statistics"
     },
     { 
+      title: "Partners", 
+      path: "/partners", 
+      icon: Users, 
+      priority: "info",
+      description: "Partner management system"
+    },
+    { 
       title: "Need More Info", 
       path: "/managers/need-more-info", 
       icon: AlertCircle, 
@@ -110,6 +117,85 @@ const ManagerSubHeader = () => {
       icon: Package, 
       priority: "info",
       description: "Manage products"
+    },
+    
+    // Partner section - all partner-related pages
+    { 
+      title: "Partners", 
+      path: "/partners", 
+      icon: Users, 
+      priority: "info",
+      description: "Partner dashboard"
+    },
+    { 
+      title: "Partner Need More Info", 
+      path: "/partners/need-more-info", 
+      icon: AlertCircle, 
+      priority: "high",
+      description: "Partner apps needing info"
+    },
+    { 
+      title: "Partner Return", 
+      path: "/partners/return", 
+      icon: ArrowLeft, 
+      priority: "high",
+      description: "Returned partner apps"
+    },
+    { 
+      title: "Partner Submit", 
+      path: "/partners/submit", 
+      icon: FileText, 
+      priority: "medium",
+      description: "Submitted partner apps"
+    },
+    { 
+      title: "Partner Draft", 
+      path: "/partners/draft", 
+      icon: FileText, 
+      priority: "medium",
+      description: "Draft partner apps"
+    },
+    { 
+      title: "Partner Paid", 
+      path: "/partners/paid", 
+      icon: DollarSign, 
+      priority: "low",
+      description: "Paid partner apps"
+    },
+    { 
+      title: "Partner Completed", 
+      path: "/partners/completed", 
+      icon: CheckCircle, 
+      priority: "low",
+      description: "Completed partner apps"
+    },
+    { 
+      title: "Partner Rejected", 
+      path: "/partners/rejected", 
+      icon: XCircle, 
+      priority: "low",
+      description: "Rejected partner apps"
+    },
+    { 
+      title: "Partner Management", 
+      path: "/partners/management", 
+      icon: UserCog, 
+      priority: "info",
+      description: "Manage partners"
+    },
+    { 
+      title: "Company Management", 
+      path: "/partners/company-management", 
+      icon: Package, 
+      priority: "info",
+      description: "Manage partner companies"
+    },
+    { 
+      title: "Partner Signup", 
+      path: "/partners/signup", 
+      icon: UserCog, 
+      priority: "info",
+      description: "Partner application form"
     }
   ];
 
