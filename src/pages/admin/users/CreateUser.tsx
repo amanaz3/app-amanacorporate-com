@@ -152,5 +152,4 @@ const CreateUser = () => {
   );
 };
 
-console.log('CreateUser component exported');
 export default CreateUser;

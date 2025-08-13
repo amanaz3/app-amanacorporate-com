@@ -55,14 +55,6 @@ import {
   LazyGeneralSettings,
   PageLoadingFallback
 } from '@/components/LazyComponents';
-
-console.log('App.tsx: Imported components:', {
-  LazyCreateUser: typeof LazyCreateUser,
-  LazyCreateManager: typeof LazyCreateManager,
-  LazyCreatePartner: typeof LazyCreatePartner,
-  LazyUserApplications: typeof LazyUserApplications,
-  LazyGeneralSettings: typeof LazyGeneralSettings
-});
 import ErrorTracker from '@/utils/errorTracking';
 import PerformanceMonitor from '@/utils/performanceMonitoring';
 import FeatureAnalytics from '@/utils/featureAnalytics';

@@ -8,14 +8,11 @@ import {
   Building2, 
   FileText, 
   Settings,
-  User,
   UserPlus,
-  UserX,
   Eye,
-  Edit,
-  Trash2,
   TrendingUp,
-  UserCheck
+  UserCheck,
+  FolderKanban
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -56,7 +53,8 @@ const AdminSidebar = () => {
         { title: 'View Users', href: '/admin/users', icon: Eye },
         { title: 'Create User', href: '/admin/users/create', icon: UserPlus },
         {
-          title: 'User Applications',
+          title: 'Applications',
+          icon: FolderKanban,
           children: [
             { title: 'Draft', href: '/admin/users/applications/draft' },
             { title: 'Need More Info', href: '/admin/users/applications/need-more-info' },
@@ -76,7 +74,8 @@ const AdminSidebar = () => {
         { title: 'View Managers', href: '/admin/managers', icon: Eye },
         { title: 'Create Manager', href: '/admin/managers/create', icon: UserPlus },
         {
-          title: 'Manager Applications',
+          title: 'Applications',
+          icon: FolderKanban,
           children: [
             { title: 'Draft', href: '/admin/managers/applications/draft' },
             { title: 'Need More Info', href: '/admin/managers/applications/need-more-info' },
@@ -97,7 +96,8 @@ const AdminSidebar = () => {
         { title: 'Create Partner', href: '/admin/partners/create', icon: UserPlus },
         { title: 'Assign to Managers', href: '/admin/partners/assign', icon: UserCheck },
         {
-          title: 'Partner Applications',
+          title: 'Applications',
+          icon: FolderKanban,
           children: [
             { title: 'Draft', href: '/admin/partners/applications/draft' },
             { title: 'Need More Info', href: '/admin/partners/applications/need-more-info' },
@@ -115,42 +115,9 @@ const AdminSidebar = () => {
       icon: FileText,
       children: [
         { title: 'All Applications', href: '/admin/applications', icon: Eye },
-        {
-          title: 'User Applications',
-          children: [
-            { title: 'Draft', href: '/admin/users/applications/draft' },
-            { title: 'Need More Info', href: '/admin/users/applications/need-more-info' },
-            { title: 'Return', href: '/admin/users/applications/return' },
-            { title: 'Submit', href: '/admin/users/applications/submit' },
-            { title: 'Rejected', href: '/admin/users/applications/rejected' },
-            { title: 'Completed', href: '/admin/users/applications/completed' },
-            { title: 'Paid', href: '/admin/users/applications/paid' }
-          ]
-        },
-        {
-          title: 'Partner Applications',
-          children: [
-            { title: 'Draft', href: '/admin/partners/applications/draft' },
-            { title: 'Need More Info', href: '/admin/partners/applications/need-more-info' },
-            { title: 'Return', href: '/admin/partners/applications/return' },
-            { title: 'Submit', href: '/admin/partners/applications/submit' },
-            { title: 'Rejected', href: '/admin/partners/applications/rejected' },
-            { title: 'Completed', href: '/admin/partners/applications/completed' },
-            { title: 'Paid', href: '/admin/partners/applications/paid' }
-          ]
-        },
-        {
-          title: 'Manager Applications',
-          children: [
-            { title: 'Draft', href: '/admin/managers/applications/draft' },
-            { title: 'Need More Info', href: '/admin/managers/applications/need-more-info' },
-            { title: 'Return', href: '/admin/managers/applications/return' },
-            { title: 'Submit', href: '/admin/managers/applications/submit' },
-            { title: 'Rejected', href: '/admin/managers/applications/rejected' },
-            { title: 'Completed', href: '/admin/managers/applications/completed' },
-            { title: 'Paid', href: '/admin/managers/applications/paid' }
-          ]
-        }
+        { title: 'User Applications', href: '/admin/users/applications', icon: Users },
+        { title: 'Manager Applications', href: '/admin/managers/applications', icon: UserCog },
+        { title: 'Partner Applications', href: '/admin/partners/applications', icon: Building2 }
       ]
     },
     {
@@ -186,12 +153,12 @@ const AdminSidebar = () => {
           <Button
             variant="ghost"
             onClick={() => toggleMenu(menuKey)}
-            className={cn(
-              "w-full justify-start text-left h-auto py-2 px-3",
-              `ml-${level * 4}`,
-              level === 0 ? "font-medium" : "font-normal",
-              parentIsActive ? "bg-primary/10 text-primary" : "text-muted-foreground hover:text-foreground"
-            )}
+          className={cn(
+            "w-full justify-start text-left h-auto py-2 px-3",
+            level === 0 ? "font-medium" : "font-normal text-sm",
+            level === 1 ? "ml-4" : level === 2 ? "ml-8" : "",
+            parentIsActive ? "bg-accent text-accent-foreground" : "text-muted-foreground hover:text-foreground hover:bg-accent/50"
+          )}
           >
             {IconComponent && level === 0 && <IconComponent className="mr-2 h-4 w-4" />}
             <span className="flex-1">{item.title}</span>
@@ -217,9 +184,9 @@ const AdminSidebar = () => {
           asChild
           className={cn(
             "w-full justify-start text-left h-auto py-2 px-3",
-            `ml-${level * 4}`,
-            level === 0 ? "font-medium" : "font-normal",
-            isActive(item.href!) ? "bg-primary/10 text-primary" : "text-muted-foreground hover:text-foreground"
+            level === 0 ? "font-medium" : "font-normal text-sm",
+            level === 1 ? "ml-4" : level === 2 ? "ml-8" : "",
+            isActive(item.href!) ? "bg-accent text-accent-foreground font-medium" : "text-muted-foreground hover:text-foreground hover:bg-accent/50"
           )}
         >
           <Link to={item.href!}>
