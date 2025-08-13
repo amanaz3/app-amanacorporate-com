@@ -49,6 +49,8 @@ const RejectedApplications = React.lazy(() => import('@/pages/RejectedApplicatio
 const Settings = React.lazy(() => import('@/pages/Settings'));
 const ProductManagement = React.lazy(() => import('@/pages/ProductManagement'));
 const NotFound = React.lazy(() => import('@/pages/NotFound'));
+const UserLogin = React.lazy(() => import('@/pages/UserLogin'));
+const PartnerLogin = React.lazy(() => import('@/pages/PartnerLogin'));
 
 // Heavy components
 const ProductionMonitor = React.lazy(() => import('@/components/Performance/ProductionMonitor'));
@@ -177,6 +179,8 @@ export const LazyRejectedApplications = withLazyLoading(RejectedApplications, "L
 export const LazySettings = withLazyLoading(Settings, "Loading settings...");
 export const LazyProductManagement = withLazyLoading(ProductManagement, "Loading product management...");
 export const LazyNotFound = withLazyLoading(NotFound, "Loading page...");
+export const LazyUserLogin = withLazyLoading(UserLogin, "Loading login...");
+export const LazyPartnerLogin = withLazyLoading(PartnerLogin, "Loading login...");
 
 export const LazyProductionMonitor = withLazyLoading(ProductionMonitor, "Loading performance monitor...");
 export const LazySecurityCompliance = withLazyLoading(SecurityCompliance, "Loading security compliance...");

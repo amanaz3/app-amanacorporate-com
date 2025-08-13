@@ -61,6 +61,8 @@ import {
   LazyManagerApplicationsOverview,
   LazyPartnerApplicationsOverview,
   LazyUserDashboard,
+  LazyUserLogin,
+  LazyPartnerLogin,
   PageLoadingFallback
 } from '@/components/LazyComponents';
 import ErrorTracker from '@/utils/errorTracking';
@@ -108,10 +110,20 @@ function App() {
             <CustomerProvider>
               <NotificationProvider>
                 <div className="min-h-screen bg-background">
-                <Routes>
+                 <Routes>
                   <Route path="/login" element={
                     <PageErrorBoundary pageName="Login">
                       <SecureLogin />
+                    </PageErrorBoundary>
+                  } />
+                  <Route path="/user/login" element={
+                    <PageErrorBoundary pageName="User Login">
+                      <LazyUserLogin />
+                    </PageErrorBoundary>
+                  } />
+                  <Route path="/partner/login" element={
+                    <PageErrorBoundary pageName="Partner Login">
+                      <LazyPartnerLogin />
                     </PageErrorBoundary>
                   } />
                   <Route path="/" element={<Navigate to="/dashboard" replace />} />
