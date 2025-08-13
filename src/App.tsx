@@ -48,6 +48,11 @@ import {
   LazyAdminDashboard,
   LazyApplicationManagement,
   LazyAdminStatistics,
+  LazyCreateUser,
+  LazyCreateManager,
+  LazyCreatePartner,
+  LazyUserApplications,
+  LazyGeneralSettings,
   PageLoadingFallback
 } from '@/components/LazyComponents';
 import ErrorTracker from '@/utils/errorTracking';

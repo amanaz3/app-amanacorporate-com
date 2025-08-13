@@ -131,6 +131,24 @@ export const LazyAdminPartnerManagement = withLazyLoading(AdminPartnerManagement
 export const LazyAdminDashboard = withLazyLoading(AdminDashboard, "Loading admin dashboard...");
 export const LazyApplicationManagement = withLazyLoading(ApplicationManagement, "Loading application management...");
 export const LazyAdminStatistics = withLazyLoading(AdminStatistics, "Loading admin statistics...");
+
+// Admin CRUD Components
+const CreateUser = React.lazy(() => import('@/pages/admin/users/CreateUser'));
+const CreateManager = React.lazy(() => import('@/pages/admin/managers/CreateManager'));
+const CreatePartner = React.lazy(() => import('@/pages/admin/partners/CreatePartner'));
+
+// Admin Application Components
+const UserApplications = React.lazy(() => import('@/pages/admin/applications/UserApplications'));
+
+// Admin Settings Components
+const GeneralSettings = React.lazy(() => import('@/pages/admin/settings/GeneralSettings'));
+
+// Export the new lazy components with proper loading states
+export const LazyCreateUser = withLazyLoading(CreateUser, "Loading create user form...");
+export const LazyCreateManager = withLazyLoading(CreateManager, "Loading create manager form...");
+export const LazyCreatePartner = withLazyLoading(CreatePartner, "Loading create partner form...");
+export const LazyUserApplications = withLazyLoading(UserApplications, "Loading user applications...");
+export const LazyGeneralSettings = withLazyLoading(GeneralSettings, "Loading general settings...");
 export const LazyManagerMainDashboard = withLazyLoading(ManagerMainDashboard, "Loading manager dashboard...");
 export const LazyPartnerMainDashboard = withLazyLoading(PartnerMainDashboard, "Loading partner dashboard...");
 export const LazyUserMainDashboard = withLazyLoading(UserMainDashboard, "Loading user dashboard...");
