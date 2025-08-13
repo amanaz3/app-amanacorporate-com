@@ -38,8 +38,6 @@ const AdminPartnerManagement = React.lazy(() => import('@/pages/admin/PartnerMan
 const AdminDashboard = React.lazy(() => import('@/pages/AdminDashboard'));
 const ApplicationManagement = React.lazy(() => import('@/pages/admin/ApplicationManagement'));
 const AdminStatistics = React.lazy(() => import('@/pages/admin/AdminStatistics'));
-const ManagerMainDashboard = React.lazy(() => import('@/pages/ManagerDashboard'));
-const PartnerMainDashboard = React.lazy(() => import('@/pages/PartnerDashboard'));
 const UserMainDashboard = React.lazy(() => import('@/pages/UserDashboard'));
 
 const CustomerDetail = React.lazy(() => import('@/pages/CustomerDetail'));
@@ -100,7 +98,7 @@ export const LazyOptimizedDashboard = withLazyLoading(OptimizedDashboard, "Loadi
 export const LazyCustomerList = withLazyLoading(CustomerList, "Loading customer list...");
 
 // Manager components
-export const LazyManagerDashboard = withLazyLoading(ManagerDashboard, "Loading manager dashboard...");
+
 export const LazyNeedMoreInfo = withLazyLoading(NeedMoreInfo, "Loading applications needing more info...");
 export const LazyReturn = withLazyLoading(Return, "Loading returned applications...");
 export const LazySubmit = withLazyLoading(Submit, "Loading submitted applications...");
@@ -111,7 +109,7 @@ export const LazyRejected = withLazyLoading(Rejected, "Loading rejected applicat
 export const LazyManagerManagement = withLazyLoading(ManagerManagement, "Loading manager management...");
 
 // Partner components
-export const LazyPartnerDashboard = withLazyLoading(PartnerDashboard, "Loading partner dashboard...");
+
 export const LazyPartnerNeedMoreInfo = withLazyLoading(PartnerNeedMoreInfo, "Loading partner applications needing more info...");
 export const LazyPartnerReturn = withLazyLoading(PartnerReturn, "Loading returned partner applications...");
 export const LazyPartnerSubmit = withLazyLoading(PartnerSubmit, "Loading submitted partner applications...");
@@ -166,8 +164,6 @@ export const LazyAllApplicationsOverview = withLazyLoading(AllApplicationsOvervi
 export const LazyUserApplicationsOverview = withLazyLoading(UserApplicationsOverview, "Loading user applications...");
 export const LazyManagerApplicationsOverview = withLazyLoading(ManagerApplicationsOverview, "Loading manager applications...");
 export const LazyPartnerApplicationsOverview = withLazyLoading(PartnerApplicationsOverview, "Loading partner applications...");
-export const LazyManagerMainDashboard = withLazyLoading(ManagerMainDashboard, "Loading manager dashboard...");
-export const LazyPartnerMainDashboard = withLazyLoading(PartnerMainDashboard, "Loading partner dashboard...");
 export const LazyUserMainDashboard = withLazyLoading(UserMainDashboard, "Loading user dashboard...");
 
 export const LazyCustomerDetail = withLazyLoading(CustomerDetail, "Loading customer details...");

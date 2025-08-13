@@ -14,7 +14,7 @@ import SecureLogin from '@/pages/SecureLogin';
 import {
   LazyOptimizedDashboard,
   LazyCustomerList,
-  LazyManagerDashboard,
+  
   LazyNeedMoreInfo,
   LazyReturn,
   LazySubmit,
@@ -23,7 +23,7 @@ import {
   LazyCompleted,
   LazyRejected,
   LazyManagerManagement,
-  LazyPartnerDashboard,
+  
   LazyPartnerNeedMoreInfo,
   LazyPartnerReturn,
   LazyPartnerSubmit,
@@ -146,16 +146,6 @@ function App() {
                   } />
                   
                   
-                  {/* Manager routes */}
-                  <Route path="/managers" element={
-                    <ProtectedRoute requireAdmin>
-                      <MainLayout>
-                        <PageErrorBoundary pageName="Manager Dashboard">
-                          <LazyManagerDashboard />
-                        </PageErrorBoundary>
-                      </MainLayout>
-                    </ProtectedRoute>
-                  } />
                   <Route path="/managers/need-more-info" element={
                     <ProtectedRoute requireAdmin>
                       <MainLayout>
@@ -229,16 +219,6 @@ function App() {
                      </ProtectedRoute>
                    } />
                    
-                   {/* Partner routes */}
-                   <Route path="/partners" element={
-                     <ProtectedRoute requireAdmin>
-                       <MainLayout>
-                         <PageErrorBoundary pageName="Partner Dashboard">
-                           <LazyPartnerDashboard />
-                         </PageErrorBoundary>
-                       </MainLayout>
-                     </ProtectedRoute>
-                   } />
                    <Route path="/partners/need-more-info" element={
                      <ProtectedRoute requireAdmin>
                        <MainLayout>
