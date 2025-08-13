@@ -43,12 +43,12 @@ const UserLogin = () => {
           <div className="mb-8">
             
             <div className="w-80 h-80 bg-white rounded-3xl shadow-lg p-8 mx-auto">
-              <div className="bg-gray-100 rounded-2xl h-full flex items-center justify-center">
-                <div className="text-center">
-                  <User className="h-16 w-16 text-blue-600 mx-auto mb-4" />
-                  <h3 className="font-semibold text-gray-800 mb-2">Welcome Back</h3>
-                  <p className="text-sm text-gray-600">Access your dashboard</p>
-                </div>
+              <div className="bg-gray-100 rounded-2xl h-full overflow-hidden">
+                <img 
+                  src="/lovable-uploads/dc4fd816-6d47-4c2f-bec2-1de9b296c0b8.png" 
+                  alt="Amana Mobile App"
+                  className="w-full h-full object-cover"
+                />
               </div>
             </div>
           </div>
