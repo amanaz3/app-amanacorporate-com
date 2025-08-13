@@ -45,6 +45,8 @@ import {
   LazyUserManagement,
   LazyAdminManagerManagement,
   LazyAdminPartnerManagement,
+  LazyAdminDashboard,
+  LazyApplicationManagement,
   PageLoadingFallback
 } from '@/components/LazyComponents';
 import ErrorTracker from '@/utils/errorTracking';
@@ -101,10 +103,10 @@ function App() {
                   <Route path="/" element={<Navigate to="/dashboard" replace />} />
                   
                   <Route path="/dashboard" element={
-                    <ProtectedRoute>
+                    <ProtectedRoute requireAdmin>
                       <MainLayout>
                         <PageErrorBoundary pageName="Dashboard">
-                          <LazyOptimizedDashboard />
+                          <LazyAdminDashboard />
                         </PageErrorBoundary>
                       </MainLayout>
                     </ProtectedRoute>
@@ -338,6 +340,15 @@ function App() {
                        <MainLayout>
                          <PageErrorBoundary pageName="Partner Management">
                            <LazyAdminPartnerManagement />
+                         </PageErrorBoundary>
+                       </MainLayout>
+                     </ProtectedRoute>
+                    } />
+                   <Route path="/admin/applications" element={
+                     <ProtectedRoute requireAdmin>
+                       <MainLayout>
+                         <PageErrorBoundary pageName="Application Management">
+                           <LazyApplicationManagement />
                          </PageErrorBoundary>
                        </MainLayout>
                      </ProtectedRoute>
