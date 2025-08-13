@@ -47,6 +47,7 @@ import {
   LazyAdminPartnerManagement,
   LazyAdminDashboard,
   LazyApplicationManagement,
+  LazyAdminStatistics,
   PageLoadingFallback
 } from '@/components/LazyComponents';
 import ErrorTracker from '@/utils/errorTracking';
@@ -107,6 +108,16 @@ function App() {
                       <MainLayout>
                         <PageErrorBoundary pageName="Dashboard">
                           <LazyAdminDashboard />
+                        </PageErrorBoundary>
+                      </MainLayout>
+                    </ProtectedRoute>
+                  } />
+                  
+                  <Route path="/admin/statistics" element={
+                    <ProtectedRoute requireAdmin>
+                      <MainLayout>
+                        <PageErrorBoundary pageName="Admin Statistics">
+                          <LazyAdminStatistics />
                         </PageErrorBoundary>
                       </MainLayout>
                     </ProtectedRoute>

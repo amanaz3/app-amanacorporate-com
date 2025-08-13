@@ -37,6 +37,10 @@ const AdminManagerManagement = React.lazy(() => import('@/pages/admin/ManagerMan
 const AdminPartnerManagement = React.lazy(() => import('@/pages/admin/PartnerManagement'));
 const AdminDashboard = React.lazy(() => import('@/pages/AdminDashboard'));
 const ApplicationManagement = React.lazy(() => import('@/pages/admin/ApplicationManagement'));
+const AdminStatistics = React.lazy(() => import('@/pages/admin/AdminStatistics'));
+const ManagerMainDashboard = React.lazy(() => import('@/pages/ManagerDashboard'));
+const PartnerMainDashboard = React.lazy(() => import('@/pages/PartnerDashboard'));
+const UserMainDashboard = React.lazy(() => import('@/pages/UserDashboard'));
 
 const CustomerDetail = React.lazy(() => import('@/pages/CustomerDetail'));
 const SecureUserManagement = React.lazy(() => import('@/pages/SecureUserManagement'));
@@ -126,6 +130,10 @@ export const LazyAdminManagerManagement = withLazyLoading(AdminManagerManagement
 export const LazyAdminPartnerManagement = withLazyLoading(AdminPartnerManagement, "Loading partner management...");
 export const LazyAdminDashboard = withLazyLoading(AdminDashboard, "Loading admin dashboard...");
 export const LazyApplicationManagement = withLazyLoading(ApplicationManagement, "Loading application management...");
+export const LazyAdminStatistics = withLazyLoading(AdminStatistics, "Loading admin statistics...");
+export const LazyManagerMainDashboard = withLazyLoading(ManagerMainDashboard, "Loading manager dashboard...");
+export const LazyPartnerMainDashboard = withLazyLoading(PartnerMainDashboard, "Loading partner dashboard...");
+export const LazyUserMainDashboard = withLazyLoading(UserMainDashboard, "Loading user dashboard...");
 
 export const LazyCustomerDetail = withLazyLoading(CustomerDetail, "Loading customer details...");
 export const LazySecureUserManagement = withLazyLoading(SecureUserManagement, "Loading user management...");
