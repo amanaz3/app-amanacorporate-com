@@ -42,28 +42,48 @@ const UserLogin = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
-      <Card className="w-[400px] shadow-lg border-0 bg-card/95 backdrop-blur">
-        <CardHeader className="space-y-1">
-          <div className="flex items-center justify-center mb-4">
-            <div className="p-2 bg-primary/10 rounded-full mr-3">
-              <User className="h-6 w-6 text-primary" />
+    <div className="min-h-screen bg-gray-50 flex">
+      {/* Left side - Branding and illustration */}
+      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-purple-100 to-blue-100 items-center justify-center p-12">
+        <div className="max-w-md text-center">
+          <div className="mb-8">
+            <h1 className="text-3xl font-bold text-blue-600 mb-4">Amana Corporate</h1>
+            <div className="w-80 h-80 bg-white rounded-3xl shadow-lg p-8 mx-auto">
+              <div className="bg-gray-100 rounded-2xl h-full flex items-center justify-center">
+                <div className="text-center">
+                  <User className="h-16 w-16 text-blue-600 mx-auto mb-4" />
+                  <h3 className="font-semibold text-gray-800 mb-2">Welcome Back</h3>
+                  <p className="text-sm text-gray-600">Access your dashboard</p>
+                </div>
+              </div>
             </div>
-            <CardTitle className="text-2xl font-bold text-foreground">User Portal</CardTitle>
           </div>
-          <CardDescription className="text-center text-muted-foreground">
-            Sign in to access your user dashboard
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <SignInForm isLoading={isLoading} setIsLoading={setIsLoading} />
-          <div className="mt-4 text-center">
-            <p className="text-sm text-muted-foreground">
-              Don't have an account? Contact your administrator.
+        </div>
+      </div>
+
+      {/* Right side - Login form */}
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-8">
+        <div className="w-full max-w-md space-y-8">
+          <div className="text-center lg:text-left">
+            <h2 className="text-2xl font-semibold text-gray-900 mb-2">
+              A small step for you,
+            </h2>
+            <p className="text-xl text-gray-600 mb-8">
+              a giant leap for your business.
             </p>
           </div>
-        </CardContent>
-      </Card>
+
+          <div className="space-y-6">
+            <SignInForm isLoading={isLoading} setIsLoading={setIsLoading} />
+            
+            <div className="text-center">
+              <p className="text-sm text-gray-500">
+                Don't have an account? Contact your administrator.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
