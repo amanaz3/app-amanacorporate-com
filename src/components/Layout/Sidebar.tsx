@@ -15,7 +15,10 @@ import {
   Menu,
   X,
   Package,
-  Shield
+  Shield,
+  Building2,
+  BarChart3,
+  FileCheck
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -50,8 +53,9 @@ const Sidebar: React.FC = () => {
       name: 'Dashboard',
       path: '/dashboard',
       icon: <LayoutDashboard className="h-5 w-5" />,
-      roles: ['admin', 'user'],
+      roles: ['admin', 'manager', 'partner', 'user'],
     },
+    // Admin-only navigation
     {
       name: 'Admin Portal',
       path: '/admin',
@@ -59,22 +63,55 @@ const Sidebar: React.FC = () => {
       roles: ['admin'],
     },
     {
-      name: 'Managers',
-      path: '/managers',
-      icon: <UserCog className="h-5 w-5" />,
-      roles: ['admin'],
-    },
-    {
-      name: 'Partners',
-      path: '/partners',
+      name: 'User Management',
+      path: '/admin/users',
       icon: <Users className="h-5 w-5" />,
       roles: ['admin'],
     },
     {
+      name: 'Manager Management',
+      path: '/admin/managers',
+      icon: <UserCog className="h-5 w-5" />,
+      roles: ['admin'],
+    },
+    {
+      name: 'Partner Management',
+      path: '/admin/partners',
+      icon: <Building2 className="h-5 w-5" />,
+      roles: ['admin'],
+    },
+    {
+      name: 'Applications',
+      path: '/admin/applications',
+      icon: <FileText className="h-5 w-5" />,
+      roles: ['admin'],
+    },
+    {
+      name: 'Statistics',
+      path: '/admin/statistics',
+      icon: <BarChart3 className="h-5 w-5" />,
+      roles: ['admin'],
+    },
+    // Manager navigation
+    {
+      name: 'Managers',
+      path: '/managers',
+      icon: <UserCog className="h-5 w-5" />,
+      roles: ['manager'],
+    },
+    // Partner navigation
+    {
+      name: 'Partners',
+      path: '/partners',
+      icon: <Building2 className="h-5 w-5" />,
+      roles: ['partner'],
+    },
+    // Common navigation
+    {
       name: 'Settings',
       path: '/settings',
       icon: <Settings className="h-5 w-5" />,
-      roles: ['admin', 'user'],
+      roles: ['admin', 'manager', 'partner', 'user'],
     }
   ];
 
@@ -86,7 +123,22 @@ const Sidebar: React.FC = () => {
     
     // Admin routes - check if any admin route is active
     if (path === '/admin') {
-      return location.pathname.startsWith('/admin');
+      return location.pathname === '/admin';
+    }
+    if (path === '/admin/users') {
+      return location.pathname === '/admin/users';
+    }
+    if (path === '/admin/managers') {
+      return location.pathname === '/admin/managers';
+    }
+    if (path === '/admin/partners') {
+      return location.pathname === '/admin/partners';
+    }
+    if (path === '/admin/applications') {
+      return location.pathname === '/admin/applications';
+    }
+    if (path === '/admin/statistics') {
+      return location.pathname === '/admin/statistics';
     }
     
     // Manager routes - check if any manager route is active
@@ -152,7 +204,17 @@ const Sidebar: React.FC = () => {
           <nav className="flex-1 overflow-y-auto py-4">
             <ul className="space-y-1 px-2">
               {navItems.map((item) => {
-                if (!isAdmin && item.roles.includes('admin') && !item.roles.includes('user')) {
+                // Role-based filtering
+                const { isAdmin } = useAuth();
+                if (item.roles.includes('admin') && !isAdmin) {
+                  return null;
+                }
+                if (item.roles.includes('manager') && !isAdmin) {
+                  // TODO: Add manager role check when implemented
+                  return null;
+                }
+                if (item.roles.includes('partner') && !isAdmin) {
+                  // TODO: Add partner role check when implemented
                   return null;
                 }
 
@@ -221,8 +283,17 @@ const Sidebar: React.FC = () => {
       <nav className="flex-1 overflow-y-auto py-4">
         <ul className="space-y-1 px-2">
           {navItems.map((item) => {
-            // Skip items that shouldn't be visible to the current user role
-            if (!isAdmin && item.roles.includes('admin') && !item.roles.includes('user')) {
+            // Role-based filtering
+            const { isAdmin } = useAuth();
+            if (item.roles.includes('admin') && !isAdmin) {
+              return null;
+            }
+            if (item.roles.includes('manager') && !isAdmin) {
+              // TODO: Add manager role check when implemented
+              return null;
+            }
+            if (item.roles.includes('partner') && !isAdmin) {
+              // TODO: Add partner role check when implemented
               return null;
             }
 
