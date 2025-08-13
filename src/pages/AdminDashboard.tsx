@@ -12,39 +12,43 @@ import {
   AlertCircle,
   TrendingUp,
   Building2,
-  UserCog
+  UserCog,
+  Plus,
+  Bell,
+  UserPlus,
+  UserCheck
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 
+interface ApplicationsByRole {
+  draft: number;
+  needMoreInfo: number;
+  return: number;
+  submit: number;
+  rejected: number;
+  completed: number;
+  paid: number;
+}
+
 interface DashboardStats {
-  totalApplications: number;
-  draftApplications: number;
-  needMoreInfoApplications: number;
-  returnApplications: number;
-  submitApplications: number;
-  rejectedApplications: number;
-  completedApplications: number;
-  paidApplications: number;
   totalUsers: number;
   totalPartners: number;
   totalManagers: number;
+  userApplications: ApplicationsByRole;
+  partnerApplications: ApplicationsByRole;
+  managerApplications: ApplicationsByRole;
 }
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
   const [stats, setStats] = useState<DashboardStats>({
-    totalApplications: 0,
-    draftApplications: 0,
-    needMoreInfoApplications: 0,
-    returnApplications: 0,
-    submitApplications: 0,
-    rejectedApplications: 0,
-    completedApplications: 0,
-    paidApplications: 0,
     totalUsers: 0,
     totalPartners: 0,
-    totalManagers: 0
+    totalManagers: 0,
+    userApplications: { draft: 0, needMoreInfo: 0, return: 0, submit: 0, rejected: 0, completed: 0, paid: 0 },
+    partnerApplications: { draft: 0, needMoreInfo: 0, return: 0, submit: 0, rejected: 0, completed: 0, paid: 0 },
+    managerApplications: { draft: 0, needMoreInfo: 0, return: 0, submit: 0, rejected: 0, completed: 0, paid: 0 }
   });
   const [loading, setLoading] = useState(true);
 
@@ -54,7 +58,7 @@ const AdminDashboard = () => {
 
   const fetchDashboardStats = async () => {
     try {
-      // Fetch applications stats
+      // Fetch applications with role information
       const { data: applications } = await supabase
         .from('applications')
         .select('status, created_by_role');
@@ -64,27 +68,22 @@ const AdminDashboard = () => {
         .from('profiles')
         .select('role');
 
-      const appStats = applications?.reduce((acc, app) => {
-        acc.totalApplications++;
-        switch (app.status) {
-          case 'draft': acc.draftApplications++; break;
-          case 'need_more_info': acc.needMoreInfoApplications++; break;
-          case 'return': acc.returnApplications++; break;
-          case 'submit': acc.submitApplications++; break;
-          case 'rejected': acc.rejectedApplications++; break;
-          case 'completed': acc.completedApplications++; break;
-          case 'paid': acc.paidApplications++; break;
+      // Initialize empty stats
+      const userApps: ApplicationsByRole = { draft: 0, needMoreInfo: 0, return: 0, submit: 0, rejected: 0, completed: 0, paid: 0 };
+      const partnerApps: ApplicationsByRole = { draft: 0, needMoreInfo: 0, return: 0, submit: 0, rejected: 0, completed: 0, paid: 0 };
+      const managerApps: ApplicationsByRole = { draft: 0, needMoreInfo: 0, return: 0, submit: 0, rejected: 0, completed: 0, paid: 0 };
+
+      // Process applications by role
+      applications?.forEach(app => {
+        const statusKey = app.status === 'need_more_info' ? 'needMoreInfo' : app.status;
+        
+        if (app.created_by_role === 'user' && userApps.hasOwnProperty(statusKey)) {
+          userApps[statusKey as keyof ApplicationsByRole]++;
+        } else if (app.created_by_role === 'partner' && partnerApps.hasOwnProperty(statusKey)) {
+          partnerApps[statusKey as keyof ApplicationsByRole]++;
+        } else if (app.created_by_role === 'manager' && managerApps.hasOwnProperty(statusKey)) {
+          managerApps[statusKey as keyof ApplicationsByRole]++;
         }
-        return acc;
-      }, {
-        totalApplications: 0,
-        draftApplications: 0,
-        needMoreInfoApplications: 0,
-        returnApplications: 0,
-        submitApplications: 0,
-        rejectedApplications: 0,
-        completedApplications: 0,
-        paidApplications: 0
       });
 
       const userStats = users?.reduce((acc, user) => {
@@ -97,8 +96,10 @@ const AdminDashboard = () => {
       }, { totalUsers: 0, totalPartners: 0, totalManagers: 0 });
 
       setStats({
-        ...appStats,
-        ...userStats
+        ...userStats,
+        userApplications: userApps,
+        partnerApplications: partnerApps,
+        managerApplications: managerApps
       });
     } catch (error) {
       console.error('Error fetching dashboard stats:', error);
@@ -107,63 +108,14 @@ const AdminDashboard = () => {
     }
   };
 
-  const statusCards = [
-    {
-      title: 'Draft Applications',
-      value: stats.draftApplications,
-      icon: FileText,
-      color: 'text-gray-600',
-      bgColor: 'bg-gray-50',
-      description: 'Applications in draft status'
-    },
-    {
-      title: 'Need More Info',
-      value: stats.needMoreInfoApplications,
-      icon: AlertCircle,
-      color: 'text-orange-600',
-      bgColor: 'bg-orange-50',
-      description: 'Applications requiring additional information'
-    },
-    {
-      title: 'Return',
-      value: stats.returnApplications,
-      icon: Clock,
-      color: 'text-yellow-600',
-      bgColor: 'bg-yellow-50',
-      description: 'Applications returned for revision'
-    },
-    {
-      title: 'Submit',
-      value: stats.submitApplications,
-      icon: TrendingUp,
-      color: 'text-blue-600',
-      bgColor: 'bg-blue-50',
-      description: 'Applications submitted for review'
-    },
-    {
-      title: 'Rejected',
-      value: stats.rejectedApplications,
-      icon: XCircle,
-      color: 'text-red-600',
-      bgColor: 'bg-red-50',
-      description: 'Rejected applications'
-    },
-    {
-      title: 'Completed',
-      value: stats.completedApplications,
-      icon: CheckCircle,
-      color: 'text-green-600',
-      bgColor: 'bg-green-50',
-      description: 'Completed applications'
-    },
-    {
-      title: 'Paid',
-      value: stats.paidApplications,
-      icon: CheckCircle,
-      color: 'text-emerald-600',
-      bgColor: 'bg-emerald-50',
-      description: 'Paid applications'
-    }
+  const getStatusCards = (applications: ApplicationsByRole, title: string) => [
+    { title: 'Draft', value: applications.draft, icon: FileText, color: 'text-muted-foreground' },
+    { title: 'Need More Info', value: applications.needMoreInfo, icon: AlertCircle, color: 'text-orange-500' },
+    { title: 'Return', value: applications.return, icon: Clock, color: 'text-yellow-500' },
+    { title: 'Submit', value: applications.submit, icon: TrendingUp, color: 'text-blue-500' },
+    { title: 'Rejected', value: applications.rejected, icon: XCircle, color: 'text-red-500' },
+    { title: 'Completed', value: applications.completed, icon: CheckCircle, color: 'text-green-500' },
+    { title: 'Paid', value: applications.paid, icon: CheckCircle, color: 'text-emerald-500' }
   ];
 
   const userTypeCards = [
@@ -171,19 +123,22 @@ const AdminDashboard = () => {
       title: 'Total Users',
       value: stats.totalUsers,
       icon: Users,
-      path: '/admin/users'
+      path: '/admin/users',
+      color: 'text-blue-500'
     },
     {
       title: 'Total Partners',
       value: stats.totalPartners,
       icon: Building2,
-      path: '/admin/partners'
+      path: '/admin/partners',
+      color: 'text-green-500'
     },
     {
       title: 'Total Managers',
       value: stats.totalManagers,
       icon: UserCog,
-      path: '/admin/managers'
+      path: '/admin/managers',
+      color: 'text-purple-500'
     }
   ];
 
@@ -208,99 +163,190 @@ const AdminDashboard = () => {
     <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground mb-2">Admin Dashboard</h1>
-          <p className="text-muted-foreground">Overview of applications and system statistics</p>
+          <h1 className="text-3xl font-bold text-foreground mb-2 flex items-center gap-2">
+            <BarChart3 className="h-8 w-8" />
+            Admin Dashboard
+          </h1>
+          <p className="text-muted-foreground">Complete overview of applications, users, and system statistics</p>
         </div>
 
-        {/* Application Status Overview */}
+        {/* Statistics / KPIs */}
         <div className="mb-8">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-semibold">Application Status Overview</h2>
-            <Button onClick={() => navigate('/admin/applications')}>
-              View All Applications
-            </Button>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {statusCards.map((card, index) => (
-              <Card key={index} className="hover:shadow-lg transition-shadow cursor-pointer">
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">{card.title}</CardTitle>
-                  <div className={`p-2 rounded-md ${card.bgColor}`}>
+          <h2 className="text-2xl font-semibold mb-6">Statistics / KPIs</h2>
+          
+          {/* User Management Overview */}
+          <div className="mb-8">
+            <h3 className="text-lg font-medium mb-4">User Management</h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {userTypeCards.map((card, index) => (
+                <Card key={index} className="hover:shadow-lg transition-shadow cursor-pointer" onClick={() => navigate(card.path)}>
+                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-sm font-medium">{card.title}</CardTitle>
                     <card.icon className={`h-4 w-4 ${card.color}`} />
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">{card.value}</div>
-                  <p className="text-xs text-muted-foreground mt-1">
-                    {card.description}
-                  </p>
-                </CardContent>
-              </Card>
-            ))}
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-2xl font-bold">{card.value}</div>
+                    <Button variant="outline" size="sm" className="mt-2">
+                      Manage
+                    </Button>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
           </div>
-        </div>
 
-        {/* User Management Overview */}
-        <div className="mb-8">
-          <h2 className="text-xl font-semibold mb-4">User Management Overview</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {userTypeCards.map((card, index) => (
-              <Card key={index} className="hover:shadow-lg transition-shadow cursor-pointer" onClick={() => navigate(card.path)}>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">{card.title}</CardTitle>
-                  <card.icon className="h-4 w-4 text-primary" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">{card.value}</div>
-                  <Button variant="outline" size="sm" className="mt-2">
-                    Manage
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
+          {/* User Applications */}
+          <div className="mb-8">
+            <h3 className="text-lg font-medium mb-4 flex items-center gap-2">
+              <Users className="h-5 w-5" />
+              User Applications
+            </h3>
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4">
+              {getStatusCards(stats.userApplications, 'User').map((card, index) => (
+                <Card key={index} className="text-center">
+                  <CardHeader className="pb-2">
+                    <div className="flex justify-center mb-2">
+                      <card.icon className={`h-4 w-4 ${card.color}`} />
+                    </div>
+                    <CardTitle className="text-xs">{card.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-lg font-bold">{card.value}</div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+
+          {/* Partner Applications */}
+          <div className="mb-8">
+            <h3 className="text-lg font-medium mb-4 flex items-center gap-2">
+              <Building2 className="h-5 w-5" />
+              Partner Applications
+            </h3>
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4">
+              {getStatusCards(stats.partnerApplications, 'Partner').map((card, index) => (
+                <Card key={index} className="text-center">
+                  <CardHeader className="pb-2">
+                    <div className="flex justify-center mb-2">
+                      <card.icon className={`h-4 w-4 ${card.color}`} />
+                    </div>
+                    <CardTitle className="text-xs">{card.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-lg font-bold">{card.value}</div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+
+          {/* Manager Referral Applications */}
+          <div className="mb-8">
+            <h3 className="text-lg font-medium mb-4 flex items-center gap-2">
+              <UserCog className="h-5 w-5" />
+              Manager Referral Applications
+            </h3>
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4">
+              {getStatusCards(stats.managerApplications, 'Manager').map((card, index) => (
+                <Card key={index} className="text-center">
+                  <CardHeader className="pb-2">
+                    <div className="flex justify-center mb-2">
+                      <card.icon className={`h-4 w-4 ${card.color}`} />
+                    </div>
+                    <CardTitle className="text-xs">{card.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-lg font-bold">{card.value}</div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
           </div>
         </div>
 
         {/* Quick Actions */}
         <div className="mb-8">
-          <h2 className="text-xl font-semibold mb-4">Quick Actions</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <Button onClick={() => navigate('/admin/applications')} className="h-auto py-4 flex flex-col items-center">
-              <FileText className="h-6 w-6 mb-2" />
-              Manage Applications
+          <h2 className="text-2xl font-semibold mb-6">Quick Actions</h2>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+            <Button onClick={() => navigate('/admin/users/create')} className="h-auto py-4 flex flex-col items-center">
+              <UserPlus className="h-6 w-6 mb-2" />
+              Create User
             </Button>
-            <Button onClick={() => navigate('/admin/users')} variant="outline" className="h-auto py-4 flex flex-col items-center">
-              <Users className="h-6 w-6 mb-2" />
-              User Management
+            <Button onClick={() => navigate('/admin/managers/create')} variant="outline" className="h-auto py-4 flex flex-col items-center">
+              <UserCog className="h-6 w-6 mb-2" />
+              Create Manager
             </Button>
-            <Button onClick={() => navigate('/admin/partners')} variant="outline" className="h-auto py-4 flex flex-col items-center">
+            <Button onClick={() => navigate('/admin/partners/create')} variant="outline" className="h-auto py-4 flex flex-col items-center">
               <Building2 className="h-6 w-6 mb-2" />
-              Partner Management
+              Create Partner
             </Button>
-            <Button onClick={() => navigate('/admin/statistics')} variant="outline" className="h-auto py-4 flex flex-col items-center">
-              <BarChart3 className="h-6 w-6 mb-2" />
-              View Statistics
+            <Button onClick={() => navigate('/admin/partners/assign')} variant="outline" className="h-auto py-4 flex flex-col items-center">
+              <UserCheck className="h-6 w-6 mb-2" />
+              Assign Partners
+            </Button>
+            <Button onClick={() => navigate('/admin/applications')} variant="outline" className="h-auto py-4 flex flex-col items-center">
+              <FileText className="h-6 w-6 mb-2" />
+              All Applications
             </Button>
           </div>
         </div>
 
-        {/* Total Applications Summary */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Total Applications: {stats.totalApplications}</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex flex-wrap gap-2">
-              <Badge variant="outline">Draft: {stats.draftApplications}</Badge>
-              <Badge variant="outline">Need Info: {stats.needMoreInfoApplications}</Badge>
-              <Badge variant="outline">Return: {stats.returnApplications}</Badge>
-              <Badge variant="outline">Submit: {stats.submitApplications}</Badge>
-              <Badge variant="destructive">Rejected: {stats.rejectedApplications}</Badge>
-              <Badge variant="default">Completed: {stats.completedApplications}</Badge>
-              <Badge variant="secondary">Paid: {stats.paidApplications}</Badge>
-            </div>
-          </CardContent>
-        </Card>
+        {/* Notifications */}
+        <div className="mb-8">
+          <h2 className="text-2xl font-semibold mb-6">Notifications</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Bell className="h-5 w-5" />
+                  New Application Submissions
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm">User Applications</span>
+                    <Badge>{stats.userApplications.submit}</Badge>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm">Partner Applications</span>
+                    <Badge>{stats.partnerApplications.submit}</Badge>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm">Manager Applications</span>
+                    <Badge>{stats.managerApplications.submit}</Badge>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <AlertCircle className="h-5 w-5" />
+                  Status Updates from Managers
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm">Need More Info</span>
+                    <Badge variant="secondary">
+                      {stats.userApplications.needMoreInfo + stats.partnerApplications.needMoreInfo}
+                    </Badge>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm">Returned Applications</span>
+                    <Badge variant="outline">
+                      {stats.userApplications.return + stats.partnerApplications.return}
+                    </Badge>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
       </div>
     </div>
   );
