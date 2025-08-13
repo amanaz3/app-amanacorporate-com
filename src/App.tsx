@@ -41,6 +41,10 @@ import {
   LazySettings,
   LazyProductManagement,
   LazyNotFound,
+  LazyAdminPortal,
+  LazyUserManagement,
+  LazyAdminManagerManagement,
+  LazyAdminPartnerManagement,
   PageLoadingFallback
 } from '@/components/LazyComponents';
 import ErrorTracker from '@/utils/errorTracking';
@@ -291,11 +295,49 @@ function App() {
                        </MainLayout>
                      </ProtectedRoute>
                    } />
-                   <Route path="/partners/signup" element={
+                    <Route path="/partners/signup" element={
                      <ProtectedRoute requireAdmin>
                        <MainLayout>
                          <PageErrorBoundary pageName="Partner Signup Application">
                            <LazyPartnerSignupApplication />
+                         </PageErrorBoundary>
+                       </MainLayout>
+                     </ProtectedRoute>
+                   } />
+                   
+                   {/* Admin Routes */}
+                   <Route path="/admin" element={
+                     <ProtectedRoute requireAdmin>
+                       <MainLayout>
+                         <PageErrorBoundary pageName="Admin Portal">
+                           <LazyAdminPortal />
+                         </PageErrorBoundary>
+                       </MainLayout>
+                     </ProtectedRoute>
+                   } />
+                   <Route path="/admin/users" element={
+                     <ProtectedRoute requireAdmin>
+                       <MainLayout>
+                         <PageErrorBoundary pageName="User Management">
+                           <LazyUserManagement />
+                         </PageErrorBoundary>
+                       </MainLayout>
+                     </ProtectedRoute>
+                   } />
+                   <Route path="/admin/managers" element={
+                     <ProtectedRoute requireAdmin>
+                       <MainLayout>
+                         <PageErrorBoundary pageName="Manager Management">
+                           <LazyAdminManagerManagement />
+                         </PageErrorBoundary>
+                       </MainLayout>
+                     </ProtectedRoute>
+                   } />
+                   <Route path="/admin/partners" element={
+                     <ProtectedRoute requireAdmin>
+                       <MainLayout>
+                         <PageErrorBoundary pageName="Partner Management">
+                           <LazyAdminPartnerManagement />
                          </PageErrorBoundary>
                        </MainLayout>
                      </ProtectedRoute>

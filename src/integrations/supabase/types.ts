@@ -14,6 +14,214 @@ export type Database = {
   }
   public: {
     Tables: {
+      application_documents: {
+        Row: {
+          application_id: string
+          created_at: string | null
+          document_category: string
+          document_name: string
+          file_path: string | null
+          id: string
+          is_uploaded: boolean | null
+          updated_at: string | null
+          uploaded_by: string | null
+        }
+        Insert: {
+          application_id: string
+          created_at?: string | null
+          document_category: string
+          document_name: string
+          file_path?: string | null
+          id?: string
+          is_uploaded?: boolean | null
+          updated_at?: string | null
+          uploaded_by?: string | null
+        }
+        Update: {
+          application_id?: string
+          created_at?: string | null
+          document_category?: string
+          document_name?: string
+          file_path?: string | null
+          id?: string
+          is_uploaded?: boolean | null
+          updated_at?: string | null
+          uploaded_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "application_documents_application_id_fkey"
+            columns: ["application_id"]
+            isOneToOne: false
+            referencedRelation: "applications"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "application_documents_uploaded_by_fkey"
+            columns: ["uploaded_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
+      application_status_history: {
+        Row: {
+          application_id: string
+          changed_by: string
+          changed_by_role: Database["public"]["Enums"]["user_role"]
+          comment: string | null
+          created_at: string | null
+          id: string
+          new_status: Database["public"]["Enums"]["application_status"]
+          previous_status:
+            | Database["public"]["Enums"]["application_status"]
+            | null
+        }
+        Insert: {
+          application_id: string
+          changed_by: string
+          changed_by_role: Database["public"]["Enums"]["user_role"]
+          comment?: string | null
+          created_at?: string | null
+          id?: string
+          new_status: Database["public"]["Enums"]["application_status"]
+          previous_status?:
+            | Database["public"]["Enums"]["application_status"]
+            | null
+        }
+        Update: {
+          application_id?: string
+          changed_by?: string
+          changed_by_role?: Database["public"]["Enums"]["user_role"]
+          comment?: string | null
+          created_at?: string | null
+          id?: string
+          new_status?: Database["public"]["Enums"]["application_status"]
+          previous_status?:
+            | Database["public"]["Enums"]["application_status"]
+            | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "application_status_history_application_id_fkey"
+            columns: ["application_id"]
+            isOneToOne: false
+            referencedRelation: "applications"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "application_status_history_changed_by_fkey"
+            columns: ["changed_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
+      applications: {
+        Row: {
+          additional_notes: string | null
+          amount: number
+          annual_turnover: number | null
+          any_suitable_bank: boolean | null
+          applicant_name: string
+          assigned_manager: string | null
+          company: string
+          created_at: string | null
+          created_by: string
+          created_by_role: Database["public"]["Enums"]["user_role"]
+          document_checklist_complete: boolean | null
+          email: string
+          id: string
+          jurisdiction: string | null
+          lead_source: Database["public"]["Enums"]["lead_source"]
+          license_type: Database["public"]["Enums"]["license_type"]
+          mobile: string
+          number_of_shareholders: number | null
+          partner_id: string | null
+          preferred_bank_1: string | null
+          preferred_bank_2: string | null
+          preferred_bank_3: string | null
+          status: Database["public"]["Enums"]["application_status"] | null
+          updated_at: string | null
+        }
+        Insert: {
+          additional_notes?: string | null
+          amount?: number
+          annual_turnover?: number | null
+          any_suitable_bank?: boolean | null
+          applicant_name: string
+          assigned_manager?: string | null
+          company: string
+          created_at?: string | null
+          created_by: string
+          created_by_role: Database["public"]["Enums"]["user_role"]
+          document_checklist_complete?: boolean | null
+          email: string
+          id?: string
+          jurisdiction?: string | null
+          lead_source: Database["public"]["Enums"]["lead_source"]
+          license_type: Database["public"]["Enums"]["license_type"]
+          mobile: string
+          number_of_shareholders?: number | null
+          partner_id?: string | null
+          preferred_bank_1?: string | null
+          preferred_bank_2?: string | null
+          preferred_bank_3?: string | null
+          status?: Database["public"]["Enums"]["application_status"] | null
+          updated_at?: string | null
+        }
+        Update: {
+          additional_notes?: string | null
+          amount?: number
+          annual_turnover?: number | null
+          any_suitable_bank?: boolean | null
+          applicant_name?: string
+          assigned_manager?: string | null
+          company?: string
+          created_at?: string | null
+          created_by?: string
+          created_by_role?: Database["public"]["Enums"]["user_role"]
+          document_checklist_complete?: boolean | null
+          email?: string
+          id?: string
+          jurisdiction?: string | null
+          lead_source?: Database["public"]["Enums"]["lead_source"]
+          license_type?: Database["public"]["Enums"]["license_type"]
+          mobile?: string
+          number_of_shareholders?: number | null
+          partner_id?: string | null
+          preferred_bank_1?: string | null
+          preferred_bank_2?: string | null
+          preferred_bank_3?: string | null
+          status?: Database["public"]["Enums"]["application_status"] | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "applications_assigned_manager_fkey"
+            columns: ["assigned_manager"]
+            isOneToOne: false
+            referencedRelation: "managers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "applications_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+          {
+            foreignKeyName: "applications_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "partners"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       comments: {
         Row: {
           author: string
@@ -189,6 +397,120 @@ export type Database = {
         }
         Relationships: []
       }
+      managers: {
+        Row: {
+          assigned_partners: string[] | null
+          created_at: string | null
+          created_by: string | null
+          id: string
+          permissions: Json | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          assigned_partners?: string[] | null
+          created_at?: string | null
+          created_by?: string | null
+          id?: string
+          permissions?: Json | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          assigned_partners?: string[] | null
+          created_at?: string | null
+          created_by?: string | null
+          id?: string
+          permissions?: Json | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "managers_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+          {
+            foreignKeyName: "managers_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
+      partners: {
+        Row: {
+          assigned_manager: string | null
+          business_address: string | null
+          commission_rate: number | null
+          company_name: string | null
+          created_at: string | null
+          expected_monthly_clients: number | null
+          id: string
+          industry_specializations: Json | null
+          partner_level: string | null
+          services_provided: Json | null
+          success_rate: number | null
+          total_clients_count: number | null
+          updated_at: string | null
+          user_id: string
+          years_experience: number | null
+        }
+        Insert: {
+          assigned_manager?: string | null
+          business_address?: string | null
+          commission_rate?: number | null
+          company_name?: string | null
+          created_at?: string | null
+          expected_monthly_clients?: number | null
+          id?: string
+          industry_specializations?: Json | null
+          partner_level?: string | null
+          services_provided?: Json | null
+          success_rate?: number | null
+          total_clients_count?: number | null
+          updated_at?: string | null
+          user_id: string
+          years_experience?: number | null
+        }
+        Update: {
+          assigned_manager?: string | null
+          business_address?: string | null
+          commission_rate?: number | null
+          company_name?: string | null
+          created_at?: string | null
+          expected_monthly_clients?: number | null
+          id?: string
+          industry_specializations?: Json | null
+          partner_level?: string | null
+          services_provided?: Json | null
+          success_rate?: number | null
+          total_clients_count?: number | null
+          updated_at?: string | null
+          user_id?: string
+          years_experience?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "partners_assigned_manager_fkey"
+            columns: ["assigned_manager"]
+            isOneToOne: false
+            referencedRelation: "managers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "partners_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
       products: {
         Row: {
           created_at: string
@@ -221,36 +543,53 @@ export type Database = {
       }
       profiles: {
         Row: {
+          approved_at: string | null
+          approved_by: string | null
           created_at: string
           email: string | null
           id: string
           is_active: boolean | null
+          is_approved: boolean | null
           name: string | null
           role: string | null
           updated_at: string
           user_id: string
         }
         Insert: {
+          approved_at?: string | null
+          approved_by?: string | null
           created_at?: string
           email?: string | null
           id?: string
           is_active?: boolean | null
+          is_approved?: boolean | null
           name?: string | null
           role?: string | null
           updated_at?: string
           user_id: string
         }
         Update: {
+          approved_at?: string | null
+          approved_by?: string | null
           created_at?: string
           email?: string | null
           id?: string
           is_active?: boolean | null
+          is_approved?: boolean | null
           name?: string | null
           role?: string | null
           updated_at?: string
           user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "profiles_approved_by_fkey"
+            columns: ["approved_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
       }
       status_changes: {
         Row: {
@@ -301,7 +640,23 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      application_status:
+        | "draft"
+        | "need_more_info"
+        | "return"
+        | "submit"
+        | "rejected"
+        | "completed"
+        | "paid"
+      lead_source:
+        | "website"
+        | "referral"
+        | "social_media"
+        | "partner"
+        | "manager"
+        | "other"
+      license_type: "mainland" | "freezone" | "offshore"
+      user_role: "admin" | "manager" | "partner" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -428,6 +783,26 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      application_status: [
+        "draft",
+        "need_more_info",
+        "return",
+        "submit",
+        "rejected",
+        "completed",
+        "paid",
+      ],
+      lead_source: [
+        "website",
+        "referral",
+        "social_media",
+        "partner",
+        "manager",
+        "other",
+      ],
+      license_type: ["mainland", "freezone", "offshore"],
+      user_role: ["admin", "manager", "partner", "user"],
+    },
   },
 } as const

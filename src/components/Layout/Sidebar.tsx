@@ -14,7 +14,8 @@ import {
   ChevronRight,
   Menu,
   X,
-  Package
+  Package,
+  Shield
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -52,6 +53,12 @@ const Sidebar: React.FC = () => {
       roles: ['admin', 'user'],
     },
     {
+      name: 'Admin Portal',
+      path: '/admin',
+      icon: <Shield className="h-5 w-5" />,
+      roles: ['admin'],
+    },
+    {
       name: 'Managers',
       path: '/managers',
       icon: <UserCog className="h-5 w-5" />,
@@ -75,6 +82,11 @@ const Sidebar: React.FC = () => {
     // Exact match for most routes
     if (path === '/settings' || path === '/dashboard') {
       return location.pathname === path;
+    }
+    
+    // Admin routes - check if any admin route is active
+    if (path === '/admin') {
+      return location.pathname.startsWith('/admin');
     }
     
     // Manager routes - check if any manager route is active
