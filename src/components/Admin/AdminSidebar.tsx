@@ -50,19 +50,19 @@ const AdminSidebar = () => {
       title: 'Users',
       icon: Users,
       children: [
-        { title: 'View Users', href: '/admin/users', icon: Eye },
-        { title: 'Create User', href: '/admin/users/create', icon: UserPlus },
+        { title: 'User Management', href: '/users', icon: Eye },
+        { title: 'Create User', href: '/users/create', icon: UserPlus },
         {
           title: 'Applications',
           icon: FolderKanban,
           children: [
-            { title: 'Draft', href: '/admin/users/applications/draft' },
-            { title: 'Need More Info', href: '/admin/users/applications/need-more-info' },
-            { title: 'Return', href: '/admin/users/applications/return' },
-            { title: 'Submit', href: '/admin/users/applications/submit' },
-            { title: 'Rejected', href: '/admin/users/applications/rejected' },
-            { title: 'Completed', href: '/admin/users/applications/completed' },
-            { title: 'Paid', href: '/admin/users/applications/paid' }
+            { title: 'Draft', href: '/users/applications/draft' },
+            { title: 'Need More Info', href: '/users/applications/need-more-info' },
+            { title: 'Return', href: '/users/applications/return' },
+            { title: 'Submit', href: '/users/applications/submit' },
+            { title: 'Rejected', href: '/users/applications/rejected' },
+            { title: 'Completed', href: '/users/applications/completed' },
+            { title: 'Paid', href: '/users/applications/paid' }
           ]
         }
       ]
@@ -71,19 +71,19 @@ const AdminSidebar = () => {
       title: 'Managers',
       icon: UserCog,
       children: [
-        { title: 'View Managers', href: '/admin/managers', icon: Eye },
-        { title: 'Create Manager', href: '/admin/managers/create', icon: UserPlus },
+        { title: 'Manager Management', href: '/managers', icon: Eye },
+        { title: 'Create Manager', href: '/managers/create', icon: UserPlus },
         {
           title: 'Applications',
           icon: FolderKanban,
           children: [
-            { title: 'Draft', href: '/admin/managers/applications/draft' },
-            { title: 'Need More Info', href: '/admin/managers/applications/need-more-info' },
-            { title: 'Return', href: '/admin/managers/applications/return' },
-            { title: 'Submit', href: '/admin/managers/applications/submit' },
-            { title: 'Rejected', href: '/admin/managers/applications/rejected' },
-            { title: 'Completed', href: '/admin/managers/applications/completed' },
-            { title: 'Paid', href: '/admin/managers/applications/paid' }
+            { title: 'Draft', href: '/managers/applications/draft' },
+            { title: 'Need More Info', href: '/managers/applications/need-more-info' },
+            { title: 'Return', href: '/managers/applications/return' },
+            { title: 'Submit', href: '/managers/applications/submit' },
+            { title: 'Rejected', href: '/managers/applications/rejected' },
+            { title: 'Completed', href: '/managers/applications/completed' },
+            { title: 'Paid', href: '/managers/applications/paid' }
           ]
         }
       ]
@@ -92,20 +92,20 @@ const AdminSidebar = () => {
       title: 'Partners',
       icon: Building2,
       children: [
-        { title: 'View Partners', href: '/admin/partners', icon: Eye },
-        { title: 'Create Partner', href: '/admin/partners/create', icon: UserPlus },
-        { title: 'Assign to Managers', href: '/admin/partners/assign', icon: UserCheck },
+        { title: 'Partner Management', href: '/partners', icon: Eye },
+        { title: 'Create Partner', href: '/partners/create', icon: UserPlus },
+        { title: 'Assign to Managers', href: '/partners/assign', icon: UserCheck },
         {
           title: 'Applications',
           icon: FolderKanban,
           children: [
-            { title: 'Draft', href: '/admin/partners/applications/draft' },
-            { title: 'Need More Info', href: '/admin/partners/applications/need-more-info' },
-            { title: 'Return', href: '/admin/partners/applications/return' },
-            { title: 'Submit', href: '/admin/partners/applications/submit' },
-            { title: 'Rejected', href: '/admin/partners/applications/rejected' },
-            { title: 'Completed', href: '/admin/partners/applications/completed' },
-            { title: 'Paid', href: '/admin/partners/applications/paid' }
+            { title: 'Draft', href: '/partners/applications/draft' },
+            { title: 'Need More Info', href: '/partners/applications/need-more-info' },
+            { title: 'Return', href: '/partners/applications/return' },
+            { title: 'Submit', href: '/partners/applications/submit' },
+            { title: 'Rejected', href: '/partners/applications/rejected' },
+            { title: 'Completed', href: '/partners/applications/completed' },
+            { title: 'Paid', href: '/partners/applications/paid' }
           ]
         }
       ]
@@ -115,9 +115,9 @@ const AdminSidebar = () => {
       icon: FileText,
       children: [
         { title: 'All Applications', href: '/admin/applications', icon: Eye },
-        { title: 'User Applications', href: '/admin/users/applications', icon: Users },
-        { title: 'Manager Applications', href: '/admin/managers/applications', icon: UserCog },
-        { title: 'Partner Applications', href: '/admin/partners/applications', icon: Building2 }
+        { title: 'User Applications', href: '/users/applications', icon: Users },
+        { title: 'Manager Applications', href: '/managers/applications', icon: UserCog },
+        { title: 'Partner Applications', href: '/partners/applications', icon: Building2 }
       ]
     },
     {

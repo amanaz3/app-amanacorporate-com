@@ -41,7 +41,7 @@ import {
   LazySettings,
   LazyProductManagement,
   LazyNotFound,
-  LazyAdminPortal,
+  
   LazyUserManagement,
   LazyAdminManagerManagement,
   LazyAdminPartnerManagement,
@@ -147,16 +147,16 @@ function App() {
                   } />
                   
                   
-                  {/* Manager routes */}
-                  <Route path="/managers" element={
-                    <ProtectedRoute requireAdmin>
-                      <MainLayout>
-                        <PageErrorBoundary pageName="Manager Dashboard">
-                          <LazyManagerDashboard />
-                        </PageErrorBoundary>
-                      </MainLayout>
-                    </ProtectedRoute>
-                  } />
+                   {/* Manager routes */}
+                   <Route path="/manager-dashboard" element={
+                     <ProtectedRoute requireAdmin>
+                       <MainLayout>
+                         <PageErrorBoundary pageName="Manager Dashboard">
+                           <LazyManagerDashboard />
+                         </PageErrorBoundary>
+                       </MainLayout>
+                     </ProtectedRoute>
+                   } />
                   <Route path="/managers/need-more-info" element={
                     <ProtectedRoute requireAdmin>
                       <MainLayout>
@@ -230,27 +230,27 @@ function App() {
                      </ProtectedRoute>
                    } />
                    
-                    {/* User routes */}
-                    <Route path="/users" element={
-                      <ProtectedRoute>
+                     {/* User routes */}
+                     <Route path="/user-dashboard" element={
+                       <ProtectedRoute>
+                         <MainLayout>
+                           <PageErrorBoundary pageName="User Dashboard">
+                             <LazyUserDashboard />
+                           </PageErrorBoundary>
+                         </MainLayout>
+                       </ProtectedRoute>
+                     } />
+
+                     {/* Partner routes */}
+                     <Route path="/partner-dashboard" element={
+                      <ProtectedRoute requireAdmin>
                         <MainLayout>
-                          <PageErrorBoundary pageName="User Dashboard">
-                            <LazyUserDashboard />
+                          <PageErrorBoundary pageName="Partner Dashboard">
+                            <LazyPartnerDashboard />
                           </PageErrorBoundary>
                         </MainLayout>
                       </ProtectedRoute>
                     } />
-
-                    {/* Partner routes */}
-                    <Route path="/partners" element={
-                     <ProtectedRoute requireAdmin>
-                       <MainLayout>
-                         <PageErrorBoundary pageName="Partner Dashboard">
-                           <LazyPartnerDashboard />
-                         </PageErrorBoundary>
-                       </MainLayout>
-                     </ProtectedRoute>
-                   } />
                    <Route path="/partners/need-more-info" element={
                      <ProtectedRoute requireAdmin>
                        <MainLayout>
@@ -342,43 +342,34 @@ function App() {
                      </ProtectedRoute>
                    } />
                    
-                   {/* Admin Routes */}
-                   <Route path="/admin" element={
-                     <ProtectedRoute requireAdmin>
-                       <MainLayout>
-                         <PageErrorBoundary pageName="Admin Portal">
-                           <LazyAdminPortal />
-                         </PageErrorBoundary>
-                       </MainLayout>
-                     </ProtectedRoute>
-                   } />
-                   <Route path="/admin/users" element={
-                     <ProtectedRoute requireAdmin>
-                       <MainLayout>
-                         <PageErrorBoundary pageName="User Management">
-                           <LazyUserManagement />
-                         </PageErrorBoundary>
-                       </MainLayout>
-                     </ProtectedRoute>
-                   } />
-                   <Route path="/admin/managers" element={
-                     <ProtectedRoute requireAdmin>
-                       <MainLayout>
-                         <PageErrorBoundary pageName="Manager Management">
-                           <LazyAdminManagerManagement />
-                         </PageErrorBoundary>
-                       </MainLayout>
-                     </ProtectedRoute>
-                   } />
-                   <Route path="/admin/partners" element={
-                     <ProtectedRoute requireAdmin>
-                       <MainLayout>
-                         <PageErrorBoundary pageName="Partner Management">
-                           <LazyAdminPartnerManagement />
-                         </PageErrorBoundary>
-                       </MainLayout>
-                     </ProtectedRoute>
+                    {/* Admin Routes */}
+                    <Route path="/users" element={
+                      <ProtectedRoute requireAdmin>
+                        <MainLayout>
+                          <PageErrorBoundary pageName="User Management">
+                            <LazyUserManagement />
+                          </PageErrorBoundary>
+                        </MainLayout>
+                      </ProtectedRoute>
                     } />
+                     <Route path="/managers" element={
+                       <ProtectedRoute requireAdmin>
+                         <MainLayout>
+                           <PageErrorBoundary pageName="Manager Management">
+                             <LazyAdminManagerManagement />
+                           </PageErrorBoundary>
+                         </MainLayout>
+                       </ProtectedRoute>
+                     } />
+                    <Route path="/partners" element={
+                      <ProtectedRoute requireAdmin>
+                        <MainLayout>
+                          <PageErrorBoundary pageName="Partner Management">
+                            <LazyAdminPartnerManagement />
+                          </PageErrorBoundary>
+                        </MainLayout>
+                      </ProtectedRoute>
+                     } />
                    {/* All Applications Overview */}
                    <Route path="/admin/applications" element={
                      <ProtectedRoute requireAdmin>
@@ -390,100 +381,100 @@ function App() {
                      </ProtectedRoute>
                    } />
                    
-                   {/* Admin User Routes */}
-                   <Route path="/admin/users/create" element={
-                     <ProtectedRoute requireAdmin>
-                       <MainLayout>
-                         <PageErrorBoundary pageName="Create User">
-                           <LazyCreateUser />
-                         </PageErrorBoundary>
-                       </MainLayout>
-                     </ProtectedRoute>
-                   } />
+                    {/* Admin User Routes */}
+                    <Route path="/users/create" element={
+                      <ProtectedRoute requireAdmin>
+                        <MainLayout>
+                          <PageErrorBoundary pageName="Create User">
+                            <LazyCreateUser />
+                          </PageErrorBoundary>
+                        </MainLayout>
+                      </ProtectedRoute>
+                    } />
+                    
+                    {/* Admin Manager Routes */}
+                    <Route path="/managers/create" element={
+                      <ProtectedRoute requireAdmin>
+                        <MainLayout>
+                          <PageErrorBoundary pageName="Create Manager">
+                            <LazyCreateManager />
+                          </PageErrorBoundary>
+                        </MainLayout>
+                      </ProtectedRoute>
+                    } />
+                    
+                    {/* Admin Partner Routes */}
+                    <Route path="/partners/create" element={
+                      <ProtectedRoute requireAdmin>
+                        <MainLayout>
+                          <PageErrorBoundary pageName="Create Partner">
+                            <LazyCreatePartner />
+                          </PageErrorBoundary>
+                        </MainLayout>
+                      </ProtectedRoute>
+                    } />
                    
-                   {/* Admin Manager Routes */}
-                   <Route path="/admin/managers/create" element={
-                     <ProtectedRoute requireAdmin>
-                       <MainLayout>
-                         <PageErrorBoundary pageName="Create Manager">
-                           <LazyCreateManager />
-                         </PageErrorBoundary>
-                       </MainLayout>
-                     </ProtectedRoute>
-                   } />
-                   
-                   {/* Admin Partner Routes */}
-                   <Route path="/admin/partners/create" element={
-                     <ProtectedRoute requireAdmin>
-                       <MainLayout>
-                         <PageErrorBoundary pageName="Create Partner">
-                           <LazyCreatePartner />
-                         </PageErrorBoundary>
-                       </MainLayout>
-                     </ProtectedRoute>
-                   } />
-                   
-                   {/* Application Overview Routes */}
-                   <Route path="/admin/users/applications" element={
-                     <ProtectedRoute requireAdmin>
-                       <MainLayout>
-                         <PageErrorBoundary pageName="User Applications Overview">
-                           <LazyUserApplicationsOverview />
-                         </PageErrorBoundary>
-                       </MainLayout>
-                     </ProtectedRoute>
-                   } />
-                   
-                   <Route path="/admin/managers/applications" element={
-                     <ProtectedRoute requireAdmin>
-                       <MainLayout>
-                         <PageErrorBoundary pageName="Manager Applications Overview">
-                           <LazyManagerApplicationsOverview />
-                         </PageErrorBoundary>
-                       </MainLayout>
-                     </ProtectedRoute>
-                   } />
-                   
-                   <Route path="/admin/partners/applications" element={
-                     <ProtectedRoute requireAdmin>
-                       <MainLayout>
-                         <PageErrorBoundary pageName="Partner Applications Overview">
-                           <LazyPartnerApplicationsOverview />
-                         </PageErrorBoundary>
-                       </MainLayout>
-                     </ProtectedRoute>
-                   } />
-                   
-                   {/* Application Status Routes */}
-                   <Route path="/admin/users/applications/:status" element={
-                     <ProtectedRoute requireAdmin>
-                       <MainLayout>
-                         <PageErrorBoundary pageName="User Applications">
-                           <LazyUserApplicationsByStatus />
-                         </PageErrorBoundary>
-                       </MainLayout>
-                     </ProtectedRoute>
-                   } />
-                   
-                   <Route path="/admin/managers/applications/:status" element={
-                     <ProtectedRoute requireAdmin>
-                       <MainLayout>
-                         <PageErrorBoundary pageName="Manager Applications">
-                           <LazyManagerApplicationsByStatus />
-                         </PageErrorBoundary>
-                       </MainLayout>
-                     </ProtectedRoute>
-                   } />
-                   
-                   <Route path="/admin/partners/applications/:status" element={
-                     <ProtectedRoute requireAdmin>
-                       <MainLayout>
-                         <PageErrorBoundary pageName="Partner Applications">
-                           <LazyPartnerApplicationsByStatus />
-                         </PageErrorBoundary>
-                       </MainLayout>
-                     </ProtectedRoute>
-                   } />
+                    {/* Application Overview Routes */}
+                    <Route path="/users/applications" element={
+                      <ProtectedRoute requireAdmin>
+                        <MainLayout>
+                          <PageErrorBoundary pageName="User Applications Overview">
+                            <LazyUserApplicationsOverview />
+                          </PageErrorBoundary>
+                        </MainLayout>
+                      </ProtectedRoute>
+                    } />
+                    
+                    <Route path="/managers/applications" element={
+                      <ProtectedRoute requireAdmin>
+                        <MainLayout>
+                          <PageErrorBoundary pageName="Manager Applications Overview">
+                            <LazyManagerApplicationsOverview />
+                          </PageErrorBoundary>
+                        </MainLayout>
+                      </ProtectedRoute>
+                    } />
+                    
+                    <Route path="/partners/applications" element={
+                      <ProtectedRoute requireAdmin>
+                        <MainLayout>
+                          <PageErrorBoundary pageName="Partner Applications Overview">
+                            <LazyPartnerApplicationsOverview />
+                          </PageErrorBoundary>
+                        </MainLayout>
+                      </ProtectedRoute>
+                    } />
+                    
+                    {/* Application Status Routes */}
+                    <Route path="/users/applications/:status" element={
+                      <ProtectedRoute requireAdmin>
+                        <MainLayout>
+                          <PageErrorBoundary pageName="User Applications">
+                            <LazyUserApplicationsByStatus />
+                          </PageErrorBoundary>
+                        </MainLayout>
+                      </ProtectedRoute>
+                    } />
+                    
+                    <Route path="/managers/applications/:status" element={
+                      <ProtectedRoute requireAdmin>
+                        <MainLayout>
+                          <PageErrorBoundary pageName="Manager Applications">
+                            <LazyManagerApplicationsByStatus />
+                          </PageErrorBoundary>
+                        </MainLayout>
+                      </ProtectedRoute>
+                    } />
+                    
+                    <Route path="/partners/applications/:status" element={
+                      <ProtectedRoute requireAdmin>
+                        <MainLayout>
+                          <PageErrorBoundary pageName="Partner Applications">
+                            <LazyPartnerApplicationsByStatus />
+                          </PageErrorBoundary>
+                        </MainLayout>
+                      </ProtectedRoute>
+                    } />
                    
                    {/* Settings Routes */}
                    <Route path="/admin/settings/general" element={

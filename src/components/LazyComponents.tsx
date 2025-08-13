@@ -31,7 +31,6 @@ const CompanyManagement = React.lazy(() => import('@/pages/partners/CompanyManag
 const PartnerSignupApplication = React.lazy(() => import('@/pages/partners/PartnerSignupApplication'));
 
 // Admin components
-const AdminPortal = React.lazy(() => import('@/pages/AdminPortal'));
 const UserManagement = React.lazy(() => import('@/pages/admin/UserManagement'));
 const AdminManagerManagement = React.lazy(() => import('@/pages/admin/ManagerManagement'));
 const AdminPartnerManagement = React.lazy(() => import('@/pages/admin/PartnerManagement'));
@@ -124,7 +123,6 @@ export const LazyCompanyManagement = withLazyLoading(CompanyManagement, "Loading
 export const LazyPartnerSignupApplication = withLazyLoading(PartnerSignupApplication, "Loading partner signup application...");
 
 // Admin components
-export const LazyAdminPortal = withLazyLoading(AdminPortal, "Loading admin portal...");
 export const LazyUserManagement = withLazyLoading(UserManagement, "Loading user management...");
 export const LazyAdminManagerManagement = withLazyLoading(AdminManagerManagement, "Loading manager management...");
 export const LazyAdminPartnerManagement = withLazyLoading(AdminPartnerManagement, "Loading partner management...");
