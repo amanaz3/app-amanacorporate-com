@@ -42,7 +42,7 @@ const UserLogin = () => {
         <div className="max-w-md text-center">
           <div className="mb-8">
             
-            <div className="w-96 h-96 bg-white rounded-3xl shadow-lg p-8 mx-auto">
+            <div className="w-[28rem] h-[28rem] bg-white rounded-3xl shadow-lg p-8 mx-auto">
               <div className="bg-gray-100 rounded-2xl h-full overflow-hidden">
                 <img 
                   src="/lovable-uploads/dc4fd816-6d47-4c2f-bec2-1de9b296c0b8.png" 
