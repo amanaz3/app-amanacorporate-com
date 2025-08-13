@@ -53,6 +53,13 @@ import {
   LazyCreatePartner,
   LazyUserApplications,
   LazyGeneralSettings,
+  LazyUserApplicationsByStatus,
+  LazyManagerApplicationsByStatus,
+  LazyPartnerApplicationsByStatus,
+  LazyAllApplicationsOverview,
+  LazyUserApplicationsOverview,
+  LazyManagerApplicationsOverview,
+  LazyPartnerApplicationsOverview,
   PageLoadingFallback
 } from '@/components/LazyComponents';
 import ErrorTracker from '@/utils/errorTracking';
@@ -360,11 +367,12 @@ function App() {
                        </MainLayout>
                      </ProtectedRoute>
                     } />
+                   {/* All Applications Overview */}
                    <Route path="/admin/applications" element={
                      <ProtectedRoute requireAdmin>
-                       <MainLayout>
-                         <PageErrorBoundary pageName="Application Management">
-                           <LazyApplicationManagement />
+                        <MainLayout>
+                          <PageErrorBoundary pageName="All Applications">
+                            <LazyAllApplicationsOverview />
                          </PageErrorBoundary>
                        </MainLayout>
                      </ProtectedRoute>
@@ -403,12 +411,63 @@ function App() {
                      </ProtectedRoute>
                    } />
                    
+                   {/* Application Overview Routes */}
+                   <Route path="/admin/users/applications" element={
+                     <ProtectedRoute requireAdmin>
+                       <MainLayout>
+                         <PageErrorBoundary pageName="User Applications Overview">
+                           <LazyUserApplicationsOverview />
+                         </PageErrorBoundary>
+                       </MainLayout>
+                     </ProtectedRoute>
+                   } />
+                   
+                   <Route path="/admin/managers/applications" element={
+                     <ProtectedRoute requireAdmin>
+                       <MainLayout>
+                         <PageErrorBoundary pageName="Manager Applications Overview">
+                           <LazyManagerApplicationsOverview />
+                         </PageErrorBoundary>
+                       </MainLayout>
+                     </ProtectedRoute>
+                   } />
+                   
+                   <Route path="/admin/partners/applications" element={
+                     <ProtectedRoute requireAdmin>
+                       <MainLayout>
+                         <PageErrorBoundary pageName="Partner Applications Overview">
+                           <LazyPartnerApplicationsOverview />
+                         </PageErrorBoundary>
+                       </MainLayout>
+                     </ProtectedRoute>
+                   } />
+                   
                    {/* Application Status Routes */}
                    <Route path="/admin/users/applications/:status" element={
                      <ProtectedRoute requireAdmin>
                        <MainLayout>
                          <PageErrorBoundary pageName="User Applications">
-                           <LazyUserApplications />
+                           <LazyUserApplicationsByStatus />
+                         </PageErrorBoundary>
+                       </MainLayout>
+                     </ProtectedRoute>
+                   } />
+                   
+                   <Route path="/admin/managers/applications/:status" element={
+                     <ProtectedRoute requireAdmin>
+                       <MainLayout>
+                         <PageErrorBoundary pageName="Manager Applications">
+                           <LazyManagerApplicationsByStatus />
+                         </PageErrorBoundary>
+                       </MainLayout>
+                     </ProtectedRoute>
+                   } />
+                   
+                   <Route path="/admin/partners/applications/:status" element={
+                     <ProtectedRoute requireAdmin>
+                       <MainLayout>
+                         <PageErrorBoundary pageName="Partner Applications">
+                           <LazyPartnerApplicationsByStatus />
                          </PageErrorBoundary>
                        </MainLayout>
                      </ProtectedRoute>

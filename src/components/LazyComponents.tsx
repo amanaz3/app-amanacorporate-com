@@ -149,6 +149,23 @@ export const LazyCreateManager = withLazyLoading(CreateManager, "Loading create 
 export const LazyCreatePartner = withLazyLoading(CreatePartner, "Loading create partner form...");
 export const LazyUserApplications = withLazyLoading(UserApplications, "Loading user applications...");
 export const LazyGeneralSettings = withLazyLoading(GeneralSettings, "Loading general settings...");
+
+// Application Status Components
+const UserApplicationsByStatus = React.lazy(() => import('@/pages/admin/applications/UserApplicationsByStatus'));
+const ManagerApplicationsByStatus = React.lazy(() => import('@/pages/admin/applications/ManagerApplicationsByStatus'));
+const PartnerApplicationsByStatus = React.lazy(() => import('@/pages/admin/applications/PartnerApplicationsByStatus'));
+const AllApplicationsOverview = React.lazy(() => import('@/pages/admin/applications/AllApplicationsOverview'));
+const UserApplicationsOverview = React.lazy(() => import('@/pages/admin/applications/UserApplicationsOverview'));
+const ManagerApplicationsOverview = React.lazy(() => import('@/pages/admin/applications/ManagerApplicationsOverview'));
+const PartnerApplicationsOverview = React.lazy(() => import('@/pages/admin/applications/PartnerApplicationsOverview'));
+
+export const LazyUserApplicationsByStatus = withLazyLoading(UserApplicationsByStatus, "Loading applications...");
+export const LazyManagerApplicationsByStatus = withLazyLoading(ManagerApplicationsByStatus, "Loading applications...");
+export const LazyPartnerApplicationsByStatus = withLazyLoading(PartnerApplicationsByStatus, "Loading applications...");
+export const LazyAllApplicationsOverview = withLazyLoading(AllApplicationsOverview, "Loading applications overview...");
+export const LazyUserApplicationsOverview = withLazyLoading(UserApplicationsOverview, "Loading user applications...");
+export const LazyManagerApplicationsOverview = withLazyLoading(ManagerApplicationsOverview, "Loading manager applications...");
+export const LazyPartnerApplicationsOverview = withLazyLoading(PartnerApplicationsOverview, "Loading partner applications...");
 export const LazyManagerMainDashboard = withLazyLoading(ManagerMainDashboard, "Loading manager dashboard...");
 export const LazyPartnerMainDashboard = withLazyLoading(PartnerMainDashboard, "Loading partner dashboard...");
 export const LazyUserMainDashboard = withLazyLoading(UserMainDashboard, "Loading user dashboard...");
