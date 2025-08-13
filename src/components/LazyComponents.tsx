@@ -169,6 +169,7 @@ export const LazyPartnerApplicationsOverview = withLazyLoading(PartnerApplicatio
 export const LazyManagerMainDashboard = withLazyLoading(ManagerMainDashboard, "Loading manager dashboard...");
 export const LazyPartnerMainDashboard = withLazyLoading(PartnerMainDashboard, "Loading partner dashboard...");
 export const LazyUserMainDashboard = withLazyLoading(UserMainDashboard, "Loading user dashboard...");
+export const LazyUserDashboard = LazyUserMainDashboard;
 
 export const LazyCustomerDetail = withLazyLoading(CustomerDetail, "Loading customer details...");
 export const LazySecureUserManagement = withLazyLoading(SecureUserManagement, "Loading user management...");

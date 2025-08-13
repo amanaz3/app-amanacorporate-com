@@ -106,6 +106,13 @@ const Sidebar: React.FC = () => {
       icon: <Building2 className="h-5 w-5" />,
       roles: ['partner'],
     },
+    // User navigation
+    {
+      name: 'Users',
+      path: '/users',
+      icon: <Users className="h-5 w-5" />,
+      roles: ['user'],
+    },
     // Common navigation
     {
       name: 'Settings',
@@ -148,6 +155,10 @@ const Sidebar: React.FC = () => {
     
     if (path === '/partners') {
       return location.pathname.startsWith('/partners');
+    }
+    
+    if (path === '/users') {
+      return location.pathname.startsWith('/users');
     }
     
     // For other routes, don't highlight any sidebar item to avoid confusion
