@@ -37,100 +37,109 @@ const UserLogin = () => {
       </div>;
   }
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-400 via-pink-500 to-red-500 flex relative overflow-hidden">
-      {/* Animated background elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-blue-400/30 to-purple-600/30 rounded-full mix-blend-multiply filter blur-xl animate-pulse"></div>
-        <div className="absolute top-3/4 right-1/4 w-96 h-96 bg-gradient-to-r from-purple-400/30 to-pink-600/30 rounded-full mix-blend-multiply filter blur-xl animate-pulse delay-1000"></div>
-        <div className="absolute bottom-1/4 left-1/2 w-96 h-96 bg-gradient-to-r from-pink-400/30 to-red-600/30 rounded-full mix-blend-multiply filter blur-xl animate-pulse delay-500"></div>
-      </div>
-
-      {/* Left side - Glass morphic login form */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center p-8 relative z-10">
-        <div className="w-full max-w-md">
-          {/* Glass card container */}
-          <div className="glass-card rounded-3xl p-8 space-y-8">
-            {/* Logo */}
-            <div className="flex items-center justify-center">
-              <div className="w-12 h-12 bg-gradient-to-br from-white/20 to-white/5 backdrop-blur-sm rounded-2xl flex items-center justify-center mr-3 border border-white/20">
-                <span className="text-white font-bold text-2xl">A</span>
-              </div>
-              <span className="text-white font-bold text-2xl">mana</span>
+    <div className="min-h-screen bg-background flex">
+      {/* Left side - Clean login form */}
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-6 lg:p-12 bg-white">
+        <div className="w-full max-w-md space-y-8">
+          {/* Logo */}
+          <div className="flex items-center">
+            <div className="w-10 h-10 bg-gradient-to-br from-primary to-[hsl(260_100%_70%)] rounded-xl flex items-center justify-center mr-3 shadow-lg">
+              <span className="text-white font-bold text-lg">A</span>
             </div>
-            
-            {/* Welcome text */}
-            <div className="space-y-2 text-center">
-              <h1 className="text-4xl font-bold text-white">
-                Welcome Back
-              </h1>
-              <p className="text-lg text-white/80">
-                Sign into your account
-              </p>
-            </div>
+            <span className="text-[hsl(var(--text-heading))] font-bold text-2xl">mana</span>
+          </div>
+          
+          {/* Welcome section */}
+          <div className="space-y-3">
+            <h1 className="text-4xl lg:text-5xl font-bold text-[hsl(var(--text-heading))] leading-tight">
+              Welcome back
+            </h1>
+            <p className="text-lg text-[hsl(var(--text-muted))] leading-relaxed">
+              Sign in to your account to continue
+            </p>
+          </div>
 
-            {/* Sign in form */}
+          {/* Sign in form */}
+          <div className="space-y-6">
             <SignInForm isLoading={isLoading} setIsLoading={setIsLoading} />
             
             <div className="text-center">
-              <button className="text-white/90 hover:text-white hover:underline text-sm font-medium transition-colors">
-                Forgot password?
+              <button className="text-primary hover:text-[hsl(260_100%_70%)] hover:underline text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:ring-offset-2 rounded-md px-2 py-1">
+                Forgot your password?
               </button>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Right side - Floating glass elements */}
-      <div className="hidden lg:flex lg:w-1/2 items-center justify-center p-12 relative z-10">
-        <div className="relative w-full h-full max-w-2xl max-h-2xl">
-          {/* Central glass device mockup */}
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-            <div className="glass-card w-72 h-96 rounded-3xl p-6 rotate-12 hover:rotate-6 transition-transform duration-500">
-              <img 
-                src="/lovable-uploads/dc4fd816-6d47-4c2f-bec2-1de9b296c0b8.png" 
-                alt="Amana Mobile App"
-                className="w-full h-full object-cover rounded-2xl"
-              />
+      {/* Right side - Futuristic isometric illustration */}
+      <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden">
+        {/* Gradient background with mesh */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[hsl(213_94%_68%)] via-[hsl(260_85%_65%)] to-[hsl(320_90%_70%)]"></div>
+        <div className="absolute inset-0" style={{ background: 'var(--gradient-mesh)' }}></div>
+        
+        {/* Content container */}
+        <div className="relative w-full h-full flex items-center justify-center p-12">
+          <div className="relative w-full h-full max-w-2xl max-h-2xl">
+            
+            {/* Central device mockup */}
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+              <div className="illustration-float bg-white/10 backdrop-blur-sm border border-white/20 w-80 h-[28rem] rounded-3xl shadow-2xl p-6 rotate-12 hover:rotate-6 transition-all duration-700">
+                <div className="w-full h-full bg-gradient-to-b from-white/5 to-white/10 rounded-2xl overflow-hidden">
+                  <img 
+                    src="/lovable-uploads/dc4fd816-6d47-4c2f-bec2-1de9b296c0b8.png" 
+                    alt="Amana Platform Interface"
+                    className="w-full h-full object-cover rounded-2xl opacity-90"
+                  />
+                </div>
+              </div>
             </div>
-          </div>
-          
-          {/* Floating glass UI elements */}
-          <div className="absolute top-8 left-8 glass-card w-24 h-20 rounded-2xl p-3 animate-bounce delay-300">
-            <div className="space-y-2">
-              <div className="w-full h-2 bg-white/40 rounded-full"></div>
-              <div className="w-3/4 h-2 bg-white/30 rounded-full"></div>
-              <div className="w-1/2 h-2 bg-white/20 rounded-full"></div>
+            
+            {/* Floating isometric UI cards */}
+            <div className="absolute top-16 left-16 bg-white/10 backdrop-blur-sm border border-white/20 w-28 h-24 rounded-2xl p-4 animate-bounce delay-300 shadow-xl">
+              <div className="space-y-2">
+                <div className="w-full h-2 bg-white/60 rounded-full"></div>
+                <div className="w-4/5 h-2 bg-white/40 rounded-full"></div>
+                <div className="w-3/5 h-2 bg-white/30 rounded-full"></div>
+              </div>
             </div>
-          </div>
-          
-          <div className="absolute top-20 right-8 glass-card w-28 h-24 rounded-2xl p-4 animate-bounce delay-700">
-            <div className="space-y-2">
-              <div className="w-10 h-10 bg-white/40 rounded-full"></div>
+            
+            <div className="absolute top-24 right-12 bg-white/10 backdrop-blur-sm border border-white/20 w-32 h-28 rounded-2xl p-4 animate-bounce delay-700 shadow-xl">
+              <div className="space-y-3">
+                <div className="w-12 h-12 bg-gradient-to-br from-white/50 to-white/30 rounded-full"></div>
+                <div className="space-y-1">
+                  <div className="w-full h-1.5 bg-white/40 rounded-full"></div>
+                  <div className="w-3/4 h-1.5 bg-white/30 rounded-full"></div>
+                </div>
+              </div>
+            </div>
+            
+            <div className="absolute bottom-20 left-8 bg-white/10 backdrop-blur-sm border border-white/20 w-36 h-32 rounded-2xl p-5 animate-bounce delay-500 shadow-xl">
+              <div className="flex items-end space-x-1 mb-3 justify-center h-16">
+                <div className="w-2 h-12 bg-gradient-to-t from-white/60 to-white/40 rounded-full"></div>
+                <div className="w-2 h-8 bg-gradient-to-t from-white/50 to-white/30 rounded-full"></div>
+                <div className="w-2 h-16 bg-gradient-to-t from-white/70 to-white/50 rounded-full"></div>
+                <div className="w-2 h-6 bg-gradient-to-t from-white/40 to-white/20 rounded-full"></div>
+                <div className="w-2 h-10 bg-gradient-to-t from-white/55 to-white/35 rounded-full"></div>
+              </div>
               <div className="w-full h-1 bg-white/30 rounded-full"></div>
-              <div className="w-2/3 h-1 bg-white/20 rounded-full"></div>
             </div>
-          </div>
-          
-          <div className="absolute bottom-8 left-12 glass-card w-32 h-28 rounded-2xl p-4 animate-bounce delay-500">
-            <div className="flex space-x-1 mb-3 justify-center">
-              <div className="w-1 h-10 bg-white/50 rounded-full"></div>
-              <div className="w-1 h-8 bg-white/40 rounded-full"></div>
-              <div className="w-1 h-12 bg-white/60 rounded-full"></div>
-              <div className="w-1 h-6 bg-white/30 rounded-full"></div>
+            
+            <div className="absolute bottom-32 right-16 bg-white/10 backdrop-blur-sm border border-white/20 w-24 h-24 rounded-3xl p-3 animate-bounce delay-1000 shadow-xl">
+              <div className="w-full h-full bg-gradient-to-br from-white/40 to-white/20 rounded-2xl flex items-center justify-center">
+                <div className="w-10 h-10 bg-white/60 rounded-xl shadow-inner"></div>
+              </div>
             </div>
-            <div className="w-full h-1 bg-white/30 rounded-full"></div>
+            
+            {/* Geometric accent elements */}
+            <div className="absolute top-32 left-1/3 w-10 h-10 bg-white/20 backdrop-blur-sm rounded-2xl rotate-45 animate-spin-slow border border-white/30 shadow-lg"></div>
+            <div className="absolute bottom-40 right-1/4 w-8 h-8 bg-white/25 backdrop-blur-sm rounded-full animate-pulse border border-white/40 shadow-lg"></div>
+            <div className="absolute top-3/5 left-1/5 w-12 h-12 bg-white/15 backdrop-blur-sm rounded-3xl rotate-12 animate-bounce border border-white/25 shadow-lg"></div>
+            
+            {/* Ambient light orbs */}
+            <div className="absolute top-1/4 right-1/3 w-32 h-32 bg-white/5 rounded-full blur-2xl animate-pulse delay-200"></div>
+            <div className="absolute bottom-1/3 left-1/4 w-40 h-40 bg-white/3 rounded-full blur-3xl animate-pulse delay-800"></div>
           </div>
-          
-          <div className="absolute bottom-16 right-12 glass-card w-20 h-20 rounded-3xl p-3 animate-bounce delay-1000">
-            <div className="w-full h-full bg-white/30 rounded-2xl flex items-center justify-center">
-              <div className="w-8 h-8 bg-white/50 rounded-lg"></div>
-            </div>
-          </div>
-          
-          {/* Floating geometric shapes */}
-          <div className="absolute top-1/4 left-1/3 w-8 h-8 bg-white/20 backdrop-blur-sm rounded-lg rotate-45 animate-spin-slow border border-white/30"></div>
-          <div className="absolute bottom-1/3 right-1/4 w-6 h-6 bg-white/25 backdrop-blur-sm rounded-full animate-pulse border border-white/40"></div>
-          <div className="absolute top-2/3 left-1/4 w-10 h-10 bg-white/15 backdrop-blur-sm rounded-2xl rotate-12 animate-bounce border border-white/25"></div>
         </div>
       </div>
     </div>

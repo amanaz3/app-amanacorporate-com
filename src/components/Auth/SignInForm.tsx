@@ -66,24 +66,31 @@ const SignInForm: React.FC<SignInFormProps> = ({ isLoading, setIsLoading }) => {
 
   return (
     <form onSubmit={handleSignIn} className="space-y-6">
-      <div className="space-y-4">
-        <Label htmlFor="signin-email" className="text-sm font-medium text-white/90">
-          Email Address
+      <div className="space-y-2">
+        <Label 
+          htmlFor="signin-email" 
+          className="text-sm font-semibold text-[hsl(var(--text-heading))] block"
+        >
+          Email or Phone
         </Label>
         <Input
           id="signin-email"
           type="email"
-          placeholder="Enter your email"
+          placeholder="Enter your email or phone number"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           disabled={isLoading}
           required
-          className="glass-input h-12 text-white placeholder:text-white/60 focus:border-white/40 rounded-xl"
+          className="input-modern h-14 text-base placeholder:text-[hsl(var(--text-muted))] rounded-xl"
+          aria-describedby="email-help"
         />
       </div>
       
-      <div className="space-y-4">
-        <Label htmlFor="signin-password" className="text-sm font-medium text-white/90">
+      <div className="space-y-2">
+        <Label 
+          htmlFor="signin-password" 
+          className="text-sm font-semibold text-[hsl(var(--text-heading))] block"
+        >
           Password
         </Label>
         <div className="relative">
@@ -95,28 +102,42 @@ const SignInForm: React.FC<SignInFormProps> = ({ isLoading, setIsLoading }) => {
             onChange={(e) => setPassword(e.target.value)}
             disabled={isLoading}
             required
-            className="glass-input h-12 text-white placeholder:text-white/60 focus:border-white/40 pr-12 rounded-xl"
+            className="input-modern h-14 text-base placeholder:text-[hsl(var(--text-muted))] pr-12 rounded-xl"
+            aria-describedby="password-help"
           />
           <Button
             type="button"
             variant="ghost"
             size="sm"
-            className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-white/10 text-white/60 hover:text-white/80"
+            className="absolute right-0 top-0 h-full px-4 py-2 hover:bg-gray-50 text-[hsl(var(--text-muted))] hover:text-[hsl(var(--text-heading))] rounded-r-xl focus:outline-none focus:ring-2 focus:ring-primary/20"
             onClick={() => setShowPassword(!showPassword)}
             disabled={isLoading}
+            aria-label={showPassword ? 'Hide password' : 'Show password'}
           >
-            {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+            {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
           </Button>
         </div>
       </div>
       
       <Button 
         type="submit" 
-        className="w-full h-12 text-base font-medium rounded-xl bg-white/20 hover:bg-white/30 backdrop-blur-sm border border-white/30 text-white transition-all duration-300" 
+        className="btn-primary w-full h-14 text-base font-semibold rounded-xl mt-8 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed" 
         disabled={isLoading}
+        aria-describedby="signin-status"
       >
-        {isLoading ? 'Signing in...' : 'Sign In'}
+        {isLoading ? (
+          <>
+            <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent mr-2"></div>
+            Signing you in...
+          </>
+        ) : (
+          'Sign In'
+        )}
       </Button>
+      
+      <div id="signin-status" className="sr-only" aria-live="polite">
+        {isLoading ? 'Signing in, please wait...' : ''}
+      </div>
     </form>
   );
 };
