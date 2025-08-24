@@ -67,33 +67,36 @@ const SignInForm: React.FC<SignInFormProps> = ({ isLoading, setIsLoading }) => {
   return (
     <form onSubmit={handleSignIn} className="space-y-4">
       <div className="space-y-2">
-        <Label htmlFor="signin-email">Email</Label>
+        <Label htmlFor="signin-email" className="text-sm font-medium text-[hsl(215_25%_27%)]">Phone or Email address</Label>
         <Input
           id="signin-email"
           type="email"
-          placeholder="name@company.com"
+          placeholder="Phone or Email address"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           disabled={isLoading}
           required
+          className="h-12 bg-gray-50 border-gray-200 focus:bg-white focus:border-primary"
         />
       </div>
       <div className="space-y-2">
-        <Label htmlFor="signin-password">Password</Label>
+        <Label htmlFor="signin-password" className="text-sm font-medium text-[hsl(215_25%_27%)]">Password</Label>
         <div className="relative">
           <Input
             id="signin-password"
             type={showPassword ? 'text' : 'password'}
+            placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             disabled={isLoading}
             required
+            className="h-12 bg-gray-50 border-gray-200 focus:bg-white focus:border-primary pr-12"
           />
           <Button
             type="button"
             variant="ghost"
             size="sm"
-            className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+            className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent text-gray-400 hover:text-gray-600"
             onClick={() => setShowPassword(!showPassword)}
             disabled={isLoading}
           >
@@ -101,8 +104,8 @@ const SignInForm: React.FC<SignInFormProps> = ({ isLoading, setIsLoading }) => {
           </Button>
         </div>
       </div>
-      <Button type="submit" className="w-full" disabled={isLoading}>
-        {isLoading ? 'Signing in...' : 'Sign In'}
+      <Button type="submit" className="w-full h-12 text-base font-medium mt-6" disabled={isLoading}>
+        {isLoading ? 'Signing in...' : 'Log In'}
       </Button>
     </form>
   );
