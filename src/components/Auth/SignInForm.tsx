@@ -66,7 +66,7 @@ const SignInForm: React.FC<SignInFormProps> = ({ isLoading, setIsLoading }) => {
 
   return (
     <form onSubmit={handleSignIn} className="space-y-4">
-      <div className="space-y-2">
+      <div className="space-y-6">
         <Label htmlFor="signin-email" className="text-sm font-medium text-[hsl(215_25%_27%)]">Phone or Email address</Label>
         <Input
           id="signin-email"
@@ -76,7 +76,7 @@ const SignInForm: React.FC<SignInFormProps> = ({ isLoading, setIsLoading }) => {
           onChange={(e) => setEmail(e.target.value)}
           disabled={isLoading}
           required
-          className="h-12 bg-gray-50 border-gray-200 focus:bg-white focus:border-primary"
+          className="h-12 bg-gray-50 border-gray-200 focus:bg-white focus:border-primary rounded-lg"
         />
       </div>
       <div className="space-y-2">
@@ -90,7 +90,7 @@ const SignInForm: React.FC<SignInFormProps> = ({ isLoading, setIsLoading }) => {
             onChange={(e) => setPassword(e.target.value)}
             disabled={isLoading}
             required
-            className="h-12 bg-gray-50 border-gray-200 focus:bg-white focus:border-primary pr-12"
+            className="h-12 bg-gray-50 border-gray-200 focus:bg-white focus:border-primary pr-12 rounded-lg"
           />
           <Button
             type="button"
@@ -104,7 +104,7 @@ const SignInForm: React.FC<SignInFormProps> = ({ isLoading, setIsLoading }) => {
           </Button>
         </div>
       </div>
-      <Button type="submit" className="w-full h-12 text-base font-medium mt-6" disabled={isLoading}>
+      <Button type="submit" className="w-full h-12 text-base font-medium rounded-lg" disabled={isLoading}>
         {isLoading ? 'Signing in...' : 'Log In'}
       </Button>
     </form>
