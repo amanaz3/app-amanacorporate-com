@@ -65,38 +65,43 @@ const SignInForm: React.FC<SignInFormProps> = ({ isLoading, setIsLoading }) => {
   };
 
   return (
-    <form onSubmit={handleSignIn} className="space-y-4">
-      <div className="space-y-6">
-        <Label htmlFor="signin-email" className="text-sm font-medium text-[hsl(215_25%_27%)]">Phone or Email address</Label>
+    <form onSubmit={handleSignIn} className="space-y-6">
+      <div className="space-y-4">
+        <Label htmlFor="signin-email" className="text-sm font-medium text-white/90">
+          Email Address
+        </Label>
         <Input
           id="signin-email"
           type="email"
-          placeholder="Phone or Email address"
+          placeholder="Enter your email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           disabled={isLoading}
           required
-          className="h-12 bg-gray-50 border-gray-200 focus:bg-white focus:border-primary rounded-lg"
+          className="glass-input h-12 text-white placeholder:text-white/60 focus:border-white/40 rounded-xl"
         />
       </div>
-      <div className="space-y-2">
-        <Label htmlFor="signin-password" className="text-sm font-medium text-[hsl(215_25%_27%)]">Password</Label>
+      
+      <div className="space-y-4">
+        <Label htmlFor="signin-password" className="text-sm font-medium text-white/90">
+          Password
+        </Label>
         <div className="relative">
           <Input
             id="signin-password"
             type={showPassword ? 'text' : 'password'}
-            placeholder="Password"
+            placeholder="Enter your password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             disabled={isLoading}
             required
-            className="h-12 bg-gray-50 border-gray-200 focus:bg-white focus:border-primary pr-12 rounded-lg"
+            className="glass-input h-12 text-white placeholder:text-white/60 focus:border-white/40 pr-12 rounded-xl"
           />
           <Button
             type="button"
             variant="ghost"
             size="sm"
-            className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent text-gray-400 hover:text-gray-600"
+            className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-white/10 text-white/60 hover:text-white/80"
             onClick={() => setShowPassword(!showPassword)}
             disabled={isLoading}
           >
@@ -104,8 +109,13 @@ const SignInForm: React.FC<SignInFormProps> = ({ isLoading, setIsLoading }) => {
           </Button>
         </div>
       </div>
-      <Button type="submit" className="w-full h-12 text-base font-medium rounded-lg" disabled={isLoading}>
-        {isLoading ? 'Signing in...' : 'Log In'}
+      
+      <Button 
+        type="submit" 
+        className="w-full h-12 text-base font-medium rounded-xl bg-white/20 hover:bg-white/30 backdrop-blur-sm border border-white/30 text-white transition-all duration-300" 
+        disabled={isLoading}
+      >
+        {isLoading ? 'Signing in...' : 'Sign In'}
       </Button>
     </form>
   );
