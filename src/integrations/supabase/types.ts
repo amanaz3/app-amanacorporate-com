@@ -7,244 +7,222 @@ export type Json =
   | Json[]
 
 export type Database = {
-  // Allows to automatically instanciate createClient with right options
+  // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "13.0.4"
+    PostgrestVersion: "12.2.3 (519615d)"
   }
   public: {
     Tables: {
+      account_applications: {
+        Row: {
+          application_data: Json | null
+          created_at: string
+          customer_id: string | null
+          id: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          application_data?: Json | null
+          created_at?: string
+          customer_id?: string | null
+          id?: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          application_data?: Json | null
+          created_at?: string
+          customer_id?: string | null
+          id?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "account_applications_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "customers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       application_documents: {
         Row: {
-          application_id: string
-          created_at: string | null
-          document_category: string
-          document_name: string
+          application_id: string | null
+          created_at: string
+          document_type: string
           file_path: string | null
           id: string
           is_uploaded: boolean | null
-          updated_at: string | null
-          uploaded_by: string | null
         }
         Insert: {
-          application_id: string
-          created_at?: string | null
-          document_category: string
-          document_name: string
+          application_id?: string | null
+          created_at?: string
+          document_type: string
           file_path?: string | null
           id?: string
           is_uploaded?: boolean | null
-          updated_at?: string | null
-          uploaded_by?: string | null
         }
         Update: {
-          application_id?: string
-          created_at?: string | null
-          document_category?: string
-          document_name?: string
+          application_id?: string | null
+          created_at?: string
+          document_type?: string
           file_path?: string | null
           id?: string
           is_uploaded?: boolean | null
-          updated_at?: string | null
-          uploaded_by?: string | null
         }
         Relationships: [
           {
             foreignKeyName: "application_documents_application_id_fkey"
             columns: ["application_id"]
             isOneToOne: false
-            referencedRelation: "applications"
+            referencedRelation: "account_applications"
             referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "application_documents_uploaded_by_fkey"
-            columns: ["uploaded_by"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["user_id"]
           },
         ]
       }
-      application_status_history: {
+      application_messages: {
         Row: {
-          application_id: string
-          changed_by: string
-          changed_by_role: Database["public"]["Enums"]["user_role"]
-          comment: string | null
-          created_at: string | null
+          application_id: string | null
+          created_at: string
           id: string
-          new_status: Database["public"]["Enums"]["application_status"]
-          previous_status:
-            | Database["public"]["Enums"]["application_status"]
-            | null
+          is_read: boolean | null
+          message: string
+          sender_id: string | null
+          sender_type: string
         }
         Insert: {
-          application_id: string
-          changed_by: string
-          changed_by_role: Database["public"]["Enums"]["user_role"]
-          comment?: string | null
-          created_at?: string | null
+          application_id?: string | null
+          created_at?: string
           id?: string
-          new_status: Database["public"]["Enums"]["application_status"]
-          previous_status?:
-            | Database["public"]["Enums"]["application_status"]
-            | null
+          is_read?: boolean | null
+          message: string
+          sender_id?: string | null
+          sender_type?: string
         }
         Update: {
-          application_id?: string
-          changed_by?: string
-          changed_by_role?: Database["public"]["Enums"]["user_role"]
-          comment?: string | null
-          created_at?: string | null
+          application_id?: string | null
+          created_at?: string
           id?: string
-          new_status?: Database["public"]["Enums"]["application_status"]
-          previous_status?:
-            | Database["public"]["Enums"]["application_status"]
-            | null
+          is_read?: boolean | null
+          message?: string
+          sender_id?: string | null
+          sender_type?: string
         }
         Relationships: [
           {
-            foreignKeyName: "application_status_history_application_id_fkey"
+            foreignKeyName: "application_messages_application_id_fkey"
             columns: ["application_id"]
             isOneToOne: false
-            referencedRelation: "applications"
+            referencedRelation: "account_applications"
             referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "application_status_history_changed_by_fkey"
-            columns: ["changed_by"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["user_id"]
           },
         ]
       }
-      applications: {
+      application_owners: {
         Row: {
-          additional_notes: string | null
-          amount: number
-          annual_turnover: number | null
-          any_suitable_bank: boolean | null
-          applicant_name: string
-          assigned_manager: string | null
-          company: string
-          created_at: string | null
-          created_by: string
-          created_by_role: Database["public"]["Enums"]["user_role"]
-          document_checklist_complete: boolean | null
-          email: string
+          application_id: string | null
+          created_at: string
           id: string
-          jurisdiction: string | null
-          lead_source: Database["public"]["Enums"]["lead_source"]
-          license_type: Database["public"]["Enums"]["license_type"]
-          mobile: string
-          number_of_shareholders: number | null
-          partner_id: string | null
-          preferred_bank_1: string | null
-          preferred_bank_2: string | null
-          preferred_bank_3: string | null
-          status: Database["public"]["Enums"]["application_status"] | null
-          updated_at: string | null
+          name: string
+          nationality: string | null
+          ownership_percentage: number | null
+          passport_number: string | null
         }
         Insert: {
-          additional_notes?: string | null
-          amount?: number
-          annual_turnover?: number | null
-          any_suitable_bank?: boolean | null
-          applicant_name: string
-          assigned_manager?: string | null
-          company: string
-          created_at?: string | null
-          created_by: string
-          created_by_role: Database["public"]["Enums"]["user_role"]
-          document_checklist_complete?: boolean | null
-          email: string
+          application_id?: string | null
+          created_at?: string
           id?: string
-          jurisdiction?: string | null
-          lead_source: Database["public"]["Enums"]["lead_source"]
-          license_type: Database["public"]["Enums"]["license_type"]
-          mobile: string
-          number_of_shareholders?: number | null
-          partner_id?: string | null
-          preferred_bank_1?: string | null
-          preferred_bank_2?: string | null
-          preferred_bank_3?: string | null
-          status?: Database["public"]["Enums"]["application_status"] | null
-          updated_at?: string | null
+          name: string
+          nationality?: string | null
+          ownership_percentage?: number | null
+          passport_number?: string | null
         }
         Update: {
-          additional_notes?: string | null
-          amount?: number
-          annual_turnover?: number | null
-          any_suitable_bank?: boolean | null
-          applicant_name?: string
-          assigned_manager?: string | null
-          company?: string
-          created_at?: string | null
-          created_by?: string
-          created_by_role?: Database["public"]["Enums"]["user_role"]
-          document_checklist_complete?: boolean | null
-          email?: string
+          application_id?: string | null
+          created_at?: string
           id?: string
-          jurisdiction?: string | null
-          lead_source?: Database["public"]["Enums"]["lead_source"]
-          license_type?: Database["public"]["Enums"]["license_type"]
-          mobile?: string
-          number_of_shareholders?: number | null
-          partner_id?: string | null
-          preferred_bank_1?: string | null
-          preferred_bank_2?: string | null
-          preferred_bank_3?: string | null
-          status?: Database["public"]["Enums"]["application_status"] | null
-          updated_at?: string | null
+          name?: string
+          nationality?: string | null
+          ownership_percentage?: number | null
+          passport_number?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: "applications_assigned_manager_fkey"
-            columns: ["assigned_manager"]
+            foreignKeyName: "application_owners_application_id_fkey"
+            columns: ["application_id"]
             isOneToOne: false
-            referencedRelation: "managers"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "applications_created_by_fkey"
-            columns: ["created_by"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["user_id"]
-          },
-          {
-            foreignKeyName: "applications_partner_id_fkey"
-            columns: ["partner_id"]
-            isOneToOne: false
-            referencedRelation: "partners"
+            referencedRelation: "account_applications"
             referencedColumns: ["id"]
           },
         ]
+      }
+      banks: {
+        Row: {
+          code: string
+          country: string
+          created_at: string
+          id: string
+          is_active: boolean
+          name: string
+          processing_time_days: number | null
+          updated_at: string
+        }
+        Insert: {
+          code: string
+          country?: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          name: string
+          processing_time_days?: number | null
+          updated_at?: string
+        }
+        Update: {
+          code?: string
+          country?: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          name?: string
+          processing_time_days?: number | null
+          updated_at?: string
+        }
+        Relationships: []
       }
       comments: {
         Row: {
-          author: string
-          content: string
+          comment: string
+          created_at: string | null
+          created_by: string
           customer_id: string
           id: string
-          timestamp: string
         }
         Insert: {
-          author: string
-          content: string
+          comment: string
+          created_at?: string | null
+          created_by: string
           customer_id: string
           id?: string
-          timestamp?: string
         }
         Update: {
-          author?: string
-          content?: string
+          comment?: string
+          created_at?: string | null
+          created_by?: string
           customer_id?: string
           id?: string
-          timestamp?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "comments_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "comments_customer_id_fkey"
             columns: ["customer_id"]
@@ -254,105 +232,306 @@ export type Database = {
           },
         ]
       }
+      crm_api_keys: {
+        Row: {
+          created_at: string
+          created_by: string
+          expires_at: string | null
+          id: string
+          is_active: boolean
+          key_hash: string
+          key_name: string
+          last_used_at: string | null
+          permissions: string[]
+        }
+        Insert: {
+          created_at?: string
+          created_by: string
+          expires_at?: string | null
+          id?: string
+          is_active?: boolean
+          key_hash: string
+          key_name: string
+          last_used_at?: string | null
+          permissions?: string[]
+        }
+        Update: {
+          created_at?: string
+          created_by?: string
+          expires_at?: string | null
+          id?: string
+          is_active?: boolean
+          key_hash?: string
+          key_name?: string
+          last_used_at?: string | null
+          permissions?: string[]
+        }
+        Relationships: []
+      }
+      crm_configurations: {
+        Row: {
+          api_endpoint: string
+          api_key_hash: string
+          created_at: string
+          created_by: string
+          crm_type: string
+          field_mappings: Json | null
+          id: string
+          is_active: boolean
+          last_sync_at: string | null
+          name: string
+          sync_settings: Json | null
+          updated_at: string
+          webhook_secret: string | null
+        }
+        Insert: {
+          api_endpoint: string
+          api_key_hash: string
+          created_at?: string
+          created_by: string
+          crm_type: string
+          field_mappings?: Json | null
+          id?: string
+          is_active?: boolean
+          last_sync_at?: string | null
+          name: string
+          sync_settings?: Json | null
+          updated_at?: string
+          webhook_secret?: string | null
+        }
+        Update: {
+          api_endpoint?: string
+          api_key_hash?: string
+          created_at?: string
+          created_by?: string
+          crm_type?: string
+          field_mappings?: Json | null
+          id?: string
+          is_active?: boolean
+          last_sync_at?: string | null
+          name?: string
+          sync_settings?: Json | null
+          updated_at?: string
+          webhook_secret?: string | null
+        }
+        Relationships: []
+      }
+      crm_sync_logs: {
+        Row: {
+          completed_at: string | null
+          crm_config_id: string
+          entity_type: string
+          error_message: string | null
+          id: string
+          records_failed: number | null
+          records_processed: number | null
+          records_success: number | null
+          started_at: string
+          status: string
+          sync_data: Json | null
+          sync_type: string
+        }
+        Insert: {
+          completed_at?: string | null
+          crm_config_id: string
+          entity_type: string
+          error_message?: string | null
+          id?: string
+          records_failed?: number | null
+          records_processed?: number | null
+          records_success?: number | null
+          started_at?: string
+          status?: string
+          sync_data?: Json | null
+          sync_type: string
+        }
+        Update: {
+          completed_at?: string | null
+          crm_config_id?: string
+          entity_type?: string
+          error_message?: string | null
+          id?: string
+          records_failed?: number | null
+          records_processed?: number | null
+          records_success?: number | null
+          started_at?: string
+          status?: string
+          sync_data?: Json | null
+          sync_type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "crm_sync_logs_crm_config_id_fkey"
+            columns: ["crm_config_id"]
+            isOneToOne: false
+            referencedRelation: "crm_configurations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      crm_webhooks: {
+        Row: {
+          api_key_hash: string
+          created_at: string
+          events: string[]
+          id: string
+          is_active: boolean
+          last_triggered_at: string | null
+          secret_token: string
+          updated_at: string
+          webhook_url: string
+        }
+        Insert: {
+          api_key_hash: string
+          created_at?: string
+          events: string[]
+          id?: string
+          is_active?: boolean
+          last_triggered_at?: string | null
+          secret_token: string
+          updated_at?: string
+          webhook_url: string
+        }
+        Update: {
+          api_key_hash?: string
+          created_at?: string
+          events?: string[]
+          id?: string
+          is_active?: boolean
+          last_triggered_at?: string | null
+          secret_token?: string
+          updated_at?: string
+          webhook_url?: string
+        }
+        Relationships: []
+      }
       customers: {
         Row: {
           amount: number
           annual_turnover: number | null
           company: string
-          created_at: string
+          created_at: string | null
           customer_notes: string | null
-          document_checklist_complete: boolean | null
+          document_checklist_complete: boolean
           email: string
           id: string
           jurisdiction: string | null
-          lead_source: string
-          license_type: string
+          lead_source: Database["public"]["Enums"]["lead_source"]
+          license_type: Database["public"]["Enums"]["license_type"]
           mobile: string
           name: string
           preferred_bank: string | null
           product_id: string | null
-          status: string
-          updated_at: string
-          user_id: string | null
+          status: Database["public"]["Enums"]["customer_status"]
+          updated_at: string | null
+          user_id: string
         }
         Insert: {
-          amount?: number
+          amount: number
           annual_turnover?: number | null
           company: string
-          created_at?: string
+          created_at?: string | null
           customer_notes?: string | null
-          document_checklist_complete?: boolean | null
+          document_checklist_complete?: boolean
           email: string
           id?: string
           jurisdiction?: string | null
-          lead_source: string
-          license_type: string
+          lead_source: Database["public"]["Enums"]["lead_source"]
+          license_type: Database["public"]["Enums"]["license_type"]
           mobile: string
           name: string
           preferred_bank?: string | null
           product_id?: string | null
-          status?: string
-          updated_at?: string
-          user_id?: string | null
+          status?: Database["public"]["Enums"]["customer_status"]
+          updated_at?: string | null
+          user_id: string
         }
         Update: {
           amount?: number
           annual_turnover?: number | null
           company?: string
-          created_at?: string
+          created_at?: string | null
           customer_notes?: string | null
-          document_checklist_complete?: boolean | null
+          document_checklist_complete?: boolean
           email?: string
           id?: string
           jurisdiction?: string | null
-          lead_source?: string
-          license_type?: string
+          lead_source?: Database["public"]["Enums"]["lead_source"]
+          license_type?: Database["public"]["Enums"]["license_type"]
           mobile?: string
           name?: string
           preferred_bank?: string | null
           product_id?: string | null
-          status?: string
-          updated_at?: string
-          user_id?: string | null
+          status?: Database["public"]["Enums"]["customer_status"]
+          updated_at?: string | null
+          user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "customers_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "customers_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fk_customers_user_id"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       documents: {
         Row: {
-          category: string
-          created_at: string
+          category: Database["public"]["Enums"]["document_category"]
+          created_at: string | null
           customer_id: string
           file_path: string | null
           id: string
           is_mandatory: boolean
           is_uploaded: boolean
           name: string
-          requires_license_type: string | null
-          updated_at: string
+          requires_license_type:
+            | Database["public"]["Enums"]["license_type"]
+            | null
+          updated_at: string | null
         }
         Insert: {
-          category: string
-          created_at?: string
+          category: Database["public"]["Enums"]["document_category"]
+          created_at?: string | null
           customer_id: string
           file_path?: string | null
           id?: string
           is_mandatory?: boolean
           is_uploaded?: boolean
           name: string
-          requires_license_type?: string | null
-          updated_at?: string
+          requires_license_type?:
+            | Database["public"]["Enums"]["license_type"]
+            | null
+          updated_at?: string | null
         }
         Update: {
-          category?: string
-          created_at?: string
+          category?: Database["public"]["Enums"]["document_category"]
+          created_at?: string | null
           customer_id?: string
           file_path?: string | null
           id?: string
           is_mandatory?: boolean
           is_uploaded?: boolean
           name?: string
-          requires_license_type?: string | null
-          updated_at?: string
+          requires_license_type?:
+            | Database["public"]["Enums"]["license_type"]
+            | null
+          updated_at?: string | null
         }
         Relationships: [
           {
@@ -369,7 +548,7 @@ export type Database = {
           component: string | null
           created_at: string
           id: string
-          level: string | null
+          level: string
           message: string
           stack_trace: string | null
           user_email: string | null
@@ -379,7 +558,7 @@ export type Database = {
           component?: string | null
           created_at?: string
           id?: string
-          level?: string | null
+          level?: string
           message: string
           stack_trace?: string | null
           user_email?: string | null
@@ -389,7 +568,7 @@ export type Database = {
           component?: string | null
           created_at?: string
           id?: string
-          level?: string | null
+          level?: string
           message?: string
           stack_trace?: string | null
           user_email?: string | null
@@ -397,232 +576,183 @@ export type Database = {
         }
         Relationships: []
       }
-      managers: {
+      notifications: {
         Row: {
-          assigned_partners: string[] | null
-          created_at: string | null
-          created_by: string | null
+          created_at: string
           id: string
-          permissions: Json | null
-          updated_at: string | null
-          user_id: string
+          is_read: boolean
+          message: string
+          title: string
+          type: string
+          updated_at: string
+          user_id: string | null
         }
         Insert: {
-          assigned_partners?: string[] | null
-          created_at?: string | null
-          created_by?: string | null
+          created_at?: string
           id?: string
-          permissions?: Json | null
-          updated_at?: string | null
-          user_id: string
+          is_read?: boolean
+          message: string
+          title: string
+          type?: string
+          updated_at?: string
+          user_id?: string | null
         }
         Update: {
-          assigned_partners?: string[] | null
-          created_at?: string | null
-          created_by?: string | null
+          created_at?: string
           id?: string
-          permissions?: Json | null
-          updated_at?: string | null
-          user_id?: string
+          is_read?: boolean
+          message?: string
+          title?: string
+          type?: string
+          updated_at?: string
+          user_id?: string | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "managers_created_by_fkey"
-            columns: ["created_by"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["user_id"]
-          },
-          {
-            foreignKeyName: "managers_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["user_id"]
-          },
-        ]
+        Relationships: []
       }
-      partners: {
+      partner_signup_requests: {
         Row: {
-          assigned_manager: string | null
-          business_address: string | null
-          commission_rate: number | null
-          company_name: string | null
-          created_at: string | null
-          expected_monthly_clients: number | null
+          created_at: string
+          email: string
+          first_name: string
           id: string
-          industry_specializations: Json | null
-          partner_level: string | null
-          services_provided: Json | null
-          success_rate: number | null
-          total_clients_count: number | null
-          updated_at: string | null
-          user_id: string
-          years_experience: number | null
+          last_name: string
+          phone_number: string
+          status: string
+          updated_at: string
         }
         Insert: {
-          assigned_manager?: string | null
-          business_address?: string | null
-          commission_rate?: number | null
-          company_name?: string | null
-          created_at?: string | null
-          expected_monthly_clients?: number | null
+          created_at?: string
+          email: string
+          first_name: string
           id?: string
-          industry_specializations?: Json | null
-          partner_level?: string | null
-          services_provided?: Json | null
-          success_rate?: number | null
-          total_clients_count?: number | null
-          updated_at?: string | null
-          user_id: string
-          years_experience?: number | null
+          last_name: string
+          phone_number: string
+          status?: string
+          updated_at?: string
         }
         Update: {
-          assigned_manager?: string | null
-          business_address?: string | null
-          commission_rate?: number | null
-          company_name?: string | null
-          created_at?: string | null
-          expected_monthly_clients?: number | null
+          created_at?: string
+          email?: string
+          first_name?: string
           id?: string
-          industry_specializations?: Json | null
-          partner_level?: string | null
-          services_provided?: Json | null
-          success_rate?: number | null
-          total_clients_count?: number | null
-          updated_at?: string | null
-          user_id?: string
-          years_experience?: number | null
+          last_name?: string
+          phone_number?: string
+          status?: string
+          updated_at?: string
         }
-        Relationships: [
-          {
-            foreignKeyName: "partners_assigned_manager_fkey"
-            columns: ["assigned_manager"]
-            isOneToOne: false
-            referencedRelation: "managers"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "partners_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["user_id"]
-          },
-        ]
+        Relationships: []
       }
       products: {
         Row: {
           created_at: string
           description: string | null
           id: string
-          is_active: boolean | null
+          is_active: boolean
           name: string
-          price: number | null
           updated_at: string
         }
         Insert: {
           created_at?: string
           description?: string | null
           id?: string
-          is_active?: boolean | null
+          is_active?: boolean
           name: string
-          price?: number | null
           updated_at?: string
         }
         Update: {
           created_at?: string
           description?: string | null
           id?: string
-          is_active?: boolean | null
+          is_active?: boolean
           name?: string
-          price?: number | null
           updated_at?: string
         }
         Relationships: []
       }
       profiles: {
         Row: {
-          approved_at: string | null
-          approved_by: string | null
-          created_at: string
-          email: string | null
+          created_at: string | null
+          deleted_at: string | null
+          email: string
+          full_name: string | null
           id: string
-          is_active: boolean | null
-          is_approved: boolean | null
-          name: string | null
-          role: string | null
-          updated_at: string
-          user_id: string
+          is_active: boolean
+          must_change_password: boolean | null
+          name: string
+          role: Database["public"]["Enums"]["app_role"]
+          temporary_password_expires_at: string | null
+          updated_at: string | null
+          user_id: string | null
         }
         Insert: {
-          approved_at?: string | null
-          approved_by?: string | null
-          created_at?: string
-          email?: string | null
-          id?: string
-          is_active?: boolean | null
-          is_approved?: boolean | null
-          name?: string | null
-          role?: string | null
-          updated_at?: string
-          user_id: string
+          created_at?: string | null
+          deleted_at?: string | null
+          email: string
+          full_name?: string | null
+          id: string
+          is_active?: boolean
+          must_change_password?: boolean | null
+          name: string
+          role?: Database["public"]["Enums"]["app_role"]
+          temporary_password_expires_at?: string | null
+          updated_at?: string | null
+          user_id?: string | null
         }
         Update: {
-          approved_at?: string | null
-          approved_by?: string | null
-          created_at?: string
-          email?: string | null
+          created_at?: string | null
+          deleted_at?: string | null
+          email?: string
+          full_name?: string | null
           id?: string
-          is_active?: boolean | null
-          is_approved?: boolean | null
-          name?: string | null
-          role?: string | null
-          updated_at?: string
-          user_id?: string
+          is_active?: boolean
+          must_change_password?: boolean | null
+          name?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          temporary_password_expires_at?: string | null
+          updated_at?: string | null
+          user_id?: string | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "profiles_approved_by_fkey"
-            columns: ["approved_by"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["user_id"]
-          },
-        ]
+        Relationships: []
       }
       status_changes: {
         Row: {
           changed_by: string
-          changed_by_role: string
+          changed_by_role: Database["public"]["Enums"]["app_role"]
           comment: string | null
-          created_at: string
+          created_at: string | null
           customer_id: string
           id: string
-          new_status: string
-          previous_status: string
+          new_status: Database["public"]["Enums"]["customer_status"]
+          previous_status: Database["public"]["Enums"]["customer_status"]
         }
         Insert: {
           changed_by: string
-          changed_by_role: string
+          changed_by_role: Database["public"]["Enums"]["app_role"]
           comment?: string | null
-          created_at?: string
+          created_at?: string | null
           customer_id: string
           id?: string
-          new_status: string
-          previous_status: string
+          new_status: Database["public"]["Enums"]["customer_status"]
+          previous_status: Database["public"]["Enums"]["customer_status"]
         }
         Update: {
           changed_by?: string
-          changed_by_role?: string
+          changed_by_role?: Database["public"]["Enums"]["app_role"]
           comment?: string | null
-          created_at?: string
+          created_at?: string | null
           customer_id?: string
           id?: string
-          new_status?: string
-          previous_status?: string
+          new_status?: Database["public"]["Enums"]["customer_status"]
+          previous_status?: Database["public"]["Enums"]["customer_status"]
         }
         Relationships: [
+          {
+            foreignKeyName: "status_changes_changed_by_fkey"
+            columns: ["changed_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "status_changes_customer_id_fkey"
             columns: ["customer_id"]
@@ -632,31 +762,125 @@ export type Database = {
           },
         ]
       }
+      user_products: {
+        Row: {
+          assigned_at: string
+          id: string
+          product_id: string
+          user_id: string
+        }
+        Insert: {
+          assigned_at?: string
+          id?: string
+          product_id: string
+          user_id: string
+        }
+        Update: {
+          assigned_at?: string
+          id?: string
+          product_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_products_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      create_product: {
+        Args: {
+          product_description: string
+          product_is_active: boolean
+          product_name: string
+        }
+        Returns: undefined
+      }
+      delete_product: {
+        Args: { product_id: string }
+        Returns: undefined
+      }
+      get_products: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          created_at: string
+          description: string
+          id: string
+          is_active: boolean
+          name: string
+          updated_at: string
+        }[]
+      }
+      get_secure_document_url: {
+        Args: { expires_in_seconds?: number; file_path: string }
+        Returns: string
+      }
+      get_user_products: {
+        Args: { user_uuid: string }
+        Returns: {
+          product_description: string
+          product_id: string
+          product_name: string
+        }[]
+      }
+      get_user_role: {
+        Args: { user_id: string }
+        Returns: Database["public"]["Enums"]["app_role"]
+      }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+      is_admin: {
+        Args: { user_id: string }
+        Returns: boolean
+      }
+      log_failed_login: {
+        Args: { _email: string; _reason: string }
+        Returns: undefined
+      }
+      update_product: {
+        Args: {
+          product_description: string
+          product_id: string
+          product_is_active: boolean
+          product_name: string
+        }
+        Returns: undefined
+      }
     }
     Enums: {
-      application_status:
-        | "draft"
-        | "need_more_info"
-        | "return"
-        | "submit"
-        | "rejected"
-        | "completed"
-        | "paid"
-      lead_source:
-        | "website"
-        | "referral"
-        | "social_media"
-        | "partner"
-        | "manager"
-        | "other"
-      license_type: "mainland" | "freezone" | "offshore"
-      user_role: "admin" | "manager" | "partner" | "user"
+      app_role: "admin" | "user" | "manager"
+      customer_status:
+        | "Draft"
+        | "Submitted"
+        | "Returned"
+        | "Sent to Bank"
+        | "Complete"
+        | "Rejected"
+        | "Need More Info"
+        | "Paid"
+      document_category:
+        | "mandatory"
+        | "freezone"
+        | "supporting"
+        | "signatory"
+        | "passport_docs"
+        | "emirates_id_docs"
+        | "bank_statement_docs"
+      lead_source: "Website" | "Referral" | "Social Media" | "Other"
+      license_type: "Mainland" | "Freezone" | "Offshore"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -784,25 +1008,28 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      application_status: [
-        "draft",
-        "need_more_info",
-        "return",
-        "submit",
-        "rejected",
-        "completed",
-        "paid",
+      app_role: ["admin", "user", "manager"],
+      customer_status: [
+        "Draft",
+        "Submitted",
+        "Returned",
+        "Sent to Bank",
+        "Complete",
+        "Rejected",
+        "Need More Info",
+        "Paid",
       ],
-      lead_source: [
-        "website",
-        "referral",
-        "social_media",
-        "partner",
-        "manager",
-        "other",
+      document_category: [
+        "mandatory",
+        "freezone",
+        "supporting",
+        "signatory",
+        "passport_docs",
+        "emirates_id_docs",
+        "bank_statement_docs",
       ],
-      license_type: ["mainland", "freezone", "offshore"],
-      user_role: ["admin", "manager", "partner", "user"],
+      lead_source: ["Website", "Referral", "Social Media", "Other"],
+      license_type: ["Mainland", "Freezone", "Offshore"],
     },
   },
 } as const
