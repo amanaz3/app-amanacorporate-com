@@ -75,16 +75,16 @@ const AdminStatistics = () => {
         .from('profiles')
         .select('role');
 
-      // Fetch applications by creator role and status
+      // Fetch applications using account_applications
       const { data: applications } = await supabase
-        .from('applications')
-        .select('status, created_by_role, created_at');
+        .from('account_applications')
+        .select('status, created_at');
 
       const userCounts = profiles?.reduce((acc, profile) => {
         switch (profile.role) {
           case 'user': acc.totalUsers++; break;
-          case 'partner': acc.totalPartners++; break;
           case 'manager': acc.totalManagers++; break;
+          case 'admin': break; // Don't count admins as partners
         }
         return acc;
       }, { totalUsers: 0, totalPartners: 0, totalManagers: 0 }) || { totalUsers: 0, totalPartners: 0, totalManagers: 0 };

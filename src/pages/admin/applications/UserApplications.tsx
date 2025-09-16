@@ -41,9 +41,8 @@ const UserApplications = () => {
   const fetchApplications = async () => {
     try {
       let query = supabase
-        .from('applications')
-        .select('*')
-        .eq('created_by_role', 'user');
+        .from('account_applications')
+        .select('*');
 
       if (status && status !== 'all') {
         const dbStatus = status === 'need-more-info' ? 'need_more_info' : status;

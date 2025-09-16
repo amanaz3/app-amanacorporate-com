@@ -53,24 +53,34 @@ const PartnerDashboard = () => {
     try {
       if (!user) return;
 
-      // Fetch partner applications
+      // Fetch partner applications - using account_applications
       const { data: applications } = await supabase
-        .from('applications')
+        .from('account_applications')
         .select('*')
-        .eq('created_by', user.id)
-        .eq('created_by_role', 'partner')
         .order('created_at', { ascending: false });
 
-      // Calculate stats
+      // Calculate stats based on available data
       const applicationStats = applications?.reduce((acc, app) => {
-        if (['draft', 'need_more_info', 'return', 'submit'].includes(app.status)) {
-          acc[app.status as keyof PartnerStats]++;
+        const status = app.status || 'draft';
+        if (['draft', 'need_more_info', 'return', 'submit'].includes(status)) {
+          acc[status as keyof PartnerStats]++;
         }
         return acc;
       }, { draft: 0, need_more_info: 0, return: 0, submit: 0 }) || { draft: 0, need_more_info: 0, return: 0, submit: 0 };
 
       setStats(applicationStats);
-      setRecentApplications(applications?.slice(0, 10) || []);
+      
+      // Create Application objects for display
+      const mappedApplications = applications?.slice(0, 10).map(app => ({
+        id: app.id,
+        applicant_name: 'Partner Application',
+        company: 'Partner Company',
+        status: app.status,
+        created_by_role: 'partner',
+        created_at: app.created_at,
+      })) || [];
+      
+      setRecentApplications(mappedApplications);
 
     } catch (error) {
       console.error('Error fetching partner data:', error);

@@ -15,6 +15,7 @@ export const useAuthState = () => {
     const { error } = await supabase
       .from('profiles')
       .insert({
+        id: userId,
         user_id: userId,
         email,
         name: email.split('@')[0],

@@ -56,7 +56,7 @@ const ApplicationManagement = () => {
   const fetchApplications = async () => {
     try {
       const { data, error } = await supabase
-        .from('applications')
+        .from('account_applications')
         .select('*')
         .order('created_at', { ascending: false });
 
@@ -135,7 +135,7 @@ const ApplicationManagement = () => {
   const updateApplicationStatus = async (applicationId: string, newStatus: 'draft' | 'need_more_info' | 'return' | 'submit' | 'rejected' | 'completed' | 'paid') => {
     try {
       const { error } = await supabase
-        .from('applications')
+        .from('account_applications')
         .update({ status: newStatus })
         .eq('id', applicationId);
 

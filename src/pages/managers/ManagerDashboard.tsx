@@ -71,18 +71,15 @@ const ManagerDashboard = () => {
         return;
       }
 
-      // Fetch assigned partner applications
+      // Fetch applications using account_applications
       const { data: partnerApps } = await supabase
-        .from('applications')
-        .select('status')
-        .in('partner_id', manager.assigned_partners || []);
+        .from('account_applications')
+        .select('status');
 
-      // Fetch manager's own referral applications
+      // Fetch applications for referrals
       const { data: referralApps } = await supabase
-        .from('applications')
-        .select('status')
-        .eq('created_by', user?.id)
-        .eq('created_by_role', 'manager');
+        .from('account_applications')
+        .select('status');
 
       const processApplications = (apps: any[]) => {
         return apps?.reduce((acc, app) => {

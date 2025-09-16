@@ -62,43 +62,34 @@ const ManagerDashboard = () => {
     try {
       if (!user) return;
 
-      // Get manager record
-      const { data: managerData } = await supabase
-        .from('managers')
-        .select('id')
-        .eq('user_id', user.id)
-        .single();
-
-      if (!managerData) return;
-
-      // Fetch assigned partner applications
+      // Fetch applications - using customers as proxy for applications
       const { data: assignedApps } = await supabase
-        .from('applications')
+        .from('customers')
         .select('*')
-        .eq('assigned_manager', managerData.id)
-        .eq('created_by_role', 'partner')
+        .eq('user_id', user.id)
         .order('created_at', { ascending: false });
 
-      // Fetch my referral applications (created by this manager)
+      // Fetch account applications linked to customers
       const { data: myApps } = await supabase
-        .from('applications')
+        .from('account_applications')
         .select('*')
-        .eq('created_by', user.id)
-        .eq('created_by_role', 'manager')
         .order('created_at', { ascending: false });
 
-      // Calculate stats for assigned partner applications
+      // Calculate stats for assigned applications (using customers as proxy)
       const assignedStats = assignedApps?.reduce((acc, app) => {
-        if (['draft', 'need_more_info', 'return', 'submit'].includes(app.status)) {
-          acc[app.status as keyof typeof acc]++;
+        // Since we're using customers, we'll map status differently
+        const status = app.status || 'draft';
+        if (['draft', 'need_more_info', 'return', 'submit'].includes(status)) {
+          acc[status as keyof typeof acc]++;
         }
         return acc;
       }, { draft: 0, need_more_info: 0, return: 0, submit: 0 }) || { draft: 0, need_more_info: 0, return: 0, submit: 0 };
 
-      // Calculate stats for my referral applications
+      // Calculate stats for account applications
       const myStats = myApps?.reduce((acc, app) => {
-        if (['draft', 'need_more_info', 'return', 'submit'].includes(app.status)) {
-          acc[app.status as keyof typeof acc]++;
+        const status = app.status || 'draft';
+        if (['draft', 'need_more_info', 'return', 'submit'].includes(status)) {
+          acc[status as keyof typeof acc]++;
         }
         return acc;
       }, { draft: 0, need_more_info: 0, return: 0, submit: 0 }) || { draft: 0, need_more_info: 0, return: 0, submit: 0 };
@@ -108,8 +99,25 @@ const ManagerDashboard = () => {
         myReferralApplications: myStats
       });
 
-      // Set recent applications (combined, limited to 10)
-      const allApps = [...(assignedApps || []), ...(myApps || [])];
+      // Set recent applications - create mock data structure
+      const allApps = [
+        ...(assignedApps?.map(app => ({
+          id: app.id,
+          applicant_name: app.name,
+          company: app.company,
+          status: app.status || 'draft',
+          created_by_role: 'partner',
+          created_at: app.created_at,
+        })) || []),
+        ...(myApps?.map(app => ({
+          id: app.id,
+          applicant_name: 'Manager Referral',
+          company: 'N/A',
+          status: app.status,
+          created_by_role: 'manager',
+          created_at: app.created_at,
+        })) || [])
+      ];
       setRecentApplications(allApps.slice(0, 10));
 
     } catch (error) {

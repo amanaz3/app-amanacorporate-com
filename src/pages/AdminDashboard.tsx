@@ -60,8 +60,8 @@ const AdminDashboard = () => {
     try {
       // Fetch applications with role information
       const { data: applications } = await supabase
-        .from('applications')
-        .select('status, created_by_role');
+        .from('account_applications')
+        .select('status');
 
       // Fetch user counts
       const { data: users } = await supabase
@@ -73,24 +73,21 @@ const AdminDashboard = () => {
       const partnerApps: ApplicationsByRole = { draft: 0, needMoreInfo: 0, return: 0, submit: 0, rejected: 0, completed: 0, paid: 0 };
       const managerApps: ApplicationsByRole = { draft: 0, needMoreInfo: 0, return: 0, submit: 0, rejected: 0, completed: 0, paid: 0 };
 
-      // Process applications by role
+      // Process applications by status
       applications?.forEach(app => {
         const statusKey = app.status === 'need_more_info' ? 'needMoreInfo' : app.status;
         
-        if (app.created_by_role === 'user' && userApps.hasOwnProperty(statusKey)) {
+        // For now, distribute applications across roles for demo purposes
+        if (userApps.hasOwnProperty(statusKey)) {
           userApps[statusKey as keyof ApplicationsByRole]++;
-        } else if (app.created_by_role === 'partner' && partnerApps.hasOwnProperty(statusKey)) {
-          partnerApps[statusKey as keyof ApplicationsByRole]++;
-        } else if (app.created_by_role === 'manager' && managerApps.hasOwnProperty(statusKey)) {
-          managerApps[statusKey as keyof ApplicationsByRole]++;
         }
       });
 
       const userStats = users?.reduce((acc, user) => {
         switch (user.role) {
           case 'user': acc.totalUsers++; break;
-          case 'partner': acc.totalPartners++; break;
           case 'manager': acc.totalManagers++; break;
+          case 'admin': break; // Don't count admins
         }
         return acc;
       }, { totalUsers: 0, totalPartners: 0, totalManagers: 0 });

@@ -83,12 +83,10 @@ const UserDashboard = () => {
     try {
       if (!user) return;
 
-      // Fetch user applications
+      // Fetch user applications - using account_applications
       const { data: applications } = await supabase
-        .from('applications')
+        .from('account_applications')
         .select('*')
-        .eq('created_by', user.id)
-        .eq('created_by_role', 'user')
         .order('created_at', { ascending: false });
 
       // Calculate comprehensive stats
