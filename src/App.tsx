@@ -65,6 +65,9 @@ import {
   LazyUserDashboard,
   LazyUserLogin,
   LazyPartnerLogin,
+  LazyCreateApplication,
+  LazyApplicationDetail,
+  LazyApplicationsList,
   PageLoadingFallback
 } from '@/components/LazyComponents';
 import ErrorTracker from '@/utils/errorTracking';
@@ -152,15 +155,46 @@ function App() {
                     </ProtectedRoute>
                   } />
                   
-                  <Route path="/customers" element={
-                    <ProtectedRoute>
-                      <MainLayout>
-                        <PageErrorBoundary pageName="Customer List">
-                          <LazyCustomerList />
-                        </PageErrorBoundary>
-                      </MainLayout>
-                    </ProtectedRoute>
-                  } />
+                     <Route path="/customers" element={
+                     <ProtectedRoute>
+                       <MainLayout>
+                         <PageErrorBoundary pageName="Customer List">
+                           <LazyCustomerList />
+                         </PageErrorBoundary>
+                       </MainLayout>
+                     </ProtectedRoute>
+                   } />
+                   
+                   {/* Application Routes */}
+                   <Route path="/applications" element={
+                     <ProtectedRoute>
+                       <MainLayout>
+                         <PageErrorBoundary pageName="Applications List">
+                           <LazyApplicationsList />
+                         </PageErrorBoundary>
+                       </MainLayout>
+                     </ProtectedRoute>
+                   } />
+                   
+                   <Route path="/applications/:applicationId" element={
+                     <ProtectedRoute>
+                       <MainLayout>
+                         <PageErrorBoundary pageName="Application Detail">
+                           <LazyApplicationDetail />
+                         </PageErrorBoundary>
+                       </MainLayout>
+                     </ProtectedRoute>
+                   } />
+                   
+                   <Route path="/customers/:customerId/applications/create" element={
+                     <ProtectedRoute>
+                       <MainLayout>
+                         <PageErrorBoundary pageName="Create Application">
+                           <LazyCreateApplication />
+                         </PageErrorBoundary>
+                       </MainLayout>
+                     </ProtectedRoute>
+                   } />
                   
                   
                    {/* Manager routes */}

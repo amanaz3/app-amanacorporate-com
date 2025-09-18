@@ -7,6 +7,7 @@ import CustomerDetailsForm from '@/components/Customer/CustomerDetailsForm';
 import CustomerActionButtons from '@/components/Customer/CustomerActionButtons';
 import StatusHistoryCard from '@/components/Customer/StatusHistoryCard';
 import DocumentCompleteCheckbox from '@/components/Customer/DocumentCompleteCheckbox';
+import CustomerApplicationsSection from '@/components/Customer/ApplicationsSection';
 import { useCustomer } from '@/contexts/CustomerContext';
 import { Status } from '@/types/customer';
 import { useAuth } from '@/contexts/SecureAuthContext';
@@ -16,7 +17,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
 import { formatDate } from '@/lib/utils';
-import { Send, Shield, CheckCircle } from 'lucide-react';
+import { Send, Shield, CheckCircle, ArrowLeft, Plus } from 'lucide-react';
 
 const CustomerDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -253,8 +254,9 @@ const CustomerDetail = () => {
           
           <div className="col-span-1 md:col-span-2">
             <Tabs defaultValue="details">
-              <TabsList className="grid w-full grid-cols-2">
+              <TabsList className="grid w-full grid-cols-3">
                 <TabsTrigger value="details">Application Details</TabsTrigger>
+                <TabsTrigger value="applications">Applications</TabsTrigger>
                 <TabsTrigger value="documents">
                   Documents {uploadedDocumentsCount > 0 && (
                     <Badge variant="secondary" className="ml-2">
@@ -271,6 +273,10 @@ const CustomerDetail = () => {
                   isUserOwner={isUserOwner}
                   onUpdate={handleUpdateCustomer}
                 />
+              </TabsContent>
+              
+              <TabsContent value="applications">
+                <CustomerApplicationsSection customerId={customer.id} />
               </TabsContent>
               
               <TabsContent value="documents">

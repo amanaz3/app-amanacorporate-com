@@ -52,6 +52,11 @@ const NotFound = React.lazy(() => import('@/pages/NotFound'));
 const UserLogin = React.lazy(() => import('@/pages/UserLogin'));
 const PartnerLogin = React.lazy(() => import('@/pages/PartnerLogin'));
 
+// Application components
+const CreateApplication = React.lazy(() => import('@/pages/applications/CreateApplication'));
+const ApplicationDetail = React.lazy(() => import('@/pages/applications/ApplicationDetail'));
+const ApplicationsList = React.lazy(() => import('@/pages/applications/ApplicationsList'));
+
 // Heavy components
 const ProductionMonitor = React.lazy(() => import('@/components/Performance/ProductionMonitor'));
 const SecurityCompliance = React.lazy(() => import('@/components/Security/SecurityCompliance'));
@@ -181,6 +186,11 @@ export const LazyProductManagement = withLazyLoading(ProductManagement, "Loading
 export const LazyNotFound = withLazyLoading(NotFound, "Loading page...");
 export const LazyUserLogin = withLazyLoading(UserLogin, "Loading login...");
 export const LazyPartnerLogin = withLazyLoading(PartnerLogin, "Loading login...");
+
+// Application components
+export const LazyCreateApplication = withLazyLoading(CreateApplication, "Loading application form...");
+export const LazyApplicationDetail = withLazyLoading(ApplicationDetail, "Loading application details...");
+export const LazyApplicationsList = withLazyLoading(ApplicationsList, "Loading applications list...");
 
 export const LazyProductionMonitor = withLazyLoading(ProductionMonitor, "Loading performance monitor...");
 export const LazySecurityCompliance = withLazyLoading(SecurityCompliance, "Loading security compliance...");
