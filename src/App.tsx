@@ -9,6 +9,8 @@ import { NotificationProvider } from '@/contexts/NotificationContext';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import PageErrorBoundary from '@/components/PageErrorBoundary';
 import ProtectedRoute from '@/components/Security/ProtectedRoute';
+import SecurityHeaders from '@/components/Security/SecurityHeaders';
+import SecurityMonitor from '@/components/Security/SecurityMonitor';
 import MainLayout from '@/components/Layout/MainLayout';
 import SecureLogin from '@/pages/SecureLogin';
 import {
@@ -109,6 +111,8 @@ function App() {
           <AuthProvider>
             <CustomerProvider>
               <NotificationProvider>
+                <SecurityHeaders />
+                <SecurityMonitor />
                 <div className="min-h-screen bg-background">
                  <Routes>
                   <Route path="/login" element={

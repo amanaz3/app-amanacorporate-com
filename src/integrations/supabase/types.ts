@@ -846,6 +846,14 @@ export type Database = {
         Args: { user_id: string }
         Returns: boolean
       }
+      log_api_access: {
+        Args: {
+          action_type: string
+          api_key_id: string
+          resource_accessed: string
+        }
+        Returns: undefined
+      }
       log_failed_login: {
         Args: { _email: string; _reason: string }
         Returns: undefined
@@ -858,6 +866,14 @@ export type Database = {
           product_name: string
         }
         Returns: undefined
+      }
+      validate_api_key_access: {
+        Args: { key_hash: string; required_permission: string }
+        Returns: boolean
+      }
+      validate_session_security: {
+        Args: Record<PropertyKey, never>
+        Returns: boolean
       }
     }
     Enums: {
