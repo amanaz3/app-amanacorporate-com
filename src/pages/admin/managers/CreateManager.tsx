@@ -30,24 +30,18 @@ const CreateManager = () => {
     setLoading(true);
 
     try {
-      // Create user first
-      await createUser(formData.email, formData.name, 'user' as any, formData.password);
+      // Create user with manager role in profiles table
+      await createUser(formData.email, formData.name, 'manager', formData.password);
       
-      // Get the created user's profile
+      // Get the created user's profile to verify creation
       const { data: profile } = await supabase
         .from('profiles')
-        .select('user_id')
+        .select('id')
         .eq('email', formData.email)
         .single();
 
-      if (profile) {
-        // Create manager record with permissions
-        await supabase
-          .from('managers')
-          .insert({
-            user_id: profile.user_id,
-            permissions: formData.permissions
-          });
+      if (!profile) {
+        throw new Error('Failed to create manager profile');
       }
 
       toast({

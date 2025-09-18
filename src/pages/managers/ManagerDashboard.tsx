@@ -59,25 +59,20 @@ const ManagerDashboard = () => {
 
   const fetchManagerStats = async () => {
     try {
-      // Fetch manager info
-      const { data: manager } = await supabase
-        .from('managers')
-        .select('id, assigned_partners')
-        .eq('user_id', user?.id)
+      // Check if current user is a manager by their role
+      const { data: userProfile } = await supabase
+        .from('profiles')
+        .select('role')
+        .eq('id', user?.id)
         .single();
 
-      if (!manager) {
+      if (!userProfile || userProfile.role !== 'manager') {
         setLoading(false);
         return;
       }
 
-      // Fetch applications using account_applications
-      const { data: partnerApps } = await supabase
-        .from('account_applications')
-        .select('status');
-
-      // Fetch applications for referrals
-      const { data: referralApps } = await supabase
+      // Fetch applications using account_applications - simplified for now
+      const { data: applications } = await supabase
         .from('account_applications')
         .select('status');
 
@@ -92,9 +87,10 @@ const ManagerDashboard = () => {
         { draft: 0, needMoreInfo: 0, return: 0, submit: 0, rejected: 0, completed: 0, paid: 0 };
       };
 
+      const appStats = processApplications(applications);
       setStats({
-        assignedPartnerApplications: processApplications(partnerApps),
-        myReferralApplications: processApplications(referralApps)
+        assignedPartnerApplications: appStats,
+        myReferralApplications: appStats // For now, same data
       });
     } catch (error) {
       console.error('Error fetching manager stats:', error);
@@ -117,13 +113,13 @@ const ManagerDashboard = () => {
     const checkManagerAccess = async () => {
       if (!user?.id) return;
       
-      const { data: manager } = await supabase
-        .from('managers')
-        .select('id')
-        .eq('user_id', user.id)
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('role')
+        .eq('id', user.id)
         .single();
       
-      setHasManagerAccess(!!manager || isAdmin);
+      setHasManagerAccess(profile?.role === 'manager' || isAdmin);
     };
     
     checkManagerAccess();

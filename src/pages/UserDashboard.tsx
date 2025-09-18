@@ -34,10 +34,15 @@ import { useAuth } from '@/contexts/SecureAuthContext';
 
 interface Application {
   id: string;
-  applicant_name: string;
-  company: string;
   status: string;
   created_at: string;
+  customer_id: string;
+  application_data: any;
+  customers?: {
+    name: string;
+    company: string;
+    email: string;
+  };
 }
 
 interface UserStats {
@@ -83,10 +88,17 @@ const UserDashboard = () => {
     try {
       if (!user) return;
 
-      // Fetch user applications - using account_applications
+      // Fetch user applications with customer data
       const { data: applications } = await supabase
         .from('account_applications')
-        .select('*')
+        .select(`
+          id,
+          status,
+          created_at,
+          customer_id,
+          application_data,
+          customers(name, company, email)
+        `)
         .order('created_at', { ascending: false });
 
       // Calculate comprehensive stats
@@ -169,8 +181,8 @@ const UserDashboard = () => {
     
     if (search) {
       filtered = filtered.filter(app => 
-        app.applicant_name.toLowerCase().includes(search.toLowerCase()) ||
-        app.company.toLowerCase().includes(search.toLowerCase())
+        app.customers?.name.toLowerCase().includes(search.toLowerCase()) ||
+        app.customers?.company.toLowerCase().includes(search.toLowerCase())
       );
     }
     
@@ -354,8 +366,8 @@ const UserDashboard = () => {
                     <TableBody>
                       {recentApplications.map((application) => (
                         <TableRow key={application.id}>
-                          <TableCell className="font-medium">{application.applicant_name}</TableCell>
-                          <TableCell>{application.company}</TableCell>
+                          <TableCell className="font-medium">{application.customers?.name || 'N/A'}</TableCell>
+                          <TableCell>{application.customers?.company || 'N/A'}</TableCell>
                           <TableCell>{getStatusBadge(application.status)}</TableCell>
                           <TableCell>{new Date(application.created_at).toLocaleDateString()}</TableCell>
                           <TableCell>
@@ -478,8 +490,8 @@ const UserDashboard = () => {
                     <TableBody>
                       {filteredApplications.map((application) => (
                         <TableRow key={application.id}>
-                          <TableCell className="font-medium">{application.applicant_name}</TableCell>
-                          <TableCell>{application.company}</TableCell>
+                          <TableCell className="font-medium">{application.customers?.name || 'N/A'}</TableCell>
+                          <TableCell>{application.customers?.company || 'N/A'}</TableCell>
                           <TableCell>{getStatusBadge(application.status)}</TableCell>
                           <TableCell>{new Date(application.created_at).toLocaleDateString()}</TableCell>
                           <TableCell>
@@ -532,10 +544,10 @@ const UserDashboard = () => {
                           <div className="flex items-center justify-between">
                             <div className="flex-1">
                               <div className="flex items-center gap-2 mb-2">
-                                <h4 className="font-medium">{application.applicant_name}</h4>
+                                <h4 className="font-medium">{application.customers?.name || 'N/A'}</h4>
                                 {getStatusBadge(application.status)}
                               </div>
-                              <p className="text-sm text-muted-foreground mb-1">{application.company}</p>
+                              <p className="text-sm text-muted-foreground mb-1">{application.customers?.company || 'N/A'}</p>
                               <div className="flex items-center gap-2 text-xs text-muted-foreground">
                                 <Calendar className="h-3 w-3" />
                                 Created: {new Date(application.created_at).toLocaleDateString()}

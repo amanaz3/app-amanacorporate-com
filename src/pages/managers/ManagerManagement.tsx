@@ -124,7 +124,7 @@ const ManagerManagement = () => {
         const { error: profileError } = await supabase
           .from('profiles')
           .upsert({
-            user_id: authData.user.id,
+            id: authData.user.id,
             email: managerData.email,
             name: managerData.name,
             role: managerData.role,

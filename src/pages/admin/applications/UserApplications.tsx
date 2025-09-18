@@ -11,13 +11,16 @@ import { supabase } from '@/integrations/supabase/client';
 
 interface Application {
   id: string;
-  applicant_name: string;
-  email: string;
-  company: string;
   status: string;
-  amount: number;
   created_at: string;
-  created_by_role: string;
+  customer_id: string;
+  application_data: any;
+  customers?: {
+    name: string;
+    email: string;
+    company: string;
+    amount: number;
+  };
 }
 
 const UserApplications = () => {
@@ -42,7 +45,14 @@ const UserApplications = () => {
     try {
       let query = supabase
         .from('account_applications')
-        .select('*');
+        .select(`
+          id,
+          status,
+          created_at,
+          customer_id,
+          application_data,
+          customers(name, email, company, amount)
+        `);
 
       if (status && status !== 'all') {
         const dbStatus = status === 'need-more-info' ? 'need_more_info' : status;
@@ -66,9 +76,9 @@ const UserApplications = () => {
 
     if (searchTerm) {
       filtered = filtered.filter(app => 
-        app.applicant_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        app.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        app.company.toLowerCase().includes(searchTerm.toLowerCase())
+        app.customers?.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        app.customers?.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        app.customers?.company.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
 
@@ -167,10 +177,10 @@ const UserApplications = () => {
                   <TableBody>
                     {filteredApplications.map((application) => (
                       <TableRow key={application.id}>
-                        <TableCell className="font-medium">{application.applicant_name}</TableCell>
-                        <TableCell>{application.email}</TableCell>
-                        <TableCell>{application.company}</TableCell>
-                        <TableCell>{formatCurrency(application.amount)}</TableCell>
+                        <TableCell className="font-medium">{application.customers?.name || 'N/A'}</TableCell>
+                        <TableCell>{application.customers?.email || 'N/A'}</TableCell>
+                        <TableCell>{application.customers?.company || 'N/A'}</TableCell>
+                        <TableCell>{formatCurrency(application.customers?.amount || 0)}</TableCell>
                         <TableCell>{getStatusBadge(application.status)}</TableCell>
                         <TableCell>{new Date(application.created_at).toLocaleDateString()}</TableCell>
                         <TableCell>

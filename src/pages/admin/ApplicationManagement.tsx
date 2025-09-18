@@ -24,17 +24,19 @@ import { supabase } from '@/integrations/supabase/client';
 
 interface Application {
   id: string;
-  applicant_name: string;
-  email: string;
-  mobile: string;
-  company: string;
-  license_type: string;
-  lead_source: string;
-  amount: number;
   status: string;
-  created_by_role: string;
   created_at: string;
-  created_by: string;
+  customer_id: string;
+  application_data: any;
+  customers?: {
+    name: string;
+    email: string;
+    mobile: string;
+    company: string;
+    license_type: string;
+    lead_source: string;
+    amount: number;
+  };
 }
 
 const ApplicationManagement = () => {
@@ -57,7 +59,14 @@ const ApplicationManagement = () => {
     try {
       const { data, error } = await supabase
         .from('account_applications')
-        .select('*')
+        .select(`
+          id,
+          status,
+          created_at,
+          customer_id,
+          application_data,
+          customers(name, email, mobile, company, license_type, lead_source, amount)
+        `)
         .order('created_at', { ascending: false });
 
       if (error) throw error;
@@ -75,9 +84,9 @@ const ApplicationManagement = () => {
     // Search filter
     if (searchTerm) {
       filtered = filtered.filter(app => 
-        app.applicant_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        app.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        app.company.toLowerCase().includes(searchTerm.toLowerCase())
+        app.customers?.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        app.customers?.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        app.customers?.company.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
 
@@ -86,10 +95,10 @@ const ApplicationManagement = () => {
       filtered = filtered.filter(app => app.status === statusFilter);
     }
 
-    // Role filter
-    if (roleFilter !== 'all') {
-      filtered = filtered.filter(app => app.created_by_role === roleFilter);
-    }
+    // Role filter - simplified for now
+    // if (roleFilter !== 'all') {
+    //   filtered = filtered.filter(app => app.created_by_role === roleFilter);
+    // }
 
     setFilteredApplications(filtered);
   };
@@ -267,18 +276,18 @@ const ApplicationManagement = () => {
                   <TableRow key={application.id}>
                     <TableCell>
                       <div>
-                        <div className="font-medium">{application.applicant_name}</div>
-                        <div className="text-sm text-muted-foreground">{application.email}</div>
-                        <div className="text-sm text-muted-foreground">{application.mobile}</div>
+                        <div className="font-medium">{application.customers?.name || 'N/A'}</div>
+                        <div className="text-sm text-muted-foreground">{application.customers?.email || 'N/A'}</div>
+                        <div className="text-sm text-muted-foreground">{application.customers?.mobile || 'N/A'}</div>
                       </div>
                     </TableCell>
-                    <TableCell>{application.company}</TableCell>
+                    <TableCell>{application.customers?.company || 'N/A'}</TableCell>
                     <TableCell>
-                      <Badge variant="outline">{application.license_type}</Badge>
+                      <Badge variant="outline">{application.customers?.license_type || 'N/A'}</Badge>
                     </TableCell>
-                    <TableCell>AED {application.amount.toLocaleString()}</TableCell>
+                    <TableCell>AED {application.customers?.amount?.toLocaleString() || 0}</TableCell>
                     <TableCell>{getStatusBadge(application.status)}</TableCell>
-                    <TableCell>{getRoleBadge(application.created_by_role)}</TableCell>
+                    <TableCell><Badge variant="outline">User</Badge></TableCell>
                     <TableCell>{new Date(application.created_at).toLocaleDateString()}</TableCell>
                     <TableCell>
                       <div className="flex items-center gap-2">

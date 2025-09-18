@@ -92,13 +92,10 @@ const AdminStatistics = () => {
       const appStats = applications?.reduce((acc, app) => {
         acc.totalApplications++;
         
-        // Count by role and status
-        if (app.created_by_role === 'user') {
-          acc.userApplications[app.status as keyof ApplicationStats]++;
-        } else if (app.created_by_role === 'partner') {
-          acc.partnerApplications[app.status as keyof ApplicationStats]++;
-        } else if (app.created_by_role === 'manager') {
-          acc.managerApplications[app.status as keyof ApplicationStats]++;
+        // Count by status (simplified as we don't have created_by_role)
+        const status = app.status.toLowerCase() as keyof ApplicationStats;
+        if (acc.userApplications.hasOwnProperty(status)) {
+          acc.userApplications[status]++;
         }
 
         return acc;

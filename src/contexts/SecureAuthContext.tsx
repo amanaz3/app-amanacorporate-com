@@ -7,7 +7,7 @@ import ErrorTracker from '@/utils/errorTracking';
 import FeatureAnalytics from '@/utils/featureAnalytics';
 import { ProductionRateLimit } from '@/utils/productionRateLimit';
 
-type UserRole = 'admin' | 'user';
+type UserRole = 'admin' | 'user' | 'manager';
 
 export interface AuthUser extends User {
   profile?: {
