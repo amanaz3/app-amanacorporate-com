@@ -1,179 +1,154 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { UserPlus } from 'lucide-react';
-import PartnerSubHeader from '@/components/partners/PartnerSubHeader';
+import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
+import { useNavigate } from 'react-router-dom';
+import { ArrowLeft, UserPlus } from 'lucide-react';
 
-const PartnerSignupApplication = () => {
+const PartnerSignupApplication: React.FC = () => {
+  const [formData, setFormData] = useState({
+    first_name: '',
+    last_name: '',
+    email: '',
+    phone_number: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { toast } = useToast();
+  const navigate = useNavigate();
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!formData.first_name || !formData.last_name || !formData.email || !formData.phone_number) {
+      toast({
+        title: "Validation Error",
+        description: "Please fill in all required fields",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const { error } = await supabase
+        .from('partner_signup_requests')
+        .insert([formData]);
+
+      if (error) throw error;
+
+      toast({
+        title: "Application Submitted",
+        description: "Your partner application has been submitted successfully. We'll review it and get back to you soon.",
+      });
+
+      navigate('/');
+    } catch (error) {
+      console.error('Error submitting partner application:', error);
+      toast({
+        title: "Submission Failed",
+        description: "Failed to submit your application. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-background">
-      <PartnerSubHeader />
-      <div className="container mx-auto px-4 py-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground mb-2">Partner Signup Application</h1>
-          <p className="text-muted-foreground">Application form for new partner registration (filled by consultants)</p>
+    <div className="min-h-screen bg-background p-4">
+      <div className="max-w-2xl mx-auto">
+        <div className="mb-6">
+          <Button
+            variant="ghost"
+            onClick={() => navigate('/')}
+            className="mb-4"
+          >
+            <ArrowLeft className="h-4 w-4 mr-2" />
+            Back to Home
+          </Button>
         </div>
 
-        <Card className="max-w-4xl mx-auto">
+        <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <UserPlus className="h-5 w-5" />
-              New Partner Application
+              Partner Application
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="space-y-4">
-                <h3 className="text-lg font-semibold">Partner Information</h3>
-                
-                <div className="space-y-2">
-                  <Label htmlFor="partnerName">Partner Name *</Label>
-                  <Input id="partnerName" placeholder="Enter partner name" />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="email">Email Address *</Label>
-                  <Input id="email" type="email" placeholder="partner@example.com" />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="phone">Phone Number *</Label>
-                  <Input id="phone" placeholder="+971 XX XXX XXXX" />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="partnerType">Partner Type *</Label>
-                  <Select>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select partner type" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="individual">Individual Consultant</SelectItem>
-                      <SelectItem value="company">Consulting Company</SelectItem>
-                      <SelectItem value="agency">Business Agency</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-
-              <div className="space-y-4">
-                <h3 className="text-lg font-semibold">Company Information</h3>
-                
-                <div className="space-y-2">
-                  <Label htmlFor="companyName">Company Name *</Label>
-                  <Input id="companyName" placeholder="Enter company name" />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="companyType">Company Type *</Label>
-                  <Select>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select company type" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="llc">LLC</SelectItem>
-                      <SelectItem value="fze">FZE</SelectItem>
-                      <SelectItem value="fzco">FZCO</SelectItem>
-                      <SelectItem value="branch">Branch Office</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="tradeLicense">Trade License Number *</Label>
-                  <Input id="tradeLicense" placeholder="Enter trade license number" />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="jurisdiction">Jurisdiction *</Label>
-                  <Select>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select jurisdiction" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="dubai">Dubai</SelectItem>
-                      <SelectItem value="abu-dhabi">Abu Dhabi</SelectItem>
-                      <SelectItem value="sharjah">Sharjah</SelectItem>
-                      <SelectItem value="ajman">Ajman</SelectItem>
-                      <SelectItem value="rak">Ras Al Khaimah</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-            </div>
-
-            <div className="space-y-4">
-              <h3 className="text-lg font-semibold">Business Bank Account Details</h3>
-              
+          <CardContent>
+            <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="bankName">Preferred Bank *</Label>
-                  <Select>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select preferred bank" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="emirates-nbd">Emirates NBD</SelectItem>
-                      <SelectItem value="adcb">ADCB</SelectItem>
-                      <SelectItem value="fab">First Abu Dhabi Bank</SelectItem>
-                      <SelectItem value="hsbc">HSBC</SelectItem>
-                      <SelectItem value="mashreq">Mashreq Bank</SelectItem>
-                      <SelectItem value="cbd">CBD</SelectItem>
-                    </SelectContent>
-                  </Select>
+                  <Label htmlFor="first_name">First Name *</Label>
+                  <Input
+                    id="first_name"
+                    name="first_name"
+                    value={formData.first_name}
+                    onChange={handleInputChange}
+                    required
+                  />
                 </div>
-
                 <div className="space-y-2">
-                  <Label htmlFor="accountType">Account Type *</Label>
-                  <Select>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select account type" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="current">Current Account</SelectItem>
-                      <SelectItem value="savings">Business Savings</SelectItem>
-                      <SelectItem value="corporate">Corporate Account</SelectItem>
-                    </SelectContent>
-                  </Select>
+                  <Label htmlFor="last_name">Last Name *</Label>
+                  <Input
+                    id="last_name"
+                    name="last_name"
+                    value={formData.last_name}
+                    onChange={handleInputChange}
+                    required
+                  />
                 </div>
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="initialDeposit">Initial Deposit Amount (AED) *</Label>
-                <Input id="initialDeposit" type="number" placeholder="Enter initial deposit amount" />
-              </div>
-            </div>
-
-            <div className="space-y-4">
-              <h3 className="text-lg font-semibold">Additional Information</h3>
-              
-              <div className="space-y-2">
-                <Label htmlFor="businessDescription">Business Description</Label>
-                <Textarea 
-                  id="businessDescription" 
-                  placeholder="Describe the nature of business activities"
-                  rows={4}
+                <Label htmlFor="email">Email Address *</Label>
+                <Input
+                  id="email"
+                  name="email"
+                  type="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  required
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="consultantNotes">Consultant Notes</Label>
-                <Textarea 
-                  id="consultantNotes" 
-                  placeholder="Any additional notes or requirements"
-                  rows={3}
+                <Label htmlFor="phone_number">Phone Number *</Label>
+                <Input
+                  id="phone_number"
+                  name="phone_number"
+                  type="tel"
+                  value={formData.phone_number}
+                  onChange={handleInputChange}
+                  required
                 />
               </div>
-            </div>
 
-            <div className="flex justify-end space-x-4 pt-6">
-              <Button variant="outline">Save as Draft</Button>
-              <Button>Submit Application</Button>
-            </div>
+              <div className="bg-muted p-4 rounded-lg">
+                <h3 className="font-medium mb-2">Next Steps</h3>
+                <p className="text-sm text-muted-foreground">
+                  After submitting this application, our team will review your request and contact you 
+                  within 2-3 business days with next steps and access credentials.
+                </p>
+              </div>
+
+              <Button 
+                type="submit" 
+                className="w-full" 
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? 'Submitting...' : 'Submit Partner Application'}
+              </Button>
+            </form>
           </CardContent>
         </Card>
       </div>

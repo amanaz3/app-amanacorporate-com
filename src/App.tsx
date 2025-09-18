@@ -68,6 +68,7 @@ import {
   LazyCreateApplication,
   LazyApplicationDetail,
   LazyApplicationsList,
+  LazyPartnerRequests,
   PageLoadingFallback
 } from '@/components/LazyComponents';
 import ErrorTracker from '@/utils/errorTracking';
@@ -382,15 +383,11 @@ function App() {
                        </MainLayout>
                      </ProtectedRoute>
                    } />
-                    <Route path="/partners/signup" element={
-                     <ProtectedRoute requireAdmin>
-                       <MainLayout>
-                         <PageErrorBoundary pageName="Partner Signup Application">
-                           <LazyPartnerSignupApplication />
-                         </PageErrorBoundary>
-                       </MainLayout>
-                     </ProtectedRoute>
-                   } />
+                     <Route path="/partners/signup" element={
+                      <PageErrorBoundary pageName="Partner Signup Application">
+                        <LazyPartnerSignupApplication />
+                      </PageErrorBoundary>
+                    } />
                    
                     {/* Admin Routes */}
                     <Route path="/users" element={
@@ -459,6 +456,16 @@ function App() {
                         <MainLayout>
                           <PageErrorBoundary pageName="Create Partner">
                             <LazyCreatePartner />
+                          </PageErrorBoundary>
+                        </MainLayout>
+                      </ProtectedRoute>
+                    } />
+                    
+                    <Route path="/partners/requests" element={
+                      <ProtectedRoute requireAdmin>
+                        <MainLayout>
+                          <PageErrorBoundary pageName="Partner Requests">
+                            <LazyPartnerRequests />
                           </PageErrorBoundary>
                         </MainLayout>
                       </ProtectedRoute>

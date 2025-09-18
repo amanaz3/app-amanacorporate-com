@@ -12,7 +12,8 @@ import {
   Eye,
   TrendingUp,
   UserCheck,
-  FolderKanban
+  FolderKanban,
+  FileCheck
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -94,6 +95,7 @@ const AdminSidebar = () => {
       children: [
         { title: 'Partner Management', href: '/partners', icon: Eye },
         { title: 'Create Partner', href: '/partners/create', icon: UserPlus },
+        { title: 'Partner Requests', href: '/partners/requests', icon: FileCheck },
         { title: 'Assign to Managers', href: '/partners/assign', icon: UserCheck },
         {
           title: 'Applications',
