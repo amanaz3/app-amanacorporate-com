@@ -13,7 +13,8 @@ import {
   TrendingUp,
   UserCheck,
   FolderKanban,
-  FileCheck
+  FileCheck,
+  Shield
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -53,6 +54,7 @@ const AdminSidebar = () => {
       children: [
         { title: 'User Management', href: '/users', icon: Eye },
         { title: 'Create User', href: '/users/create', icon: UserPlus },
+        { title: 'Role Management', href: '/admin/roles', icon: Shield },
         {
           title: 'Applications',
           icon: FolderKanban,

@@ -69,6 +69,7 @@ import {
   LazyApplicationDetail,
   LazyApplicationsList,
   LazyPartnerRequests,
+  LazyRoleManagement,
   PageLoadingFallback
 } from '@/components/LazyComponents';
 import ErrorTracker from '@/utils/errorTracking';
@@ -466,6 +467,16 @@ function App() {
                         <MainLayout>
                           <PageErrorBoundary pageName="Partner Requests">
                             <LazyPartnerRequests />
+                          </PageErrorBoundary>
+                        </MainLayout>
+                      </ProtectedRoute>
+                    } />
+                    
+                    <Route path="/admin/roles" element={
+                      <ProtectedRoute requireAdmin>
+                        <MainLayout>
+                          <PageErrorBoundary pageName="Role Management">
+                            <LazyRoleManagement />
                           </PageErrorBoundary>
                         </MainLayout>
                       </ProtectedRoute>

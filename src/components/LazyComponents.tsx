@@ -142,6 +142,7 @@ const CreateUser = React.lazy(() => import('@/pages/admin/users/CreateUser'));
 const CreateManager = React.lazy(() => import('@/pages/admin/managers/CreateManager'));
 const CreatePartner = React.lazy(() => import('@/pages/admin/partners/CreatePartner'));
 const PartnerRequests = React.lazy(() => import('@/pages/admin/partners/PartnerRequests'));
+const RoleManagement = React.lazy(() => import('@/pages/admin/RoleManagement'));
 
 // Admin Application Components
 const UserApplications = React.lazy(() => import('@/pages/admin/applications/UserApplications'));
@@ -154,6 +155,7 @@ export const LazyCreateUser = withLazyLoading(CreateUser, "Loading create user f
 export const LazyCreateManager = withLazyLoading(CreateManager, "Loading create manager form...");
 export const LazyCreatePartner = withLazyLoading(CreatePartner, "Loading create partner form...");
 export const LazyPartnerRequests = withLazyLoading(PartnerRequests, "Loading partner requests...");
+export const LazyRoleManagement = withLazyLoading(RoleManagement, "Loading role management...");
 export const LazyUserApplications = withLazyLoading(UserApplications, "Loading user applications...");
 export const LazyGeneralSettings = withLazyLoading(GeneralSettings, "Loading general settings...");
 
