@@ -52,10 +52,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
       setProfileLoading(true);
       try {
+        console.log('Fetching profile for user ID:', authUser.id);
         const { data, error } = await supabase
           .from('profiles')
           .select('role, name')
-          .eq('user_id', authUser.id)
+          .eq('id', authUser.id)
           .eq('is_active', true)
           .single();
 
@@ -63,11 +64,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           console.error('Profile fetch error:', error);
           setProfile(null);
         } else {
-          console.log('Profile loaded:', data);
+          console.log('Profile loaded successfully:', data);
           setProfile(data as { role: UserRole; name: string });
         }
       } catch (error) {
-        console.error('Profile fetch error:', error);
+        console.error('Profile fetch exception:', error);
         setProfile(null);
       } finally {
         setProfileLoading(false);
@@ -264,7 +265,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const { error } = await supabase
         .from('profiles')
         .update({ role, updated_at: new Date().toISOString() })
-        .eq('user_id', userId);
+        .eq('id', userId);
 
       if (!error) {
         FeatureAnalytics.trackUserAction('user_role_updated', { new_role: role }, user?.id);

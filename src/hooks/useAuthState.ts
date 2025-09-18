@@ -33,7 +33,7 @@ export const useAuthState = () => {
       const { data: profile, error } = await supabase
         .from('profiles')
         .select('name, role')
-        .eq('user_id', userId)
+        .eq('id', userId)
         .single();
 
       if (error) {
