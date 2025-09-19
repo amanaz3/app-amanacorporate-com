@@ -3,7 +3,8 @@ import { Menu } from 'lucide-react';
 
 const OpenBankAccount = () => {
   return (
-    <div className="min-h-screen flex flex-col bg-background text-foreground">
+    <div className="animate-slide-up-slow">
+      <div className="min-h-screen flex flex-col bg-background text-foreground">
       <div className="sticky top-0 z-50 w-full bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/90 border-b border-border/50 transition-all duration-300 shadow-sm">
         <header className="max-w-7xl mx-auto px-4 xs:px-6 py-3 xs:py-4 pl-safe-left pr-safe-right">
           <div className="flex items-center justify-between min-h-[44px]">
@@ -97,15 +98,16 @@ const OpenBankAccount = () => {
         </header>
       </div>
 
-      {/* Main content area */}
-      <main className="flex-1 p-6">
-        <div className="max-w-7xl mx-auto">
-          <h1 className="text-3xl font-bold text-center mb-8">Open Your Business Bank Account</h1>
-          <p className="text-center text-muted-foreground">
-            Start your business banking journey with Amana Corporate
-          </p>
-        </div>
-      </main>
+        {/* Main content area */}
+        <main className="flex-1 p-6">
+          <div className="max-w-7xl mx-auto">
+            <h1 className="text-3xl font-bold text-center mb-8">Open Your Business Bank Account</h1>
+            <p className="text-center text-muted-foreground">
+              Start your business banking journey with Amana Corporate
+            </p>
+          </div>
+        </main>
+      </div>
     </div>
   );
 };
