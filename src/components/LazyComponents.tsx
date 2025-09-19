@@ -51,6 +51,7 @@ const ProductManagement = React.lazy(() => import('@/pages/ProductManagement'));
 const NotFound = React.lazy(() => import('@/pages/NotFound'));
 const UserLogin = React.lazy(() => import('@/pages/UserLogin'));
 const PartnerLogin = React.lazy(() => import('@/pages/PartnerLogin'));
+const OpenBankAccount = React.lazy(() => import('@/pages/OpenBankAccount'));
 
 // Application components
 const CreateApplication = React.lazy(() => import('@/pages/applications/CreateApplication'));
@@ -190,6 +191,7 @@ export const LazyProductManagement = withLazyLoading(ProductManagement, "Loading
 export const LazyNotFound = withLazyLoading(NotFound, "Loading page...");
 export const LazyUserLogin = withLazyLoading(UserLogin, "Loading login...");
 export const LazyPartnerLogin = withLazyLoading(PartnerLogin, "Loading login...");
+export const LazyOpenBankAccount = withLazyLoading(OpenBankAccount, "Loading bank account page...");
 
 // Application components
 export const LazyCreateApplication = withLazyLoading(CreateApplication, "Loading application form...");

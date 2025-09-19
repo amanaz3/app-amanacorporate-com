@@ -6,7 +6,8 @@ import PageErrorBoundary from '@/components/PageErrorBoundary';
 import {
   LazyUserLogin,
   LazyPartnerLogin,
-  LazyPartnerSignupApplication
+  LazyPartnerSignupApplication,
+  LazyOpenBankAccount
 } from '@/components/LazyComponents';
 
 export const PublicRoutes = (
@@ -28,6 +29,13 @@ export const PublicRoutes = (
     <Route path="/partners/signup" element={
       <PageErrorBoundary pageName="Partner Signup Application">
         <LazyPartnerSignupApplication />
+      </PageErrorBoundary>
+    } />
+    
+    {/* Open Bank Account Page */}
+    <Route path="/open-bank-account" element={
+      <PageErrorBoundary pageName="Open Bank Account">
+        <LazyOpenBankAccount />
       </PageErrorBoundary>
     } />
   </>
