@@ -15,7 +15,7 @@ const OpenBankAccount = () => {
             >
               <div className="h-10 w-10 flex items-center justify-center">
                 <img 
-                  src="/uploads/company-logos/amana-corporate.png" 
+                  src="https://amanacorporate.com/uploads/company-logos/amana-corporate.png" 
                   alt="Amana Corporate Logo" 
                   className="h-full w-full object-contain"
                 />
