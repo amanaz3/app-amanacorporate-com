@@ -201,29 +201,57 @@ const PartnerApplication: React.FC = () => {
     switch (currentStep) {
       case 1:
         return (
-          <div className="space-y-6">
-            <div>
-              <h3 className="text-lg font-semibold mb-4">Select Partner Type</h3>
+          <div className="space-y-8">
+            <div className="text-center space-y-2">
+              <h1 className="text-2xl font-semibold text-foreground">Become a Partner</h1>
+              <p className="text-muted-foreground text-sm">Join our network of financial partners</p>
+            </div>
+            
+            <div className="space-y-6">
+              <div>
+                <Label className="text-base font-medium">I am applying as</Label>
+              </div>
+              
               <RadioGroup
                 value={formData.partner_type}
                 onValueChange={(value: PartnerType) => handleInputChange('partner_type', value)}
-                className="space-y-4"
+                className="grid gap-2 space-y-3"
               >
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="individual" id="individual" />
-                  <Label htmlFor="individual" className="flex items-center cursor-pointer">
-                    <UserPlus className="h-4 w-4 mr-2" />
-                    Individual Partner
-                  </Label>
+                <div className="flex items-start space-x-3 p-4 rounded-lg border border-border hover:border-primary/50 transition-colors cursor-pointer">
+                  <RadioGroupItem value="individual" id="individual" className="mt-0.5" />
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1">
+                      <UserPlus className="w-4 h-4 text-muted-foreground" />
+                      <Label htmlFor="individual" className="cursor-pointer font-medium text-sm">
+                        Individual
+                      </Label>
+                    </div>
+                    <p className="text-xs text-muted-foreground">Independent professional or freelancer</p>
+                  </div>
                 </div>
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="company" id="company" />
-                  <Label htmlFor="company" className="flex items-center cursor-pointer">
-                    <Building className="h-4 w-4 mr-2" />
-                    Company Partner
-                  </Label>
+                
+                <div className="flex items-start space-x-3 p-4 rounded-lg border border-border hover:border-primary/50 transition-colors cursor-pointer">
+                  <RadioGroupItem value="company" id="company" className="mt-0.5" />
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1">
+                      <Building className="w-4 h-4 text-muted-foreground" />
+                      <Label htmlFor="company" className="cursor-pointer font-medium text-sm">
+                        Company
+                      </Label>
+                    </div>
+                    <p className="text-xs text-muted-foreground">Business or organization representative</p>
+                  </div>
                 </div>
               </RadioGroup>
+              
+              <div className="flex items-start gap-3 p-4 rounded-lg bg-muted/30 border border-border/30">
+                <div className="w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <div className="w-2 h-2 rounded-full bg-primary"></div>
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  Your information is secure and will only be used for partner onboarding.
+                </p>
+              </div>
             </div>
           </div>
         );
@@ -463,7 +491,7 @@ const PartnerApplication: React.FC = () => {
                     <Button
                       onClick={nextStep}
                       disabled={isLoading || !validateCurrentStep()}
-                      className="ml-auto"
+                      className="ml-auto h-12 px-8 text-base min-h-[48px] w-full bg-primary text-primary-foreground hover:bg-primary/90 shadow-md hover:shadow-lg transition-all duration-200"
                     >
                       {isLoading ? (
                         'Processing...'
@@ -475,10 +503,7 @@ const PartnerApplication: React.FC = () => {
                       ) : currentStep === (formData.partner_type === 'company' ? 4 : 3) ? (
                         'Submit Application'
                       ) : (
-                        <>
-                          Next
-                          <ArrowRight className="h-4 w-4 ml-2" />
-                        </>
+                        'Continue'
                       )}
                     </Button>
                   )}
