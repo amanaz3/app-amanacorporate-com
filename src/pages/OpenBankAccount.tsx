@@ -1,5 +1,6 @@
 import React from 'react';
 import { Menu, Phone, Mail, MapPin, Clock } from 'lucide-react';
+import BankAccountApplicationForm from '@/components/forms/BankAccountApplicationForm';
 
 const OpenBankAccount = () => {
   return (
@@ -101,10 +102,14 @@ const OpenBankAccount = () => {
         {/* Main content area */}
         <main className="flex-1 p-6">
           <div className="max-w-7xl mx-auto">
-            <h1 className="text-3xl font-bold text-center mb-8">Open Your Business Bank Account</h1>
-            <p className="text-center text-muted-foreground">
-              Start your business banking journey with Amana Corporate
-            </p>
+            <div className="text-center mb-8">
+              <h1 className="text-3xl font-bold mb-4">Open Your Business Bank Account</h1>
+              <p className="text-muted-foreground max-w-2xl mx-auto">
+                Start your business banking journey with Amana Corporate. Our streamlined application process ensures quick and efficient account opening for your UAE business.
+              </p>
+            </div>
+            
+            <BankAccountApplicationForm />
           </div>
         </main>
         
