@@ -7,6 +7,7 @@ import {
   LazyUserLogin,
   LazyPartnerLogin,
   LazyPartnerSignupApplication,
+  LazyPartnerApplication,
   LazyOpenBankAccount
 } from '@/components/LazyComponents';
 
@@ -29,6 +30,13 @@ export const PublicRoutes = (
     <Route path="/partners/signup" element={
       <PageErrorBoundary pageName="Partner Signup Application">
         <LazyPartnerSignupApplication />
+      </PageErrorBoundary>
+    } />
+    
+    {/* Public Partner Application */}
+    <Route path="/partners/apply" element={
+      <PageErrorBoundary pageName="Partner Application">
+        <LazyPartnerApplication />
       </PageErrorBoundary>
     } />
     
