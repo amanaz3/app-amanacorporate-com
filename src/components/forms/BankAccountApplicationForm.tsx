@@ -3,7 +3,6 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -467,12 +466,12 @@ const BankAccountApplicationForm = () => {
   };
 
   return (
-    <Card className="w-full max-w-4xl mx-auto">
-      <CardHeader>
-        <CardTitle>Business Bank Account Application</CardTitle>
-        <CardDescription>
+    <div className="rounded-lg border bg-card text-card-foreground shadow-sm cosmic-glass">
+      <div className="flex flex-col space-y-1.5 p-6">
+        <h3 className="text-2xl font-semibold leading-none tracking-tight">Business Bank Account Application</h3>
+        <p className="text-sm text-muted-foreground">
           Complete the form below to apply for your business bank account
-        </CardDescription>
+        </p>
         <div className="mt-4">
           <div className="flex justify-between text-sm text-muted-foreground mb-2">
             <span>Step {currentStep} of 4</span>
@@ -480,9 +479,9 @@ const BankAccountApplicationForm = () => {
           </div>
           <Progress value={(currentStep / 4) * 100} className="w-full" />
         </div>
-      </CardHeader>
+      </div>
       
-      <CardContent>
+      <div className="p-6 pt-0">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             {renderStep()}
@@ -520,8 +519,8 @@ const BankAccountApplicationForm = () => {
             </div>
           </form>
         </Form>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 };
 

@@ -100,16 +100,18 @@ const OpenBankAccount = () => {
       </div>
 
         {/* Main content area */}
-        <main className="flex-1 p-6">
-          <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-8">
-              <h1 className="text-3xl font-bold mb-4">Open Your Business Bank Account</h1>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
-                Start your business banking journey with Amana Corporate. Our streamlined application process ensures quick and efficient account opening for your UAE business.
-              </p>
+        <main className="flex-1">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 py-8 sm:py-12">
+            <div className="space-y-6">
+              <div className="text-center">
+                <h1 className="text-3xl font-bold mb-4">Open Your Business Bank Account</h1>
+                <p className="text-muted-foreground max-w-2xl mx-auto">
+                  Start your business banking journey with Amana Corporate. Our streamlined application process ensures quick and efficient account opening for your UAE business.
+                </p>
+              </div>
+              
+              <BankAccountApplicationForm />
             </div>
-            
-            <BankAccountApplicationForm />
           </div>
         </main>
         
