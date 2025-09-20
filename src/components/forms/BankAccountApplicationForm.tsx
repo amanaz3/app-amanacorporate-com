@@ -65,9 +65,9 @@ const jurisdictions = [
 ];
 
 const licenseTypes = [
-  { value: 'mainland', label: 'Mainland' },
-  { value: 'freezone', label: 'Freezone' },
-  { value: 'offshore', label: 'Offshore' }
+  { value: 'Mainland', label: 'Mainland' },
+  { value: 'Freezone', label: 'Freezone' },
+  { value: 'Offshore', label: 'Offshore' }
 ];
 
 const BankAccountApplicationForm = () => {
