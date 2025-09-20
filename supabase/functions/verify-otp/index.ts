@@ -18,7 +18,10 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
+    console.log('Starting OTP verification process...');
+    
     const { email, otp }: VerifyOTPRequest = await req.json();
+    console.log(`Verifying OTP for email: ${email}`);
 
     if (!email || !otp) {
       throw new Error('Email and OTP are required');
@@ -32,17 +35,23 @@ const handler = async (req: Request): Promise<Response> => {
     // Get the stored OTP
     const { data: otpData, error: fetchError } = await supabase
       .from('partner_signup_requests')
-      .select('otp_code, otp_expires_at')
+      .select('otp_code, otp_expires_at, email_verified')
       .eq('email', email)
-      .single();
+      .maybeSingle();
 
     if (fetchError) {
       console.error('Database fetch error:', fetchError);
-      throw new Error('OTP not found or expired');
+      throw new Error('Failed to retrieve OTP data');
     }
 
     if (!otpData) {
-      throw new Error('No OTP found for this email');
+      console.log('No OTP record found for email:', email);
+      throw new Error('No OTP found for this email. Please request a new verification code.');
+    }
+
+    if (!otpData.otp_code) {
+      console.log('No OTP code stored for email:', email);
+      throw new Error('No verification code found. Please request a new one.');
     }
 
     // Check if OTP has expired
@@ -50,21 +59,25 @@ const handler = async (req: Request): Promise<Response> => {
     const expiresAt = new Date(otpData.otp_expires_at);
     
     if (now > expiresAt) {
-      throw new Error('OTP has expired. Please request a new one.');
+      console.log(`OTP expired for ${email}. Expires: ${expiresAt}, Now: ${now}`);
+      throw new Error('Verification code has expired. Please request a new one.');
     }
 
     // Verify OTP
     if (otpData.otp_code !== otp) {
-      throw new Error('Invalid OTP code');
+      console.log(`OTP mismatch for ${email}. Expected: ${otpData.otp_code}, Received: ${otp}`);
+      throw new Error('Invalid verification code. Please check the code and try again.');
     }
 
-    // Mark email as verified
+    // Mark email as verified and clear OTP
+    console.log('OTP verified successfully, updating record...');
     const { error: updateError } = await supabase
       .from('partner_signup_requests')
       .update({ 
         email_verified: true,
-        otp_code: null, // Clear the OTP
-        otp_expires_at: null
+        otp_code: null, // Clear the OTP for security
+        otp_expires_at: null,
+        updated_at: new Date().toISOString()
       })
       .eq('email', email);
 
@@ -73,10 +86,12 @@ const handler = async (req: Request): Promise<Response> => {
       throw new Error('Failed to verify OTP');
     }
 
+    console.log('Email verification completed successfully for:', email);
+
     return new Response(
       JSON.stringify({ 
         success: true, 
-        message: 'OTP verified successfully',
+        message: 'Email verified successfully',
         verified: true
       }),
       {
