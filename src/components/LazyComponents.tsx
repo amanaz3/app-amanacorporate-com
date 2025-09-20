@@ -144,6 +144,7 @@ const CreateManager = React.lazy(() => import('@/pages/admin/managers/CreateMana
 const CreatePartner = React.lazy(() => import('@/pages/admin/partners/CreatePartner'));
 const PartnerRequests = React.lazy(() => import('@/pages/admin/partners/PartnerRequests'));
 const RoleManagement = React.lazy(() => import('@/pages/admin/RoleManagement'));
+const BankAccountApplications = React.lazy(() => import('@/pages/admin/BankAccountApplications'));
 
 // Admin Application Components
 const UserApplications = React.lazy(() => import('@/pages/admin/applications/UserApplications'));
@@ -159,6 +160,7 @@ export const LazyPartnerRequests = withLazyLoading(PartnerRequests, "Loading par
 export const LazyRoleManagement = withLazyLoading(RoleManagement, "Loading role management...");
 export const LazyUserApplications = withLazyLoading(UserApplications, "Loading user applications...");
 export const LazyGeneralSettings = withLazyLoading(GeneralSettings, "Loading general settings...");
+export const LazyBankAccountApplications = withLazyLoading(BankAccountApplications, "Loading bank account applications...");
 
 // Application Status Components
 const UserApplicationsByStatus = React.lazy(() => import('@/pages/admin/applications/UserApplicationsByStatus'));

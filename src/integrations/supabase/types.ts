@@ -17,26 +17,32 @@ export type Database = {
       account_applications: {
         Row: {
           application_data: Json | null
+          application_type: string | null
           created_at: string
           customer_id: string | null
           id: string
           status: string
+          submission_source: string | null
           updated_at: string
         }
         Insert: {
           application_data?: Json | null
+          application_type?: string | null
           created_at?: string
           customer_id?: string | null
           id?: string
           status?: string
+          submission_source?: string | null
           updated_at?: string
         }
         Update: {
           application_data?: Json | null
+          application_type?: string | null
           created_at?: string
           customer_id?: string | null
           id?: string
           status?: string
+          submission_source?: string | null
           updated_at?: string
         }
         Relationships: [
@@ -409,6 +415,7 @@ export type Database = {
         Row: {
           amount: number
           annual_turnover: number | null
+          any_suitable_bank: boolean | null
           company: string
           created_at: string | null
           customer_notes: string | null
@@ -421,6 +428,8 @@ export type Database = {
           mobile: string
           name: string
           preferred_bank: string | null
+          preferred_bank_2: string | null
+          preferred_bank_3: string | null
           product_id: string | null
           status: Database["public"]["Enums"]["customer_status"]
           updated_at: string | null
@@ -429,6 +438,7 @@ export type Database = {
         Insert: {
           amount: number
           annual_turnover?: number | null
+          any_suitable_bank?: boolean | null
           company: string
           created_at?: string | null
           customer_notes?: string | null
@@ -441,6 +451,8 @@ export type Database = {
           mobile: string
           name: string
           preferred_bank?: string | null
+          preferred_bank_2?: string | null
+          preferred_bank_3?: string | null
           product_id?: string | null
           status?: Database["public"]["Enums"]["customer_status"]
           updated_at?: string | null
@@ -449,6 +461,7 @@ export type Database = {
         Update: {
           amount?: number
           annual_turnover?: number | null
+          any_suitable_bank?: boolean | null
           company?: string
           created_at?: string | null
           customer_notes?: string | null
@@ -461,6 +474,8 @@ export type Database = {
           mobile?: string
           name?: string
           preferred_bank?: string | null
+          preferred_bank_2?: string | null
+          preferred_bank_3?: string | null
           product_id?: string | null
           status?: Database["public"]["Enums"]["customer_status"]
           updated_at?: string | null

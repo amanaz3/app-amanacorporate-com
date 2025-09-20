@@ -9,8 +9,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Progress } from '@/components/ui/progress';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { ChevronLeft, ChevronRight, CheckCircle } from 'lucide-react';
 import { sanitizeInput, validateEmail, validatePhoneNumber, validateCompanyName } from '@/utils/inputValidation';
+import { supabase } from '@/integrations/supabase/client';
+import { useToast } from '@/hooks/use-toast';
 
 const formSchema = z.object({
   // Step 1: Basic Information
@@ -70,6 +73,8 @@ const licenseTypes = [
 const BankAccountApplicationForm = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showThankYou, setShowThankYou] = useState(false);
+  const { toast } = useToast();
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -122,46 +127,131 @@ const BankAccountApplicationForm = () => {
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true);
     
-    // Sanitize inputs
-    const sanitizedData = {
-      ...data,
-      fullName: sanitizeInput(data.fullName),
-      email: data.email.toLowerCase(),
-      company: sanitizeInput(data.company),
-      additionalNotes: data.additionalNotes ? sanitizeInput(data.additionalNotes) : '',
-    };
-
-    // Additional validation
-    if (!validateEmail(sanitizedData.email)) {
-      form.setError('email', { message: 'Invalid email format' });
-      setIsSubmitting(false);
-      return;
-    }
-
-    if (!validatePhoneNumber(sanitizedData.mobile)) {
-      form.setError('mobile', { message: 'Invalid phone number format' });
-      setIsSubmitting(false);
-      return;
-    }
-
-    if (!validateCompanyName(sanitizedData.company)) {
-      form.setError('company', { message: 'Invalid company name' });
-      setIsSubmitting(false);
-      return;
-    }
-
     try {
-      // Here you would normally send the data to your backend
-      console.log('Form submitted:', sanitizedData);
+      // Sanitize inputs
+      const sanitizedData = {
+        ...data,
+        fullName: sanitizeInput(data.fullName),
+        email: data.email.toLowerCase(),
+        company: sanitizeInput(data.company),
+        additionalNotes: data.additionalNotes ? sanitizeInput(data.additionalNotes) : '',
+      };
+
+      // Additional validation
+      if (!validateEmail(sanitizedData.email)) {
+        form.setError('email', { message: 'Invalid email format' });
+        setIsSubmitting(false);
+        return;
+      }
+
+      if (!validatePhoneNumber(sanitizedData.mobile)) {
+        form.setError('mobile', { message: 'Invalid phone number format' });
+        setIsSubmitting(false);
+        return;
+      }
+
+      if (!validateCompanyName(sanitizedData.company)) {
+        form.setError('company', { message: 'Invalid company name' });
+        setIsSubmitting(false);
+        return;
+      }
+
+      // Get current user
+      const { data: { user }, error: userError } = await supabase.auth.getUser();
       
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      if (userError || !user) {
+        toast({
+          title: "Authentication Required",
+          description: "Please sign in to submit your application.",
+          variant: "destructive",
+        });
+        setIsSubmitting(false);
+        return;
+      }
+
+      // Create customer record
+      const { data: customer, error: customerError } = await supabase
+        .from('customers')
+        .insert({
+          name: sanitizedData.fullName,
+          email: sanitizedData.email,
+          mobile: sanitizedData.mobile,
+          company: sanitizedData.company,
+          license_type: sanitizedData.licenseType as 'Mainland' | 'Freezone' | 'Offshore',
+          jurisdiction: sanitizedData.jurisdiction || null,
+          preferred_bank: sanitizedData.firstPreferenceBank || null,
+          preferred_bank_2: sanitizedData.secondPreferenceBank || null,
+          preferred_bank_3: sanitizedData.thirdPreferenceBank || null,
+          any_suitable_bank: sanitizedData.anySuitableBank,
+          customer_notes: sanitizedData.additionalNotes || null,
+          user_id: user.id,
+          status: 'Draft' as const,
+          lead_source: 'Website' as const,
+          amount: 0, // Default amount, can be updated later
+        })
+        .select()
+        .single();
+
+      if (customerError) {
+        console.error('Customer creation error:', customerError);
+        toast({
+          title: "Submission Error",
+          description: "There was an error creating your customer record. Please try again.",
+          variant: "destructive",
+        });
+        setIsSubmitting(false);
+        return;
+      }
+
+      // Create application record
+      const applicationData = {
+        banking_preferences: {
+          any_suitable_bank: sanitizedData.anySuitableBank,
+          first_preference: sanitizedData.firstPreferenceBank || null,
+          second_preference: sanitizedData.secondPreferenceBank || null,
+          third_preference: sanitizedData.thirdPreferenceBank || null,
+        },
+        form_data: sanitizedData,
+        submission_timestamp: new Date().toISOString(),
+      };
+
+      const { error: applicationError } = await supabase
+        .from('account_applications')
+        .insert({
+          customer_id: customer.id,
+          application_data: applicationData,
+          status: 'submitted',
+          application_type: 'bank_account',
+          submission_source: 'web_form',
+        });
+
+      if (applicationError) {
+        console.error('Application creation error:', applicationError);
+        toast({
+          title: "Submission Error",
+          description: "There was an error submitting your application. Please try again.",
+          variant: "destructive",
+        });
+        setIsSubmitting(false);
+        return;
+      }
+
+      // Success - show thank you dialog
+      setShowThankYou(true);
       
-      // Success handling
-      alert('Application submitted successfully!');
+      toast({
+        title: "Application Submitted Successfully!",
+        description: "Thank you for your application. We will contact you shortly.",
+        variant: "default",
+      });
+
     } catch (error) {
       console.error('Submission error:', error);
-      alert('There was an error submitting your application. Please try again.');
+      toast({
+        title: "Unexpected Error",
+        description: "An unexpected error occurred. Please try again.",
+        variant: "destructive",
+      });
     } finally {
       setIsSubmitting(false);
     }
@@ -520,6 +610,29 @@ const BankAccountApplicationForm = () => {
           </form>
         </Form>
       </div>
+      
+      {/* Thank You Dialog */}
+      <Dialog open={showThankYou} onOpenChange={setShowThankYou}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <div className="flex items-center justify-center w-12 h-12 mx-auto bg-green-100 rounded-full mb-4">
+              <CheckCircle className="w-6 h-6 text-green-600" />
+            </div>
+            <DialogTitle className="text-center">
+              Application Submitted Successfully!
+            </DialogTitle>
+            <DialogDescription className="text-center">
+              Thank you for submitting your bank account application. Our team will review your 
+              application and contact you within 2-3 business days with the next steps.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex justify-center pt-4">
+            <Button onClick={() => setShowThankYou(false)} className="w-full">
+              Close
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

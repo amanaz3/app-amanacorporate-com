@@ -22,7 +22,8 @@ import {
   LazyPartnerApplicationsOverview,
   LazyUserApplicationsByStatus,
   LazyManagerApplicationsByStatus,
-  LazyPartnerApplicationsByStatus
+  LazyPartnerApplicationsByStatus,
+  LazyBankAccountApplications
 } from '@/components/LazyComponents';
 
 export const AdminRoutes = (
@@ -86,6 +87,13 @@ export const AdminRoutes = (
     <Route path="applications" element={
       <PageErrorBoundary pageName="All Applications">
         <LazyAllApplicationsOverview />
+      </PageErrorBoundary>
+    } />
+    
+    {/* Bank Account Applications */}
+    <Route path="bank-account-applications" element={
+      <PageErrorBoundary pageName="Bank Account Applications">
+        <LazyBankAccountApplications />
       </PageErrorBoundary>
     } />
     
