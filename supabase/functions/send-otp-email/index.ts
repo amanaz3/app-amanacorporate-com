@@ -101,7 +101,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Send OTP email via Resend
     const emailResponse = await resend.emails.send({
-      from: 'Amana Corporate <noreply@resend.dev>',
+      from: 'Amana Corporate <noreply@amanacorporate.com>', // Use your verified domain
       to: [email],
       subject: 'Your Partner Application Verification Code',
       html: `
