@@ -156,20 +156,10 @@ const BankAccountApplicationForm = () => {
         return;
       }
 
-      // Get current user
-      const { data: { user }, error: userError } = await supabase.auth.getUser();
-      
-      if (userError || !user) {
-        toast({
-          title: "Authentication Required",
-          description: "Please sign in to submit your application.",
-          variant: "destructive",
-        });
-        setIsSubmitting(false);
-        return;
-      }
+      // Get current user (optional for anonymous submissions)
+      const { data: { user } } = await supabase.auth.getUser();
 
-      // Create customer record
+      // Create customer record (works for both authenticated or anonymous users)
       const { data: customer, error: customerError } = await supabase
         .from('customers')
         .insert({
@@ -184,7 +174,7 @@ const BankAccountApplicationForm = () => {
           preferred_bank_3: sanitizedData.thirdPreferenceBank || null,
           any_suitable_bank: sanitizedData.anySuitableBank,
           customer_notes: sanitizedData.additionalNotes || null,
-          user_id: user.id,
+          user_id: user?.id || null, // Allow null for anonymous submissions
           status: 'Draft' as const,
           lead_source: 'Website' as const,
           amount: 0, // Default amount, can be updated later

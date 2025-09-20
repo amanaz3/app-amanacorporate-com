@@ -4,6 +4,7 @@ import PageErrorBoundary from '@/components/PageErrorBoundary';
 import ProtectedRoute from '@/components/Security/ProtectedRoute';
 import MainLayout from '@/components/Layout/MainLayout';
 import SecureLogin from '@/pages/SecureLogin';
+import IframeBankAccountForm from '@/pages/IframeBankAccountForm';
 
 // Import route groups
 import { PublicRoutes } from './PublicRoutes';
@@ -31,6 +32,13 @@ import {
 const AppRoutes: React.FC = () => {
   return (
     <Routes>
+      {/* Iframe-compatible routes - No authentication required */}
+      <Route path="/iframe/bank-account-form" element={
+        <PageErrorBoundary pageName="Iframe Bank Account Form">
+          <IframeBankAccountForm />
+        </PageErrorBoundary>
+      } />
+      
       {/* Public Routes - No authentication required */}
       <Route path="/login" element={
         <PageErrorBoundary pageName="Login">
