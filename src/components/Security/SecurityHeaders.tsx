@@ -22,7 +22,7 @@ const SecurityHeaders = () => {
       "font-src 'self' https://fonts.gstatic.com data:; " +
       "img-src 'self' data: https: blob:; " +
       "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://*.lovableproject.com; " +
-      "frame-ancestors 'self' https://*.lovableproject.com; " +
+      "frame-ancestors 'self' https://*.lovableproject.com https://*.lovable.app https://amanacorporate.com https://*.amanacorporate.com; " +
       "object-src 'none'; " +
       "base-uri 'self';"
     );
