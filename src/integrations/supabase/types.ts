@@ -626,53 +626,32 @@ export type Database = {
       }
       partner_signup_requests: {
         Row: {
-          business_description: string | null
-          company_name: string | null
           created_at: string
           email: string
-          email_verified: boolean
           first_name: string
           id: string
           last_name: string
-          otp_code: string | null
-          otp_expires_at: string | null
-          partner_type: string
           phone_number: string
-          role_at_company: string | null
           status: string
           updated_at: string
         }
         Insert: {
-          business_description?: string | null
-          company_name?: string | null
           created_at?: string
           email: string
-          email_verified?: boolean
           first_name: string
           id?: string
           last_name: string
-          otp_code?: string | null
-          otp_expires_at?: string | null
-          partner_type?: string
           phone_number: string
-          role_at_company?: string | null
           status?: string
           updated_at?: string
         }
         Update: {
-          business_description?: string | null
-          company_name?: string | null
           created_at?: string
           email?: string
-          email_verified?: boolean
           first_name?: string
           id?: string
           last_name?: string
-          otp_code?: string | null
-          otp_expires_at?: string | null
-          partner_type?: string
           phone_number?: string
-          role_at_company?: string | null
           status?: string
           updated_at?: string
         }
