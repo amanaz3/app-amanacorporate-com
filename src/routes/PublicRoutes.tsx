@@ -8,6 +8,7 @@ import {
   LazyPartnerLogin,
   LazyPartnerSignupApplication,
   LazyPartnerApplication,
+  LazyOTPVerification,
   LazyOpenBankAccount
 } from '@/components/LazyComponents';
 
@@ -37,6 +38,13 @@ export const PublicRoutes = (
     <Route path="/partners/apply" element={
       <PageErrorBoundary pageName="Partner Application">
         <LazyPartnerApplication />
+      </PageErrorBoundary>
+    } />
+    
+    {/* OTP Verification */}
+    <Route path="/partners/verify-otp" element={
+      <PageErrorBoundary pageName="OTP Verification">
+        <LazyOTPVerification />
       </PageErrorBoundary>
     } />
     

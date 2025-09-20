@@ -90,25 +90,13 @@ const PartnerApplication: React.FC = () => {
 
       if (error) throw error;
 
-      setOtpSent(true);
-      setCanResendOtp(false);
-      setResendTimer(60);
-      
-      const timer = setInterval(() => {
-        setResendTimer(prev => {
-          if (prev <= 1) {
-            setCanResendOtp(true);
-            clearInterval(timer);
-            return 0;
-          }
-          return prev - 1;
-        });
-      }, 1000);
-
       toast({
         title: "OTP Sent",
         description: `Verification code sent to ${formData.email}`,
       });
+
+      // Redirect to dedicated OTP verification page
+      navigate(`/partners/verify-otp?email=${encodeURIComponent(formData.email)}&name=${encodeURIComponent(formData.first_name)}`);
     } catch (error: any) {
       toast({
         title: "Error",
