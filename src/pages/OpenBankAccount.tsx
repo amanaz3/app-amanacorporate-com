@@ -34,7 +34,9 @@ const OpenBankAccount = () => {
                 tabIndex={0} 
                 style={{ outline: 'none' }}
               >
-                <button 
+                <a 
+                  href="https://amanacorporate.com/"
+                  target="_self"
                   type="button" 
                   data-state="on" 
                   role="radio" 
@@ -44,7 +46,7 @@ const OpenBankAccount = () => {
                   tabIndex={-1}
                 >
                   Home
-                </button>
+                </a>
                 <button 
                   type="button" 
                   data-state="off" 
