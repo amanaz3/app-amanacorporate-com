@@ -5,7 +5,6 @@ import ProtectedRoute from '@/components/Security/ProtectedRoute';
 import MainLayout from '@/components/Layout/MainLayout';
 import SecureLogin from '@/pages/SecureLogin';
 import IframeBankAccountForm from '@/pages/IframeBankAccountForm';
-import IframePartnerApplication from '@/pages/IframePartnerApplication';
 
 // Import route groups
 import { PublicRoutes } from './PublicRoutes';
@@ -37,11 +36,6 @@ const AppRoutes: React.FC = () => {
       <Route path="/iframe/bank-account-form" element={
         <PageErrorBoundary pageName="Iframe Bank Account Form">
           <IframeBankAccountForm />
-        </PageErrorBoundary>
-      } />
-      <Route path="/iframe/partner-application" element={
-        <PageErrorBoundary pageName="Iframe Partner Application">
-          <IframePartnerApplication />
         </PageErrorBoundary>
       } />
       
