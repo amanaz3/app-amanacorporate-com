@@ -59,7 +59,8 @@ const OpenBankAccount = () => {
                 >
                   Business Partners
                 </a>
-                <button 
+                <a 
+                  href="https://amanacorporate.com/contact"
                   type="button" 
                   data-state="off" 
                   role="radio" 
@@ -69,7 +70,7 @@ const OpenBankAccount = () => {
                   tabIndex={-1}
                 >
                   Contact
-                </button>
+                </a>
               </div>
             </nav>
 
