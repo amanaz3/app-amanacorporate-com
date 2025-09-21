@@ -19,7 +19,7 @@ import {
   LazyNotFound, 
   LazySettings, 
   LazyProductManagement, 
-  LazyAdminDashboard,
+  LazyOptimizedDashboard,
   LazyCustomerList,
   LazyCustomerDetail,
   LazyCompletedApplications,
@@ -72,7 +72,7 @@ const AppRoutes: React.FC = () => {
         <ProtectedRoute requireAdmin>
           <MainLayout>
             <PageErrorBoundary pageName="Admin Dashboard">
-              <LazyAdminDashboard />
+              <LazyOptimizedDashboard />
             </PageErrorBoundary>
           </MainLayout>
         </ProtectedRoute>

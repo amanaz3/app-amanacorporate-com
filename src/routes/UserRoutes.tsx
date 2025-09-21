@@ -4,7 +4,7 @@ import PageErrorBoundary from '@/components/PageErrorBoundary';
 
 // Lazy load user components
 import {
-  LazyUserDashboard
+  LazyOptimizedDashboard
 } from '@/components/LazyComponents';
 
 export const UserRoutes = (
@@ -12,7 +12,7 @@ export const UserRoutes = (
     {/* User Dashboard */}
     <Route index element={
       <PageErrorBoundary pageName="User Dashboard">
-        <LazyUserDashboard />
+        <LazyOptimizedDashboard />
       </PageErrorBoundary>
     } />
   </Routes>

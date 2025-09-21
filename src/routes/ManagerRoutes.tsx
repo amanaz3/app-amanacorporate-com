@@ -4,15 +4,10 @@ import PageErrorBoundary from '@/components/PageErrorBoundary';
 
 // Lazy load manager components
 import {
-  LazyManagerDashboard,
-  LazyNeedMoreInfo,
-  LazyReturn,
-  LazySubmit,
-  LazyDraft,
-  LazyPaid,
-  LazyCompleted,
-  LazyRejected,
-  LazyManagerManagement
+  LazyOptimizedDashboard,
+  LazyManagerManagement,
+  LazyCompletedApplications,
+  LazyRejectedApplications
 } from '@/components/LazyComponents';
 
 export const ManagerRoutes = (
@@ -20,44 +15,19 @@ export const ManagerRoutes = (
     {/* Manager Dashboard */}
     <Route index element={
       <PageErrorBoundary pageName="Manager Dashboard">
-        <LazyManagerDashboard />
+        <LazyOptimizedDashboard />
       </PageErrorBoundary>
     } />
     
-    {/* Application Status Management */}
-    <Route path="need-more-info" element={
-      <PageErrorBoundary pageName="Need More Info">
-        <LazyNeedMoreInfo />
-      </PageErrorBoundary>
-    } />
-    <Route path="return" element={
-      <PageErrorBoundary pageName="Return">
-        <LazyReturn />
-      </PageErrorBoundary>
-    } />
-    <Route path="submit" element={
-      <PageErrorBoundary pageName="Submit">
-        <LazySubmit />
-      </PageErrorBoundary>
-    } />
-    <Route path="draft" element={
-      <PageErrorBoundary pageName="Draft">
-        <LazyDraft />
-      </PageErrorBoundary>
-    } />
-    <Route path="paid" element={
-      <PageErrorBoundary pageName="Paid">
-        <LazyPaid />
-      </PageErrorBoundary>
-    } />
+    {/* Redirect status routes to unified views */}
     <Route path="completed" element={
-      <PageErrorBoundary pageName="Completed">
-        <LazyCompleted />
+      <PageErrorBoundary pageName="Completed Applications">
+        <LazyCompletedApplications />
       </PageErrorBoundary>
     } />
     <Route path="rejected" element={
-      <PageErrorBoundary pageName="Rejected">
-        <LazyRejected />
+      <PageErrorBoundary pageName="Rejected Applications">
+        <LazyRejectedApplications />
       </PageErrorBoundary>
     } />
     

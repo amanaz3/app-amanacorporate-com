@@ -1,5 +1,5 @@
 import React, { useState, useMemo, memo } from 'react';
-import OptimizedCustomerTable from '@/components/Customer/OptimizedCustomerTable';
+import EnhancedCustomerTable from '@/components/Customer/EnhancedCustomerTable';
 import LazyWrapper from '@/components/Performance/LazyWrapper';
 import { useAuth } from '@/contexts/SecureAuthContext';
 import { useCustomers } from '@/contexts/CustomerContext';
@@ -234,7 +234,7 @@ const RejectedApplications = () => {
         </Card>
         
         <LazyWrapper>
-          <OptimizedCustomerTable customers={filteredCustomers} />
+          <EnhancedCustomerTable customers={filteredCustomers} />
         </LazyWrapper>
       </div>
     );

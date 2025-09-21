@@ -7,26 +7,9 @@ const OptimizedDashboard = React.lazy(() => import('@/pages/OptimizedDashboard')
 const CustomerList = React.lazy(() => import('@/pages/CustomerList'));
 
 // Manager components
-const ManagerDashboard = React.lazy(() => import('@/pages/managers/ManagerDashboard'));
-const NeedMoreInfo = React.lazy(() => import('@/pages/managers/NeedMoreInfo'));
-const Return = React.lazy(() => import('@/pages/managers/Return'));
-const Submit = React.lazy(() => import('@/pages/managers/Submit'));
-const Draft = React.lazy(() => import('@/pages/managers/Draft'));
-const Paid = React.lazy(() => import('@/pages/managers/Paid'));
-const Completed = React.lazy(() => import('@/pages/managers/Completed'));
-const Rejected = React.lazy(() => import('@/pages/managers/Rejected'));
 const ManagerManagement = React.lazy(() => import('@/pages/managers/ManagerManagement'));
 
 // Partner components
-const PartnerDashboard = React.lazy(() => import('@/pages/partners/PartnerDashboard'));
-const PartnerNeedMoreInfo = React.lazy(() => import('@/pages/partners/PartnerNeedMoreInfo'));
-const PartnerReturn = React.lazy(() => import('@/pages/partners/PartnerReturn'));
-const PartnerSubmit = React.lazy(() => import('@/pages/partners/PartnerSubmit'));
-const PartnerDraft = React.lazy(() => import('@/pages/partners/PartnerDraft'));
-const PartnerPaid = React.lazy(() => import('@/pages/partners/PartnerPaid'));
-const PartnerCompleted = React.lazy(() => import('@/pages/partners/PartnerCompleted'));
-const PartnerRejected = React.lazy(() => import('@/pages/partners/PartnerRejected'));
-const PartnerManagement = React.lazy(() => import('@/pages/partners/PartnerManagement'));
 const CompanyManagement = React.lazy(() => import('@/pages/partners/CompanyManagement'));
 const PartnerSignupApplication = React.lazy(() => import('@/pages/partners/PartnerSignupApplication'));
 const PartnerApplication = React.lazy(() => import('@/pages/partners/PartnerApplication'));
@@ -36,23 +19,16 @@ const OTPVerification = React.lazy(() => import('@/pages/partners/OTPVerificatio
 const UserManagement = React.lazy(() => import('@/pages/admin/UserManagement'));
 const AdminManagerManagement = React.lazy(() => import('@/pages/admin/ManagerManagement'));
 const AdminPartnerManagement = React.lazy(() => import('@/pages/admin/PartnerManagement'));
-const AdminDashboard = React.lazy(() => import('@/pages/AdminDashboard'));
 const ApplicationManagement = React.lazy(() => import('@/pages/admin/ApplicationManagement'));
 const AdminStatistics = React.lazy(() => import('@/pages/admin/AdminStatistics'));
-const ManagerMainDashboard = React.lazy(() => import('@/pages/ManagerDashboard'));
-const PartnerMainDashboard = React.lazy(() => import('@/pages/PartnerDashboard'));
-const UserMainDashboard = React.lazy(() => import('@/pages/UserDashboard'));
 
 const CustomerDetail = React.lazy(() => import('@/pages/CustomerDetail'));
-const SecureUserManagement = React.lazy(() => import('@/pages/SecureUserManagement'));
 const CompletedApplications = React.lazy(() => import('@/pages/CompletedApplications'));
 const RejectedApplications = React.lazy(() => import('@/pages/RejectedApplications'));
 
 const Settings = React.lazy(() => import('@/pages/Settings'));
 const ProductManagement = React.lazy(() => import('@/pages/ProductManagement'));
 const NotFound = React.lazy(() => import('@/pages/NotFound'));
-const UserLogin = React.lazy(() => import('@/pages/UserLogin'));
-const PartnerLogin = React.lazy(() => import('@/pages/PartnerLogin'));
 const OpenBankAccount = React.lazy(() => import('@/pages/OpenBankAccount'));
 
 // Application components
@@ -114,26 +90,9 @@ export const LazyOptimizedDashboard = withLazyLoading(OptimizedDashboard, "Loadi
 export const LazyCustomerList = withLazyLoading(CustomerList, "Loading customer list...");
 
 // Manager components
-export const LazyManagerDashboard = withLazyLoading(ManagerDashboard, "Loading manager dashboard...");
-export const LazyNeedMoreInfo = withLazyLoading(NeedMoreInfo, "Loading applications needing more info...");
-export const LazyReturn = withLazyLoading(Return, "Loading returned applications...");
-export const LazySubmit = withLazyLoading(Submit, "Loading submitted applications...");
-export const LazyDraft = withLazyLoading(Draft, "Loading draft applications...");
-export const LazyPaid = withLazyLoading(Paid, "Loading paid applications...");
-export const LazyCompleted = withLazyLoading(Completed, "Loading completed applications...");
-export const LazyRejected = withLazyLoading(Rejected, "Loading rejected applications...");
 export const LazyManagerManagement = withLazyLoading(ManagerManagement, "Loading manager management...");
 
 // Partner components
-export const LazyPartnerDashboard = withLazyLoading(PartnerDashboard, "Loading partner dashboard...");
-export const LazyPartnerNeedMoreInfo = withLazyLoading(PartnerNeedMoreInfo, "Loading partner applications needing more info...");
-export const LazyPartnerReturn = withLazyLoading(PartnerReturn, "Loading returned partner applications...");
-export const LazyPartnerSubmit = withLazyLoading(PartnerSubmit, "Loading submitted partner applications...");
-export const LazyPartnerDraft = withLazyLoading(PartnerDraft, "Loading partner draft applications...");
-export const LazyPartnerPaid = withLazyLoading(PartnerPaid, "Loading paid partner applications...");
-export const LazyPartnerCompleted = withLazyLoading(PartnerCompleted, "Loading completed partner applications...");
-export const LazyPartnerRejected = withLazyLoading(PartnerRejected, "Loading rejected partner applications...");
-export const LazyPartnerManagement = withLazyLoading(PartnerManagement, "Loading partner management...");
 export const LazyCompanyManagement = withLazyLoading(CompanyManagement, "Loading company management...");
 export const LazyPartnerSignupApplication = withLazyLoading(PartnerSignupApplication, "Loading partner signup application...");
 export const LazyPartnerApplication = withLazyLoading(PartnerApplication, "Loading partner application...");
@@ -143,7 +102,6 @@ export const LazyOTPVerification = withLazyLoading(OTPVerification, "Loading ver
 export const LazyUserManagement = withLazyLoading(UserManagement, "Loading user management...");
 export const LazyAdminManagerManagement = withLazyLoading(AdminManagerManagement, "Loading manager management...");
 export const LazyAdminPartnerManagement = withLazyLoading(AdminPartnerManagement, "Loading partner management...");
-export const LazyAdminDashboard = withLazyLoading(AdminDashboard, "Loading admin dashboard...");
 export const LazyApplicationManagement = withLazyLoading(ApplicationManagement, "Loading application management...");
 export const LazyAdminStatistics = withLazyLoading(AdminStatistics, "Loading admin statistics...");
 
@@ -187,21 +145,13 @@ export const LazyAllApplicationsOverview = withLazyLoading(AllApplicationsOvervi
 export const LazyUserApplicationsOverview = withLazyLoading(UserApplicationsOverview, "Loading user applications...");
 export const LazyManagerApplicationsOverview = withLazyLoading(ManagerApplicationsOverview, "Loading manager applications...");
 export const LazyPartnerApplicationsOverview = withLazyLoading(PartnerApplicationsOverview, "Loading partner applications...");
-export const LazyManagerMainDashboard = withLazyLoading(ManagerMainDashboard, "Loading manager dashboard...");
-export const LazyPartnerMainDashboard = withLazyLoading(PartnerMainDashboard, "Loading partner dashboard...");
-export const LazyUserMainDashboard = withLazyLoading(UserMainDashboard, "Loading user dashboard...");
-export const LazyUserDashboard = LazyUserMainDashboard;
-
 export const LazyCustomerDetail = withLazyLoading(CustomerDetail, "Loading customer details...");
-export const LazySecureUserManagement = withLazyLoading(SecureUserManagement, "Loading user management...");
 export const LazyCompletedApplications = withLazyLoading(CompletedApplications, "Loading completed applications...");
 export const LazyRejectedApplications = withLazyLoading(RejectedApplications, "Loading rejected applications...");
 
 export const LazySettings = withLazyLoading(Settings, "Loading settings...");
 export const LazyProductManagement = withLazyLoading(ProductManagement, "Loading product management...");
 export const LazyNotFound = withLazyLoading(NotFound, "Loading page...");
-export const LazyUserLogin = withLazyLoading(UserLogin, "Loading login...");
-export const LazyPartnerLogin = withLazyLoading(PartnerLogin, "Loading login...");
 export const LazyOpenBankAccount = withLazyLoading(OpenBankAccount, "Loading bank account page...");
 
 // Application components

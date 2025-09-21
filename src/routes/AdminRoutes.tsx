@@ -4,7 +4,7 @@ import PageErrorBoundary from '@/components/PageErrorBoundary';
 
 // Lazy load admin components
 import {
-  LazyAdminDashboard,
+  LazyOptimizedDashboard,
   LazyAdminStatistics,
   LazyUserManagement,
   LazyAdminManagerManagement,
@@ -34,7 +34,7 @@ export const AdminRoutes = (
     {/* Main Admin Dashboard */}
     <Route index element={
       <PageErrorBoundary pageName="Admin Dashboard">
-        <LazyAdminDashboard />
+        <LazyOptimizedDashboard />
       </PageErrorBoundary>
     } />
     

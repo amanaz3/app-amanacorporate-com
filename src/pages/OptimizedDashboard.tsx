@@ -22,7 +22,6 @@ import { cn } from '@/lib/utils';
 import { LazyLoadingBoundary } from '@/components/Performance/LazyLoadingBoundary';
 
 // Lazy load heavy components
-const ResponsiveCustomerTable = React.lazy(() => import('@/components/Customer/ResponsiveCustomerTable'));
 const EnhancedCustomerTable = React.lazy(() => import('@/components/Customer/EnhancedCustomerTable'));
 const UserAnalytics = React.lazy(() => import('@/components/Analytics/UserAnalytics'));
 

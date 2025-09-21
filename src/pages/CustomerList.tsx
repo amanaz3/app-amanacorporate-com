@@ -8,7 +8,7 @@ import { useTableSelection } from '@/hooks/useTableSelection';
 import { useBulkReassignment } from '@/hooks/useBulkReassignment';
 import AdminFilters from '@/components/Admin/AdminFilters';
 import CustomerStatusFilter from '@/components/Customer/CustomerStatusFilter';
-import OptimizedCustomerTable from '@/components/Customer/OptimizedCustomerTable';
+import EnhancedCustomerTable from '@/components/Customer/EnhancedCustomerTable';
 import { BulkActionsToolbar } from '@/components/Customer/BulkActionsToolbar';
 import { ReassignBulkDialog } from '@/components/Customer/ReassignBulkDialog';
 import LazyWrapper from '@/components/Performance/LazyWrapper';
@@ -110,10 +110,8 @@ const CustomerList = () => {
               <CardTitle>Applications</CardTitle>
             </CardHeader>
             <CardContent>
-              <OptimizedCustomerTable 
-                customers={activeCustomers} 
-                enableBulkSelection={isAdmin}
-                selection={activeSelection}
+              <EnhancedCustomerTable 
+                customers={activeCustomers}
               />
             </CardContent>
           </Card>
