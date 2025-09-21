@@ -184,16 +184,23 @@ const BankAccountApplicationForm = () => {
         amount: 0, // Default amount, can be updated later
       };
 
-      console.log('💾 Customer data to insert:', customerData);
+      // Create customer record using security definer function to bypass RLS issues
+      const { data: customerId, error: customerError } = await supabase.rpc('create_anonymous_customer', {
+        customer_name: sanitizedData.fullName,
+        customer_email: sanitizedData.email,
+        customer_mobile: sanitizedData.mobile,
+        customer_company: sanitizedData.company,
+        customer_license_type: sanitizedData.licenseType,
+        customer_jurisdiction: sanitizedData.jurisdiction || null,
+        customer_preferred_bank: sanitizedData.firstPreferenceBank || null,
+        customer_preferred_bank_2: sanitizedData.secondPreferenceBank || null,
+        customer_preferred_bank_3: sanitizedData.thirdPreferenceBank || null,
+        customer_any_suitable_bank: sanitizedData.anySuitableBank,
+        customer_notes: sanitizedData.additionalNotes || null,
+      });
 
-      const { data: customer, error: customerError } = await supabase
-        .from('customers')
-        .insert(customerData)
-        .select()
-        .single();
-
-      if (customerError) {
-        console.error('Customer creation error:', customerError);
+      if (customerError || !customerId) {
+        console.error('❌ Customer creation error:', customerError);
         toast({
           title: "Submission Error",
           description: "There was an error creating your customer record. Please try again.",
@@ -203,7 +210,7 @@ const BankAccountApplicationForm = () => {
         return;
       }
 
-      console.log('✅ Customer created successfully:', customer);
+      console.log('✅ Customer created successfully with ID:', customerId);
 
       // Create application record
       const applicationData = {
@@ -235,7 +242,7 @@ const BankAccountApplicationForm = () => {
       const { error: applicationError } = await supabase
         .from('account_applications')
         .insert({
-          customer_id: customer.id,
+          customer_id: customerId,
           application_data: applicationData,
           status: 'submitted',
           application_type: 'bank_account',
@@ -243,7 +250,7 @@ const BankAccountApplicationForm = () => {
         });
 
       if (applicationError) {
-        console.error('Application creation error:', applicationError);
+        console.error('❌ Application creation error:', applicationError);
         toast({
           title: "Submission Error",
           description: "There was an error submitting your application. Please try again.",
@@ -264,7 +271,7 @@ const BankAccountApplicationForm = () => {
             customerName: sanitizedData.fullName,
             customerEmail: sanitizedData.email,
             companyName: sanitizedData.company,
-            applicationId: customer.id,
+            applicationId: customerId,
           },
         });
         

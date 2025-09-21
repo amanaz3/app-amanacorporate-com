@@ -34,7 +34,7 @@ const handler = async (req: Request): Promise<Response> => {
     console.log(`Sending application confirmation to ${customerEmail} for ${customerName}`);
 
     const emailResponse = await resend.emails.send({
-      from: "Bank Account Services <onboarding@resend.dev>",
+      from: "Banking Services <noreply@resend.dev>",
       to: [customerEmail],
       subject: "Bank Account Application Received - Thank You!",
       html: `

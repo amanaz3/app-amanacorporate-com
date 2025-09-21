@@ -907,6 +907,22 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      create_anonymous_customer: {
+        Args: {
+          customer_any_suitable_bank?: boolean
+          customer_company: string
+          customer_email: string
+          customer_jurisdiction?: string
+          customer_license_type: string
+          customer_mobile: string
+          customer_name: string
+          customer_notes?: string
+          customer_preferred_bank?: string
+          customer_preferred_bank_2?: string
+          customer_preferred_bank_3?: string
+        }
+        Returns: string
+      }
       create_product: {
         Args: {
           product_description: string
