@@ -107,7 +107,6 @@ const OptimizedDashboard = () => {
       .on('postgres_changes', 
         { event: '*', schema: 'public', table: 'customers' },
         () => {
-          console.log('Customer data changed, refreshing...');
           refreshData();
         }
       )

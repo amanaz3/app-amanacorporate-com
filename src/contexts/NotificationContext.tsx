@@ -72,7 +72,7 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
   useEffect(() => {
     if (!user) return;
 
-    console.log('Setting up real-time subscriptions for notifications...');
+    // Remove debug logging from production
 
     // Status changes subscription
     const statusChangesSubscription = supabase
@@ -85,8 +85,6 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
           table: 'status_changes'
         },
         async (payload) => {
-          console.log('Status change detected:', payload);
-          
           // Get customer info for notification
           const { data: customer } = await supabase
             .from('customers')
@@ -126,8 +124,6 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
           table: 'comments'
         },
         async (payload) => {
-          console.log('Comment detected:', payload);
-          
           // Get customer info for notification
           const { data: customer } = await supabase
             .from('customers')
@@ -167,8 +163,6 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
         async (payload) => {
           // Only notify if document was uploaded (is_uploaded changed to true)
           if (payload.new.is_uploaded && !payload.old.is_uploaded) {
-            console.log('Document upload detected:', payload);
-            
             // Get customer info for notification
             const { data: customer } = await supabase
               .from('customers')
@@ -196,7 +190,6 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
 
     // Cleanup function
     return () => {
-      console.log('Cleaning up notification subscriptions...');
       supabase.removeChannel(statusChangesSubscription);
       supabase.removeChannel(commentsSubscription);
       supabase.removeChannel(documentsSubscription);

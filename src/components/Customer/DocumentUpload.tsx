@@ -60,7 +60,10 @@ const DocumentUpload: React.FC<DocumentUploadProps> = ({
           try {
             const isAccessible = await verifyFileAccess(doc.file_path);
             setFileAccessStatus(prev => ({ ...prev, [doc.id]: isAccessible }));
-            console.log(`File access check for ${doc.id}:`, isAccessible);
+            // Log file access check in development only
+            if (process.env.NODE_ENV === 'development') {
+              console.log(`File access check for ${doc.id}:`, isAccessible);
+            }
           } catch (error) {
             console.error(`Error verifying file access for ${doc.id}:`, error);
             setFileAccessStatus(prev => ({ ...prev, [doc.id]: false }));
@@ -84,7 +87,10 @@ const DocumentUpload: React.FC<DocumentUploadProps> = ({
     const file = event.target.files?.[0];
     if (!file || !user) return;
 
-    console.log(`Starting upload for document ${documentId}:`, file.name);
+    // Log upload start in development only
+    if (process.env.NODE_ENV === 'development') {
+      console.log(`Starting upload for document ${documentId}:`, file.name);
+    }
 
     const validation = validateFile(file);
     if (!validation.isValid) {
@@ -119,7 +125,10 @@ const DocumentUpload: React.FC<DocumentUploadProps> = ({
         description: `${getFileIcon(file.name)} ${document?.name || file.name} has been uploaded to Supabase Storage.`,
       });
 
-      console.log(`Upload completed for document ${documentId}`);
+      // Log completion in development only
+      if (process.env.NODE_ENV === 'development') {
+        console.log(`Upload completed for document ${documentId}`);
+      }
       
     } catch (error) {
       setUploading(null);
@@ -170,9 +179,8 @@ const DocumentUpload: React.FC<DocumentUploadProps> = ({
   const handleViewFile = (doc: Document) => {
     if (!doc.file_path) return;
     
-    console.log('Attempting to view file:', doc.file_path);
+    // Remove file path logging for security
     const viewLink = getFileViewLink(doc.file_path);
-    console.log('Generated view link:', viewLink);
     
     if (viewLink) {
       // Open in new tab for better viewing experience
@@ -189,9 +197,8 @@ const DocumentUpload: React.FC<DocumentUploadProps> = ({
   const handleDownloadFile = (doc: Document) => {
     if (!doc.file_path) return;
     
-    console.log('Attempting to download file:', doc.file_path);
+    // Remove file path logging for security
     const downloadLink = getFileDownloadLink(doc.file_path);
-    console.log('Generated download link:', downloadLink);
     
     if (downloadLink) {
       // Create a temporary anchor element to trigger download

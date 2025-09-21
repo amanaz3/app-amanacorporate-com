@@ -89,7 +89,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const isAdmin = useMemo(() => {
     const adminStatus = profile?.role === 'admin';
-    console.log('Admin status check:', { profile, adminStatus });
     return adminStatus;
   }, [profile]);
 

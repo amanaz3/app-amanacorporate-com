@@ -6,6 +6,8 @@ import { Label } from '@/components/ui/label';
 import { Eye, EyeOff } from 'lucide-react';
 import { useAuth } from '@/contexts/SecureAuthContext';
 import { useToast } from '@/hooks/use-toast';
+import { rateLimiter, validateAndSanitizeInput } from '@/utils/enhancedInputValidation';
+import { securityLogger } from '@/utils/securityLogger';
 
 interface SignInFormProps {
   isLoading: boolean;
@@ -31,21 +33,49 @@ const SignInForm: React.FC<SignInFormProps> = ({ isLoading, setIsLoading }) => {
       return;
     }
 
+    // Input validation and sanitization
+    const emailValidation = validateAndSanitizeInput(email, 'email');
+    if (!emailValidation.isValid) {
+      toast({
+        title: 'Error',
+        description: emailValidation.errors.join(', '),
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    // Rate limiting check
+    const rateLimitKey = `login_${emailValidation.sanitized}`;
+    if (!rateLimiter.canAttempt(rateLimitKey)) {
+      toast({
+        title: 'Error',
+        description: 'Too many login attempts. Please try again later.',
+        variant: 'destructive',
+      });
+      await securityLogger.logSuspiciousActivity('rate_limit_exceeded', undefined, {
+        email: emailValidation.sanitized,
+        type: 'login'
+      });
+      return;
+    }
+
     setIsLoading(true);
     
     try {
-      console.log('Attempting sign in for:', email);
-      const { error } = await signIn(email, password);
+      const { error } = await signIn(emailValidation.sanitized, password);
       
       if (error) {
-        console.error('Sign in failed:', error);
+        await securityLogger.logLoginAttempt(emailValidation.sanitized, false);
         toast({
           title: 'Sign In Failed',
           description: error.message || 'Invalid email or password',
           variant: 'destructive',
         });
       } else {
-        console.log('Sign in successful');
+        await securityLogger.logLoginAttempt(emailValidation.sanitized, true);
+        // Reset rate limit on successful login
+        rateLimiter.reset(rateLimitKey);
+        
         toast({
           title: 'Welcome back!',
           description: 'You have been signed in successfully.',
@@ -53,7 +83,7 @@ const SignInForm: React.FC<SignInFormProps> = ({ isLoading, setIsLoading }) => {
         // Navigation will be handled by the auth state change
       }
     } catch (error) {
-      console.error('Sign in error:', error);
+      await securityLogger.logLoginAttempt(emailValidation.sanitized, false);
       toast({
         title: 'Error',
         description: 'An unexpected error occurred',

@@ -558,6 +558,51 @@ export type Database = {
           },
         ]
       }
+      domains: {
+        Row: {
+          created_at: string
+          dns_configured: boolean
+          domain_name: string
+          id: string
+          last_checked_at: string | null
+          partner_id: string | null
+          ssl_status: string
+          status: string
+          updated_at: string
+          user_id: string | null
+          verification_token: string | null
+          verified_at: string | null
+        }
+        Insert: {
+          created_at?: string
+          dns_configured?: boolean
+          domain_name: string
+          id?: string
+          last_checked_at?: string | null
+          partner_id?: string | null
+          ssl_status?: string
+          status?: string
+          updated_at?: string
+          user_id?: string | null
+          verification_token?: string | null
+          verified_at?: string | null
+        }
+        Update: {
+          created_at?: string
+          dns_configured?: boolean
+          domain_name?: string
+          id?: string
+          last_checked_at?: string | null
+          partner_id?: string | null
+          ssl_status?: string
+          status?: string
+          updated_at?: string
+          user_id?: string | null
+          verification_token?: string | null
+          verified_at?: string | null
+        }
+        Relationships: []
+      }
       logs: {
         Row: {
           component: string | null
@@ -626,32 +671,53 @@ export type Database = {
       }
       partner_signup_requests: {
         Row: {
+          business_description: string | null
+          company_name: string | null
           created_at: string
           email: string
+          email_verified: boolean
           first_name: string
           id: string
           last_name: string
+          otp_code: string | null
+          otp_expires_at: string | null
+          partner_type: string
           phone_number: string
+          role_at_company: string | null
           status: string
           updated_at: string
         }
         Insert: {
+          business_description?: string | null
+          company_name?: string | null
           created_at?: string
           email: string
+          email_verified?: boolean
           first_name: string
           id?: string
           last_name: string
+          otp_code?: string | null
+          otp_expires_at?: string | null
+          partner_type?: string
           phone_number: string
+          role_at_company?: string | null
           status?: string
           updated_at?: string
         }
         Update: {
+          business_description?: string | null
+          company_name?: string | null
           created_at?: string
           email?: string
+          email_verified?: boolean
           first_name?: string
           id?: string
           last_name?: string
+          otp_code?: string | null
+          otp_expires_at?: string | null
+          partner_type?: string
           phone_number?: string
+          role_at_company?: string | null
           status?: string
           updated_at?: string
         }
@@ -725,6 +791,36 @@ export type Database = {
           role?: Database["public"]["Enums"]["app_role"]
           temporary_password_expires_at?: string | null
           updated_at?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      security_audit_log: {
+        Row: {
+          created_at: string | null
+          details: Json | null
+          event_type: string
+          id: string
+          ip_address: unknown | null
+          user_agent: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          details?: Json | null
+          event_type: string
+          id?: string
+          ip_address?: unknown | null
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          details?: Json | null
+          event_type?: string
+          id?: string
+          ip_address?: unknown | null
+          user_agent?: string | null
           user_id?: string | null
         }
         Relationships: []

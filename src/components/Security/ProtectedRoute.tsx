@@ -2,6 +2,7 @@
 import React from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@/contexts/SecureAuthContext';
+import { securityLogger } from '@/utils/securityLogger';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -12,14 +13,16 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, requireAdmin 
   const { isAuthenticated, isAdmin, isLoading, session } = useAuth();
   const location = useLocation();
 
-  console.log('ProtectedRoute check:', { 
-    isAuthenticated, 
-    isAdmin, 
-    isLoading, 
-    hasSession: !!session,
-    requireAdmin,
-    currentPath: location.pathname 
-  });
+  // Security logging for access attempts
+  React.useEffect(() => {
+    if (!isLoading && session?.user) {
+      securityLogger.logDataAccess(
+        session.user.id,
+        'page_access',
+        location.pathname
+      );
+    }
+  }, [isLoading, session, location.pathname]);
 
   // Show loading state
   if (isLoading) {
@@ -35,13 +38,13 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, requireAdmin 
 
   // If not authenticated, redirect to login
   if (!isAuthenticated || !session) {
-    console.log('User not authenticated, redirecting to login');
+    securityLogger.logAccessDenied(undefined, location.pathname);
     return <Navigate to="/login" replace state={{ from: location }} />;
   }
 
   // If authenticated but admin access required and user is not admin
   if (requireAdmin && !isAdmin) {
-    console.log('Admin access required but user is not admin');
+    securityLogger.logAccessDenied(session?.user?.id, location.pathname);
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">

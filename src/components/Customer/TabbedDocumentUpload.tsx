@@ -37,7 +37,10 @@ const TabbedDocumentUpload: React.FC<TabbedDocumentUploadProps> = ({
     const file = event.target.files?.[0];
     if (!file || !user) return;
 
-    console.log(`Starting upload for document ${documentId}:`, file.name);
+    // Log upload start in development only
+    if (process.env.NODE_ENV === 'development') {
+      console.log(`Starting upload for document ${documentId}:`, file.name);
+    }
 
     const validation = validateFile(file);
     if (!validation.isValid) {
@@ -78,7 +81,10 @@ const TabbedDocumentUpload: React.FC<TabbedDocumentUploadProps> = ({
         description: `${getFileIcon(file.name)} ${document?.name || file.name} has been uploaded.`,
       });
 
-      console.log(`Upload completed for document ${documentId}`);
+      // Log completion in development only
+      if (process.env.NODE_ENV === 'development') {
+        console.log(`Upload completed for document ${documentId}`);
+      }
       
     } catch (error) {
       console.error(`Upload failed for document ${documentId}:`, error);

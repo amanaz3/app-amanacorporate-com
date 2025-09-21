@@ -20,8 +20,15 @@ const MainLayout: React.FC<MainLayoutProps> = ({
   const { isAuthenticated, isAdmin, user } = useAuth();
   const isMobile = useIsMobile();
   
-  console.log('MainLayout render:', { isAuthenticated, isAdmin, user: user?.email, requiredRole });
-  console.log('MainLayout DOM mounting check - should only see this once per page');
+  // Remove debug logging from production
+  React.useEffect(() => {
+    if (isAuthenticated && user) {
+      // Log user access in development only
+      if (process.env.NODE_ENV === 'development') {
+        console.log('MainLayout render:', { isAuthenticated, isAdmin, user: user?.email, requiredRole });
+      }
+    }
+  }, [isAuthenticated, isAdmin, user, requiredRole]);
 
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;

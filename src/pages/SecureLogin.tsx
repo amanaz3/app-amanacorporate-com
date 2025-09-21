@@ -18,14 +18,11 @@ const SecureLogin = () => {
   const from = '/dashboard';
 
   useEffect(() => {
-    console.log('SecureLogin useEffect:', { isAuthenticated, authLoading, hasSession: !!session });
-    
     // Only redirect if we're sure the user is authenticated and has a valid session
     if (!authLoading && isAuthenticated && session) {
-      console.log('User is authenticated, redirecting to:', from);
       navigate(from, { replace: true });
     }
-  }, [isAuthenticated, authLoading, navigate, from, session]);
+  }, [authLoading, isAuthenticated, session, navigate, from]);
 
   // Show loading spinner while auth is loading
   if (authLoading) {
