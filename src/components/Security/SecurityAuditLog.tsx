@@ -31,28 +31,29 @@ const SecurityAuditLog: React.FC = () => {
 
   const loadAuditLogs = async () => {
     try {
-      // For now, we'll create mock audit logs since the table doesn't exist yet
-      // In a real implementation, this would query the audit_logs table
-      const mockLogs: AuditLog[] = [
-        {
-          id: '1',
-          created_at: new Date().toISOString(),
-          action: 'LOGIN',
-          details: 'User logged in successfully',
-          user_email: 'admin@company.com'
-        },
-        {
-          id: '2',
-          created_at: new Date(Date.now() - 3600000).toISOString(),
-          action: 'CREATE',
-          details: 'Created new customer application',
-          user_email: 'user@company.com'
-        }
-      ];
+      // Fetch real audit logs from the logs table
+      const { data, error } = await supabase
+        .from('logs')
+        .select('*')
+        .order('created_at', { ascending: false })
+        .limit(50);
+
+      if (error) throw error;
+
+      // Transform logs data to match AuditLog interface
+      const auditLogs: AuditLog[] = (data || []).map(log => ({
+        id: log.id,
+        created_at: log.created_at,
+        action: log.component || 'UNKNOWN',
+        details: log.message,
+        user_email: log.user_email || 'System'
+      }));
       
-      setLogs(mockLogs);
+      setLogs(auditLogs);
     } catch (error) {
       console.error('Error loading audit logs:', error);
+      // Fall back to empty array if there's an error
+      setLogs([]);
     } finally {
       setIsLoading(false);
     }
