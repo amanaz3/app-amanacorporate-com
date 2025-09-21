@@ -95,7 +95,7 @@ const BankAccountApplicationForm = () => {
 
   const { watch, trigger, getValues } = form;
   const anySuitableBank = watch('anySuitableBank');
-  const additionalNotes = String(watch('additionalNotes') || '');
+  const additionalNotes = watch('additionalNotes') || '';
 
   const validateStep = async (step: number) => {
     switch (step) {
@@ -618,15 +618,7 @@ const BankAccountApplicationForm = () => {
       
       <div className="p-6 pt-0">
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} onKeyDown={(e) => {
-            if (e.key === 'Enter') {
-              e.preventDefault();
-              if (currentStep < 4) {
-                nextStep();
-              }
-              // On step 4, Enter key won't trigger submission - only the Submit button will
-            }
-          }}>
+          <form onSubmit={form.handleSubmit(onSubmit)}>
             {renderStep()}
             
             <div className="flex justify-between mt-8">
