@@ -619,9 +619,12 @@ const BankAccountApplicationForm = () => {
       <div className="p-6 pt-0">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} onKeyDown={(e) => {
-            if (e.key === 'Enter' && currentStep < 4) {
+            if (e.key === 'Enter') {
               e.preventDefault();
-              nextStep();
+              if (currentStep < 4) {
+                nextStep();
+              }
+              // On step 4, Enter key won't trigger submission - only the Submit button will
             }
           }}>
             {renderStep()}
