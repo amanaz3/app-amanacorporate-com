@@ -1,40 +1,135 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Search, UserCog, Settings, Edit, Trash2, Plus } from 'lucide-react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Label } from '@/components/ui/label';
+import { Search, UserCog, Settings, Edit, Trash2, Plus, Loader2 } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
+import { useAuth } from '@/contexts/SecureAuthContext';
+import { useToast } from '@/hooks/use-toast';
+
+interface Manager {
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+  is_active: boolean;
+  created_at: string;
+}
 
 const ManagerManagement = () => {
   const [searchTerm, setSearchTerm] = useState('');
+  const [managers, setManagers] = useState<Manager[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
+  const [newManagerName, setNewManagerName] = useState('');
+  const [newManagerEmail, setNewManagerEmail] = useState('');
+  const [isCreating, setIsCreating] = useState(false);
+  
+  const { createUser, deleteUser, isAdmin } = useAuth();
+  const { toast } = useToast();
 
-  // Mock data - replace with actual data from Supabase
-  const managers = [
-    {
-      id: '1',
-      name: 'Michael Johnson',
-      email: 'michael@company.com',
-      permissions: {
-        can_manage_partners: true,
-        can_manage_users: false
-      },
-      assigned_partners: 5,
-      created_at: '2024-01-10T08:00:00Z'
-    },
-    {
-      id: '2',
-      name: 'Sarah Wilson',
-      email: 'sarah@company.com',
-      permissions: {
-        can_manage_partners: true,
-        can_manage_users: true
-      },
-      assigned_partners: 8,
-      created_at: '2024-01-05T14:30:00Z'
+  useEffect(() => {
+    fetchManagers();
+  }, []);
+
+  const fetchManagers = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('role', 'manager')
+        .eq('is_active', true)
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+      setManagers(data || []);
+    } catch (error) {
+      console.error('Error fetching managers:', error);
+      toast({
+        title: "Error",
+        description: "Failed to load managers",
+        variant: "destructive"
+      });
+    } finally {
+      setLoading(false);
     }
-  ];
+  };
+
+  const handleCreateManager = async () => {
+    if (!newManagerName.trim() || !newManagerEmail.trim()) {
+      toast({
+        title: "Error",
+        description: "Please fill in all fields",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    setIsCreating(true);
+    try {
+      // Generate a temporary password for the manager
+      const tempPassword = `Manager${Date.now()}!`;
+      await createUser(newManagerEmail, newManagerName, 'manager', tempPassword);
+      toast({
+        title: "Success",
+        description: "Manager created successfully"
+      });
+      setIsCreateDialogOpen(false);
+      setNewManagerName('');
+      setNewManagerEmail('');
+      fetchManagers();
+    } catch (error) {
+      console.error('Error creating manager:', error);
+      toast({
+        title: "Error",
+        description: "Failed to create manager",
+        variant: "destructive"
+      });
+    } finally {
+      setIsCreating(false);
+    }
+  };
+
+  const handleDeleteManager = async (managerId: string, managerName: string) => {
+    if (confirm(`Are you sure you want to delete manager ${managerName}?`)) {
+      try {
+        await deleteUser(managerId);
+        toast({
+          title: "Success",
+          description: "Manager deleted successfully"
+        });
+        fetchManagers();
+      } catch (error) {
+        console.error('Error deleting manager:', error);
+        toast({
+          title: "Error",
+          description: "Failed to delete manager",
+          variant: "destructive"
+        });
+      }
+    }
+  };
+
+  const filteredManagers = managers.filter(manager =>
+    manager.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    manager.email.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  if (!isAdmin) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-foreground mb-2">Access Denied</h1>
+          <p className="text-muted-foreground">You don't have permission to access this page.</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -54,10 +149,62 @@ const ManagerManagement = () => {
               className="pl-10"
             />
           </div>
-          <Button>
-            <Plus className="h-4 w-4 mr-2" />
-            Create Manager
-          </Button>
+          <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
+            <DialogTrigger asChild>
+              <Button>
+                <Plus className="h-4 w-4 mr-2" />
+                Create Manager
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Create New Manager</DialogTitle>
+              </DialogHeader>
+              <div className="space-y-4">
+                <div>
+                  <Label htmlFor="name">Name</Label>
+                  <Input
+                    id="name"
+                    value={newManagerName}
+                    onChange={(e) => setNewManagerName(e.target.value)}
+                    placeholder="Enter manager name"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="email">Email</Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    value={newManagerEmail}
+                    onChange={(e) => setNewManagerEmail(e.target.value)}
+                    placeholder="Enter manager email"
+                  />
+                </div>
+                <div className="flex gap-2">
+                  <Button 
+                    variant="outline" 
+                    onClick={() => setIsCreateDialogOpen(false)}
+                    disabled={isCreating}
+                  >
+                    Cancel
+                  </Button>
+                  <Button 
+                    onClick={handleCreateManager}
+                    disabled={isCreating}
+                  >
+                    {isCreating ? (
+                      <>
+                        <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                        Creating...
+                      </>
+                    ) : (
+                      'Create Manager'
+                    )}
+                  </Button>
+                </div>
+              </div>
+            </DialogContent>
+          </Dialog>
         </div>
 
         <Card>
@@ -70,44 +217,62 @@ const ManagerManagement = () => {
                 <TableRow>
                   <TableHead>Name</TableHead>
                   <TableHead>Email</TableHead>
-                  <TableHead>Permissions</TableHead>
-                  <TableHead>Assigned Partners</TableHead>
+                  <TableHead>Role</TableHead>
+                  <TableHead>Status</TableHead>
                   <TableHead>Created</TableHead>
                   <TableHead>Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {managers.map((manager) => (
-                  <TableRow key={manager.id}>
-                    <TableCell className="font-medium">{manager.name}</TableCell>
-                    <TableCell>{manager.email}</TableCell>
-                    <TableCell>
-                      <div className="space-y-1">
-                        {manager.permissions.can_manage_partners && (
-                          <Badge variant="outline" className="mr-1">Partners</Badge>
-                        )}
-                        {manager.permissions.can_manage_users && (
-                          <Badge variant="outline" className="mr-1">Users</Badge>
-                        )}
-                      </div>
-                    </TableCell>
-                    <TableCell>{manager.assigned_partners}</TableCell>
-                    <TableCell>{new Date(manager.created_at).toLocaleDateString()}</TableCell>
-                    <TableCell>
-                      <div className="flex items-center gap-2">
-                        <Button size="sm" variant="outline">
-                          <Settings className="h-4 w-4" />
-                        </Button>
-                        <Button size="sm" variant="outline">
-                          <Edit className="h-4 w-4" />
-                        </Button>
-                        <Button size="sm" variant="outline">
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      </div>
+                {loading ? (
+                  <TableRow>
+                    <TableCell colSpan={6} className="text-center py-8">
+                      <Loader2 className="h-6 w-6 animate-spin mx-auto mb-2" />
+                      Loading managers...
                     </TableCell>
                   </TableRow>
-                ))}
+                ) : filteredManagers.length === 0 ? (
+                  <TableRow>
+                    <TableCell colSpan={6} className="text-center py-8 text-muted-foreground">
+                      No managers found
+                    </TableCell>
+                  </TableRow>
+                ) : (
+                  filteredManagers.map((manager) => (
+                    <TableRow key={manager.id}>
+                      <TableCell className="font-medium">{manager.name}</TableCell>
+                      <TableCell>{manager.email}</TableCell>
+                      <TableCell>
+                        <Badge variant="outline" className="capitalize">
+                          {manager.role}
+                        </Badge>
+                      </TableCell>
+                      <TableCell>
+                        <Badge variant={manager.is_active ? "default" : "secondary"}>
+                          {manager.is_active ? "Active" : "Inactive"}
+                        </Badge>
+                      </TableCell>
+                      <TableCell>{new Date(manager.created_at).toLocaleDateString()}</TableCell>
+                      <TableCell>
+                        <div className="flex items-center gap-2">
+                          <Button size="sm" variant="outline">
+                            <Settings className="h-4 w-4" />
+                          </Button>
+                          <Button size="sm" variant="outline">
+                            <Edit className="h-4 w-4" />
+                          </Button>
+                          <Button 
+                            size="sm" 
+                            variant="outline"
+                            onClick={() => handleDeleteManager(manager.id, manager.name)}
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))
+                )}
               </TableBody>
             </Table>
           </CardContent>
