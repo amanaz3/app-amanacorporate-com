@@ -4,8 +4,9 @@ import { Navigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/SecureAuthContext';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { cn } from '@/lib/utils';
-import Sidebar from './Sidebar';
+import AppSidebar from './Sidebar';
 import Navbar from './Navbar';
+import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 
 interface MainLayoutProps {
   children: React.ReactNode;
@@ -38,21 +39,26 @@ const MainLayout: React.FC<MainLayoutProps> = ({
   }
 
   return (
-    <div className="flex h-screen bg-background transition-all duration-300 overflow-hidden">
-      <Sidebar />
-      <div className="flex flex-col flex-1 overflow-hidden w-full min-w-0">
-        <Navbar />
-        <main className={cn(
-          "flex-1 overflow-y-auto bg-background transition-all duration-300",
-          "p-3 sm:p-4 md:p-6 lg:p-8 xl:p-10",
-          isMobile ? "pt-4" : "pt-2"
-        )}>
-          <div className="max-w-full mx-auto min-h-0">
-            {children}
+    <SidebarProvider>
+      <div className="flex h-screen bg-background transition-all duration-300 overflow-hidden w-full">
+        <AppSidebar />
+        <div className="flex flex-col flex-1 overflow-hidden w-full min-w-0">
+          <div className="flex items-center h-14 px-4 border-b border-border bg-background">
+            <SidebarTrigger className="mr-4" />
+            <Navbar />
           </div>
-        </main>
+          <main className={cn(
+            "flex-1 overflow-y-auto bg-background transition-all duration-300",
+            "p-3 sm:p-4 md:p-6 lg:p-8 xl:p-10",
+            isMobile ? "pt-4" : "pt-2"
+          )}>
+            <div className="max-w-full mx-auto min-h-0">
+              {children}
+            </div>
+          </main>
+        </div>
       </div>
-    </div>
+    </SidebarProvider>
   );
 };
 
