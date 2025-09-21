@@ -430,7 +430,7 @@ const BankAccountApplicationForm = () => {
                       </FormControl>
                       <SelectContent>
                         {jurisdictions.map((jurisdiction) => (
-                          <SelectItem key={jurisdiction} value={jurisdiction.toLowerCase()}>
+                          <SelectItem key={jurisdiction} value={jurisdiction}>
                             {jurisdiction}
                           </SelectItem>
                         ))}
@@ -496,7 +496,7 @@ const BankAccountApplicationForm = () => {
                         </FormControl>
                         <SelectContent>
                           {banks.map((bank) => (
-                            <SelectItem key={bank} value={bank.toLowerCase().replace(/\s+/g, '-')}>
+                            <SelectItem key={bank} value={bank}>
                               {bank}
                             </SelectItem>
                           ))}
@@ -521,7 +521,7 @@ const BankAccountApplicationForm = () => {
                         </FormControl>
                         <SelectContent>
                           {banks.map((bank) => (
-                            <SelectItem key={bank} value={bank.toLowerCase().replace(/\s+/g, '-')}>
+                            <SelectItem key={bank} value={bank}>
                               {bank}
                             </SelectItem>
                           ))}
@@ -546,7 +546,7 @@ const BankAccountApplicationForm = () => {
                         </FormControl>
                         <SelectContent>
                           {banks.map((bank) => (
-                            <SelectItem key={bank} value={bank.toLowerCase().replace(/\s+/g, '-')}>
+                            <SelectItem key={bank} value={bank}>
                               {bank}
                             </SelectItem>
                           ))}
