@@ -159,26 +159,36 @@ const BankAccountApplicationForm = () => {
       // Get current user (optional for anonymous submissions)
       const { data: { user } } = await supabase.auth.getUser();
 
+      console.log('📋 Form submission data:', {
+        formData: sanitizedData,
+        userAuthenticated: !!user,
+        userId: user?.id
+      });
+
       // Create customer record (works for both authenticated or anonymous users)
+      const customerData = {
+        name: sanitizedData.fullName,
+        email: sanitizedData.email,
+        mobile: sanitizedData.mobile,
+        company: sanitizedData.company,
+        license_type: sanitizedData.licenseType as 'Mainland' | 'Freezone' | 'Offshore',
+        jurisdiction: sanitizedData.jurisdiction || null,
+        preferred_bank: sanitizedData.firstPreferenceBank || null,
+        preferred_bank_2: sanitizedData.secondPreferenceBank || null,
+        preferred_bank_3: sanitizedData.thirdPreferenceBank || null,
+        any_suitable_bank: sanitizedData.anySuitableBank,
+        customer_notes: sanitizedData.additionalNotes || null,
+        user_id: user?.id || null, // Allow null for anonymous submissions
+        status: 'Draft' as const,
+        lead_source: 'Website' as const,
+        amount: 0, // Default amount, can be updated later
+      };
+
+      console.log('💾 Customer data to insert:', customerData);
+
       const { data: customer, error: customerError } = await supabase
         .from('customers')
-        .insert({
-          name: sanitizedData.fullName,
-          email: sanitizedData.email,
-          mobile: sanitizedData.mobile,
-          company: sanitizedData.company,
-          license_type: sanitizedData.licenseType as 'Mainland' | 'Freezone' | 'Offshore',
-          jurisdiction: sanitizedData.jurisdiction || null,
-          preferred_bank: sanitizedData.firstPreferenceBank || null,
-          preferred_bank_2: sanitizedData.secondPreferenceBank || null,
-          preferred_bank_3: sanitizedData.thirdPreferenceBank || null,
-          any_suitable_bank: sanitizedData.anySuitableBank,
-          customer_notes: sanitizedData.additionalNotes || null,
-          user_id: user?.id || null, // Allow null for anonymous submissions
-          status: 'Draft' as const,
-          lead_source: 'Website' as const,
-          amount: 0, // Default amount, can be updated later
-        })
+        .insert(customerData)
         .select()
         .single();
 
@@ -193,6 +203,8 @@ const BankAccountApplicationForm = () => {
         return;
       }
 
+      console.log('✅ Customer created successfully:', customer);
+
       // Create application record
       const applicationData = {
         banking_preferences: {
@@ -203,7 +215,22 @@ const BankAccountApplicationForm = () => {
         },
         form_data: sanitizedData,
         submission_timestamp: new Date().toISOString(),
+        complete_form_fields: {
+          fullName: sanitizedData.fullName,
+          email: sanitizedData.email,
+          mobile: sanitizedData.mobile,
+          company: sanitizedData.company,
+          licenseType: sanitizedData.licenseType,
+          jurisdiction: sanitizedData.jurisdiction,
+          anySuitableBank: sanitizedData.anySuitableBank,
+          firstPreferenceBank: sanitizedData.firstPreferenceBank,
+          secondPreferenceBank: sanitizedData.secondPreferenceBank,
+          thirdPreferenceBank: sanitizedData.thirdPreferenceBank,
+          additionalNotes: sanitizedData.additionalNotes,
+        }
       };
+
+      console.log('📄 Application data to insert:', applicationData);
 
       const { error: applicationError } = await supabase
         .from('account_applications')
@@ -226,9 +253,13 @@ const BankAccountApplicationForm = () => {
         return;
       }
 
+      console.log('✅ Application created successfully');
+
       // Send confirmation email
       try {
-        await supabase.functions.invoke('send-application-confirmation', {
+        console.log('📧 Sending confirmation email to:', sanitizedData.email);
+        
+        const emailResult = await supabase.functions.invoke('send-application-confirmation', {
           body: {
             customerName: sanitizedData.fullName,
             customerEmail: sanitizedData.email,
@@ -236,9 +267,10 @@ const BankAccountApplicationForm = () => {
             applicationId: customer.id,
           },
         });
-        console.log('Confirmation email sent successfully');
+        
+        console.log('✅ Confirmation email sent successfully:', emailResult);
       } catch (emailError) {
-        console.error('Failed to send confirmation email:', emailError);
+        console.error('❌ Failed to send confirmation email:', emailError);
         // Don't fail the whole submission if email fails
       }
 
