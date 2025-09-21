@@ -190,12 +190,6 @@ const AppSidebar: React.FC = () => {
           roles: ['admin']
         },
         {
-          name: 'Security Monitor',
-          path: '/security/compliance',
-          icon: <Shield className="h-4 w-4" />,
-          roles: ['admin']
-        },
-        {
           name: 'Performance',
           path: '/monitoring/performance',
           icon: <BarChart3 className="h-4 w-4" />,

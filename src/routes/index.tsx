@@ -28,7 +28,6 @@ import {
   LazyApplicationDetail,
   LazyCreateApplication,
   LazyProductionMonitor,
-  LazySecurityCompliance,
   LazyCIATriadDashboard,
   LazyBankManagement,
   LazyNotificationCenter,
@@ -228,16 +227,6 @@ const AppRoutes: React.FC = () => {
       } />
       
       {/* Security Routes - Admin only */}
-      <Route path="/security/compliance" element={
-        <ProtectedRoute requireAdmin>
-          <MainLayout>
-            <PageErrorBoundary pageName="Security Compliance">
-              <LazySecurityCompliance />
-            </PageErrorBoundary>
-          </MainLayout>
-        </ProtectedRoute>
-      } />
-      
       <Route path="/security/cia-dashboard" element={
         <ProtectedRoute requireAdmin>
           <MainLayout>

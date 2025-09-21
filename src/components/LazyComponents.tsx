@@ -38,7 +38,6 @@ const ApplicationsList = React.lazy(() => import('@/pages/applications/Applicati
 
 // Heavy components
 const ProductionMonitor = React.lazy(() => import('@/components/Performance/ProductionMonitor'));
-const SecurityCompliance = React.lazy(() => import('@/components/Security/SecurityCompliance'));
 const CIATriadDashboard = React.lazy(() => import('@/components/Security/CIATriadDashboard'));
 
 // Bank and Notification Management
@@ -160,7 +159,6 @@ export const LazyApplicationDetail = withLazyLoading(ApplicationDetail, "Loading
 export const LazyApplicationsList = withLazyLoading(ApplicationsList, "Loading applications list...");
 
 export const LazyProductionMonitor = withLazyLoading(ProductionMonitor, "Loading performance monitor...");
-export const LazySecurityCompliance = withLazyLoading(SecurityCompliance, "Loading security compliance...");
 export const LazyCIATriadDashboard = withLazyLoading(CIATriadDashboard, "Loading security dashboard...");
 
 // Bank and Notification Management
