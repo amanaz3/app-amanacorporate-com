@@ -26,7 +26,10 @@ import {
   LazyRejectedApplications,
   LazyApplicationsList,
   LazyApplicationDetail,
-  LazyCreateApplication
+  LazyCreateApplication,
+  LazyProductionMonitor,
+  LazySecurityCompliance,
+  LazyCIATriadDashboard
 } from '@/components/LazyComponents';
 
 const AppRoutes: React.FC = () => {
@@ -183,6 +186,38 @@ const AppRoutes: React.FC = () => {
           <MainLayout>
             <PageErrorBoundary pageName="Product Management">
               <LazyProductManagement />
+            </PageErrorBoundary>
+          </MainLayout>
+        </ProtectedRoute>
+      } />
+      
+      {/* Monitoring Routes - Admin only */}
+      <Route path="/monitoring/performance" element={
+        <ProtectedRoute requireAdmin>
+          <MainLayout>
+            <PageErrorBoundary pageName="Performance Monitor">
+              <LazyProductionMonitor />
+            </PageErrorBoundary>
+          </MainLayout>
+        </ProtectedRoute>
+      } />
+      
+      {/* Security Routes - Admin only */}
+      <Route path="/security/compliance" element={
+        <ProtectedRoute requireAdmin>
+          <MainLayout>
+            <PageErrorBoundary pageName="Security Compliance">
+              <LazySecurityCompliance />
+            </PageErrorBoundary>
+          </MainLayout>
+        </ProtectedRoute>
+      } />
+      
+      <Route path="/security/cia-dashboard" element={
+        <ProtectedRoute requireAdmin>
+          <MainLayout>
+            <PageErrorBoundary pageName="CIA Triad Dashboard">
+              <LazyCIATriadDashboard />
             </PageErrorBoundary>
           </MainLayout>
         </ProtectedRoute>
