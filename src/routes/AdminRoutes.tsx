@@ -23,7 +23,10 @@ import {
   LazyUserApplicationsByStatus,
   LazyManagerApplicationsByStatus,
   LazyPartnerApplicationsByStatus,
-  LazyBankAccountApplications
+  LazyBankAccountApplications,
+  LazyBankManagement,
+  LazyNotificationCenter,
+  LazySystemLogs
 } from '@/components/LazyComponents';
 
 export const AdminRoutes = (
@@ -135,6 +138,27 @@ export const AdminRoutes = (
     <Route path="roles" element={
       <PageErrorBoundary pageName="Role Management">
         <LazyRoleManagement />
+      </PageErrorBoundary>
+    } />
+    
+    {/* Bank Management */}
+    <Route path="banks" element={
+      <PageErrorBoundary pageName="Bank Management">
+        <LazyBankManagement />
+      </PageErrorBoundary>
+    } />
+    
+    {/* Notification Center */}
+    <Route path="notifications" element={
+      <PageErrorBoundary pageName="Notification Center">
+        <LazyNotificationCenter />
+      </PageErrorBoundary>
+    } />
+    
+    {/* System Logs */}
+    <Route path="logs" element={
+      <PageErrorBoundary pageName="System Logs">
+        <LazySystemLogs />
       </PageErrorBoundary>
     } />
     

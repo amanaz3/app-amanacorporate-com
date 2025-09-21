@@ -18,7 +18,8 @@ import {
   Shield,
   Building2,
   BarChart3,
-  FileCheck
+  FileCheck,
+  Bell
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -63,6 +64,18 @@ const Sidebar: React.FC = () => {
       roles: ['admin'],
     },
     {
+      name: 'Customers',
+      path: '/customers',
+      icon: <Users className="h-5 w-5" />,
+      roles: ['admin', 'manager', 'partner', 'user'],
+    },
+    {
+      name: 'Applications',
+      path: '/applications',
+      icon: <FileText className="h-5 w-5" />,
+      roles: ['admin', 'manager', 'partner', 'user'],
+    },
+    {
       name: 'User Management',
       path: '/admin/users',
       icon: <Users className="h-5 w-5" />,
@@ -81,14 +94,32 @@ const Sidebar: React.FC = () => {
       roles: ['admin'],
     },
     {
-      name: 'Applications',
-      path: '/admin/applications',
-      icon: <FileText className="h-5 w-5" />,
+      name: 'System Logs',
+      path: '/admin/logs',
+      icon: <FileCheck className="h-5 w-5" />,
+      roles: ['admin'],
+    },
+    {
+      name: 'Products',
+      path: '/products',
+      icon: <Package className="h-5 w-5" />,
       roles: ['admin'],
     },
     {
       name: 'Statistics',
       path: '/admin/statistics',
+      icon: <BarChart3 className="h-5 w-5" />,
+      roles: ['admin'],
+    },
+    {
+      name: 'Security Monitor',
+      path: '/security/compliance',
+      icon: <Shield className="h-5 w-5" />,
+      roles: ['admin'],
+    },
+    {
+      name: 'Performance',
+      path: '/monitoring/performance',
       icon: <BarChart3 className="h-5 w-5" />,
       roles: ['admin'],
     },
@@ -114,6 +145,18 @@ const Sidebar: React.FC = () => {
       roles: ['user'],
     },
     // Common navigation
+    {
+      name: 'Completed',
+      path: '/completed',
+      icon: <CheckSquare className="h-5 w-5" />,
+      roles: ['admin', 'manager', 'partner', 'user'],
+    },
+    {
+      name: 'Rejected',
+      path: '/rejected',
+      icon: <XCircle className="h-5 w-5" />,
+      roles: ['admin', 'manager', 'partner', 'user'],
+    },
     {
       name: 'Settings',
       path: '/settings',
@@ -146,6 +189,15 @@ const Sidebar: React.FC = () => {
     }
     if (path === '/admin/statistics') {
       return location.pathname === '/admin/statistics';
+    }
+    if (path === '/admin/banks') {
+      return location.pathname === '/admin/banks';
+    }
+    if (path === '/admin/notifications') {
+      return location.pathname === '/admin/notifications';
+    }
+    if (path === '/admin/logs') {
+      return location.pathname === '/admin/logs';
     }
     
     // Manager routes - check if any manager route is active

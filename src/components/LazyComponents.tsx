@@ -65,6 +65,11 @@ const ProductionMonitor = React.lazy(() => import('@/components/Performance/Prod
 const SecurityCompliance = React.lazy(() => import('@/components/Security/SecurityCompliance'));
 const CIATriadDashboard = React.lazy(() => import('@/components/Security/CIATriadDashboard'));
 
+// Bank and Notification Management
+const BankManagement = React.lazy(() => import('@/pages/admin/BankManagement'));
+const NotificationCenter = React.lazy(() => import('@/pages/admin/NotificationCenter'));
+const SystemLogs = React.lazy(() => import('@/pages/admin/SystemLogs'));
+
 // Loading fallback component
 const LoadingFallback: React.FC<{ text?: string }> = ({ text = "Loading..." }) => (
   <div className="flex items-center justify-center min-h-[200px]">
@@ -207,5 +212,10 @@ export const LazyApplicationsList = withLazyLoading(ApplicationsList, "Loading a
 export const LazyProductionMonitor = withLazyLoading(ProductionMonitor, "Loading performance monitor...");
 export const LazySecurityCompliance = withLazyLoading(SecurityCompliance, "Loading security compliance...");
 export const LazyCIATriadDashboard = withLazyLoading(CIATriadDashboard, "Loading security dashboard...");
+
+// Bank and Notification Management
+export const LazyBankManagement = withLazyLoading(BankManagement, "Loading bank management...");
+export const LazyNotificationCenter = withLazyLoading(NotificationCenter, "Loading notification center...");
+export const LazySystemLogs = withLazyLoading(SystemLogs, "Loading system logs...");
 
 export { LoadingFallback, PageLoadingFallback };

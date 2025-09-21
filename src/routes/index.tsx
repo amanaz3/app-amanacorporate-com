@@ -29,7 +29,10 @@ import {
   LazyCreateApplication,
   LazyProductionMonitor,
   LazySecurityCompliance,
-  LazyCIATriadDashboard
+  LazyCIATriadDashboard,
+  LazyBankManagement,
+  LazyNotificationCenter,
+  LazySystemLogs
 } from '@/components/LazyComponents';
 
 const AppRoutes: React.FC = () => {
@@ -186,6 +189,28 @@ const AppRoutes: React.FC = () => {
           <MainLayout>
             <PageErrorBoundary pageName="Product Management">
               <LazyProductManagement />
+            </PageErrorBoundary>
+          </MainLayout>
+        </ProtectedRoute>
+      } />
+      
+      {/* Bank Management Routes - Admin only */}
+      <Route path="/admin/banks" element={
+        <ProtectedRoute requireAdmin>
+          <MainLayout>
+            <PageErrorBoundary pageName="Bank Management">
+              <LazyBankManagement />
+            </PageErrorBoundary>
+          </MainLayout>
+        </ProtectedRoute>
+      } />
+      
+      {/* System Logs Routes - Admin only */}
+      <Route path="/admin/logs" element={
+        <ProtectedRoute requireAdmin>
+          <MainLayout>
+            <PageErrorBoundary pageName="System Logs">
+              <LazySystemLogs />
             </PageErrorBoundary>
           </MainLayout>
         </ProtectedRoute>
