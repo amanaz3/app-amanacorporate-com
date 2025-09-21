@@ -18,37 +18,46 @@ export const STATUS_TRANSITIONS: StatusTransition[] = [
   },
   {
     from: 'Submitted', 
-    to: ['Returned', 'Sent to Bank'],
-    requiresAdmin: true,
+    to: ['Returned', 'Need More Info', 'Ready for Bank', 'Rejected'],
+    requiresAdmin: false, // Managers can do these transitions
   },
   {
     from: 'Returned',
-    to: ['Submitted', 'Sent to Bank'],
+    to: ['Submitted'],
     requiresAdmin: false,
   },
   {
-    from: 'Sent to Bank',
-    to: ['Complete', 'Rejected', 'Need More Info'],
-    requiresAdmin: true,
-  },
-  {
     from: 'Need More Info',
-    to: ['Sent to Bank', 'Returned'],
-    requiresAdmin: true,
+    to: ['Submitted'],
+    requiresAdmin: false,
     requiresComment: true,
   },
   {
+    from: 'Ready for Bank',
+    to: ['Sent to Bank'],
+    requiresAdmin: true, // Only admins can send to bank
+    requiresComment: true,
+  },
+  {
+    from: 'Sent to Bank',
+    to: ['Complete', 'Rejected'],
+    requiresAdmin: true,
+  },
+  {
     from: 'Complete',
-    to: [], // Complete is now final status - no payment tracking
+    to: ['Paid'], // Complete can go to Paid (optional)
     requiresAdmin: true,
   },
   {
     from: 'Rejected',
-    to: ['Sent to Bank'],
+    to: [], // Rejected is final
     requiresAdmin: true,
-    requiresComment: true,
   },
-  // 'Paid' status removed - payment tracking out of scope
+  {
+    from: 'Paid',
+    to: [], // Paid is final
+    requiresAdmin: true,
+  },
 ];
 
 export const getAvailableTransitions = (
@@ -121,11 +130,12 @@ export const getStatusColor = (status: Status): string => {
     case 'Draft': return 'bg-gray-100 text-gray-800';
     case 'Submitted': return 'bg-blue-100 text-blue-800';
     case 'Returned': return 'bg-yellow-100 text-yellow-800';
+    case 'Need More Info': return 'bg-orange-100 text-orange-800';
+    case 'Ready for Bank': return 'bg-indigo-100 text-indigo-800';
     case 'Sent to Bank': return 'bg-purple-100 text-purple-800';
     case 'Complete': return 'bg-green-100 text-green-800';
     case 'Rejected': return 'bg-red-100 text-red-800';
-    case 'Need More Info': return 'bg-orange-100 text-orange-800';
-    // 'Paid' case removed
+    case 'Paid': return 'bg-emerald-100 text-emerald-800';
     default: return 'bg-gray-100 text-gray-800';
   }
 };
@@ -135,23 +145,26 @@ export const getStatusDescription = (status: Status): string => {
     case 'Draft': return 'Application is being prepared';
     case 'Submitted': return 'Application submitted for review';
     case 'Returned': return 'Application returned for corrections';
-    case 'Sent to Bank': return 'Application sent to bank for processing';
-    case 'Complete': return 'Application approved and complete';
-    case 'Rejected': return 'Application rejected';
     case 'Need More Info': return 'Additional information required';
-    // 'Paid' status removed - payment tracking out of scope
+    case 'Ready for Bank': return 'Manager reviewed and ready for admin approval';
+    case 'Sent to Bank': return 'Application sent to bank for processing';
+    case 'Complete': return 'Bank account successfully opened';
+    case 'Rejected': return 'Application rejected';
+    case 'Paid': return 'Payment received';
     default: return 'Unknown status';
   }
 };
 
-export const getNextRecommendedStatus = (currentStatus: Status, isAdmin: boolean): Status | null => {
-  if (!isAdmin) return null;
-  
-  switch (currentStatus) {
-    case 'Draft': return 'Submitted';
-    case 'Submitted': return 'Sent to Bank';
-    case 'Sent to Bank': return 'Complete';
-    case 'Complete': return null; // Complete is final status
-    default: return null;
+export const getNextRecommendedStatus = (currentStatus: Status, isAdmin: boolean, isManager: boolean): Status | null => {
+  if (isManager || isAdmin) {
+    switch (currentStatus) {
+      case 'Draft': return 'Submitted';
+      case 'Submitted': return 'Ready for Bank';
+      case 'Ready for Bank': return isAdmin ? 'Sent to Bank' : null;
+      case 'Sent to Bank': return isAdmin ? 'Complete' : null;
+      case 'Complete': return isAdmin ? 'Paid' : null;
+      default: return null;
+    }
   }
+  return null;
 };

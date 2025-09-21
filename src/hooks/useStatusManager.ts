@@ -35,10 +35,12 @@ export const useStatusManager = () => {
     }
 
     // Validate the status transition
+    const isManager = user?.role === 'manager' || user?.role === 'admin';
     const validation = validateStatusTransition(
       currentStatus as StatusType,
       newStatus as StatusType,
       isAdmin,
+      isManager,
       customerUserId === user.id,
       hasRequiredDocuments,
       comment

@@ -1,59 +1,67 @@
 // Status transition rules to maintain data integrity
-export type Status = 'Draft' | 'Submitted' | 'Returned' | 'Sent to Bank' | 'Complete' | 'Rejected' | 'Need More Info' | 'Paid';
+export type Status = 'Draft' | 'Submitted' | 'Returned' | 'Need More Info' | 'Ready for Bank' | 'Sent to Bank' | 'Complete' | 'Rejected' | 'Paid';
 
 export interface StatusTransitionRule {
   from: Status;
   to: Status[];
   adminOnly?: boolean;
+  managerOnly?: boolean;
   requiresDocuments?: boolean;
   requiresComment?: boolean;
 }
 
 // Define allowed status transitions to prevent data inconsistencies
 export const STATUS_TRANSITION_RULES: StatusTransitionRule[] = [
-  // Draft can go to Submitted (by user/admin)
+  // Draft can go to Submitted (by customer/partner)
   {
     from: 'Draft',
     to: ['Submitted'],
     requiresDocuments: true
   },
   
-  // Submitted can go to multiple states (admin only)
+  // Submitted can go to multiple states (admin/manager can set Ready for Bank, admin can set others)
   {
     from: 'Submitted',
-    to: ['Returned', 'Sent to Bank', 'Rejected', 'Need More Info'],
-    adminOnly: true,
+    to: ['Returned', 'Need More Info', 'Ready for Bank', 'Rejected'],
+    managerOnly: true,
     requiresComment: true
   },
   
-  // Returned can go back to Submitted (by user/admin)
+  // Returned can go back to Submitted (by customer/partner)
   {
     from: 'Returned',
     to: ['Submitted'],
     requiresDocuments: true
   },
   
-  // Need More Info can go to Submitted
+  // Need More Info can go to Submitted (by customer/partner)
   {
     from: 'Need More Info',
     to: ['Submitted'],
     requiresDocuments: true
   },
   
-  // Sent to Bank can go to Complete (admin only)
+  // Ready for Bank can only go to Sent to Bank (admin only)
   {
-    from: 'Sent to Bank',
-    to: ['Complete', 'Returned', 'Need More Info'],
+    from: 'Ready for Bank',
+    to: ['Sent to Bank'],
     adminOnly: true,
     requiresComment: true
   },
   
-  // Complete can only go to Paid (admin only) - prevents reverting to Rejected
+  // Sent to Bank can go to Complete or Rejected (admin only)
+  {
+    from: 'Sent to Bank',
+    to: ['Complete', 'Rejected'],
+    adminOnly: true,
+    requiresComment: true
+  },
+  
+  // Complete can only go to Paid (admin only, optional)
   {
     from: 'Complete',
     to: ['Paid'],
-    adminOnly: true,
-    requiresComment: true
+    adminOnly: true
   },
   
   // Paid is final - no transitions allowed
@@ -81,6 +89,7 @@ export function validateStatusTransition(
   currentStatus: Status,
   newStatus: Status,
   isAdmin: boolean,
+  isManager: boolean,
   isUserOwner: boolean,
   hasRequiredDocuments: boolean,
   comment?: string
@@ -108,6 +117,14 @@ export function validateStatusTransition(
     return {
       isValid: false,
       error: `Only administrators can change status from ${currentStatus} to ${newStatus}`
+    };
+  }
+  
+  // Check manager requirement (managers and admins can do this)
+  if (rule.managerOnly && !isManager && !isAdmin) {
+    return {
+      isValid: false,
+      error: `Only managers or administrators can change status from ${currentStatus} to ${newStatus}`
     };
   }
   
@@ -148,6 +165,7 @@ export function validateStatusTransition(
 export function getAvailableStatusTransitions(
   currentStatus: Status,
   isAdmin: boolean,
+  isManager: boolean,
   hasRequiredDocuments: boolean
 ): Status[] {
   const rule = STATUS_TRANSITION_RULES.find(r => r.from === currentStatus);
@@ -159,6 +177,11 @@ export function getAvailableStatusTransitions(
   return rule.to.filter(status => {
     // Filter out admin-only transitions for non-admins
     if (rule.adminOnly && !isAdmin) {
+      return false;
+    }
+    
+    // Filter out manager-only transitions for non-managers/non-admins
+    if (rule.managerOnly && !isManager && !isAdmin) {
       return false;
     }
     
@@ -181,12 +204,13 @@ export function isFinalStatus(status: Status): boolean {
 export function getStatusDisplayInfo(status: Status) {
   const statusInfo = {
     'Draft': { color: 'bg-gray-100 text-gray-800', description: 'Application in progress' },
-    'Submitted': { color: 'bg-blue-100 text-blue-800', description: 'Awaiting admin review' },
+    'Submitted': { color: 'bg-blue-100 text-blue-800', description: 'Awaiting review' },
     'Returned': { color: 'bg-yellow-100 text-yellow-800', description: 'Requires user attention' },
-    'Sent to Bank': { color: 'bg-purple-100 text-purple-800', description: 'Processing with bank' },
-    'Complete': { color: 'bg-green-100 text-green-800', description: 'Application completed' },
-    'Rejected': { color: 'bg-red-100 text-red-800', description: 'Application declined' },
     'Need More Info': { color: 'bg-orange-100 text-orange-800', description: 'Additional information required' },
+    'Ready for Bank': { color: 'bg-indigo-100 text-indigo-800', description: 'Manager reviewed and ready' },
+    'Sent to Bank': { color: 'bg-purple-100 text-purple-800', description: 'Processing with bank' },
+    'Complete': { color: 'bg-green-100 text-green-800', description: 'Bank account opened' },
+    'Rejected': { color: 'bg-red-100 text-red-800', description: 'Application declined' },
     'Paid': { color: 'bg-emerald-100 text-emerald-800', description: 'Payment received' }
   };
   

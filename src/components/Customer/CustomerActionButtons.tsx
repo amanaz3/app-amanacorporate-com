@@ -48,11 +48,14 @@ const CustomerActionButtons: React.FC<CustomerActionButtonsProps> = ({
   const { user } = useAuth();
 
   const getAvailableStatuses = (): Status[] => {
-    return getAvailableStatusTransitions(status as StatusType, isAdmin, mandatoryDocumentsUploaded) as Status[];
+    // Check if user is manager (assuming manager role exists in user context)
+    const isManager = user?.role === 'manager' || user?.role === 'admin';
+    return getAvailableStatusTransitions(status as StatusType, isAdmin, isManager, mandatoryDocumentsUploaded) as Status[];
   };
 
   const getStatusButtonText = (targetStatus: Status): string => {
     switch (targetStatus) {
+      case 'Ready for Bank': return 'Ready for Bank';
       case 'Returned': return 'Return to User';
       case 'Sent to Bank': return 'Send to Bank';
       case 'Complete': return 'Mark as Complete';
