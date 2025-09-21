@@ -10,12 +10,17 @@ import {
   LazyRejectedApplications
 } from '@/components/LazyComponents';
 
+// Import the new optimized manager dashboard
+const OptimizedManagerDashboard = React.lazy(() => import('@/pages/manager/OptimizedManagerDashboard'));
+
 export const ManagerRoutes = (
   <Routes>
-    {/* Manager Dashboard */}
+    {/* Manager Dashboard - Use optimized version */}
     <Route index element={
       <PageErrorBoundary pageName="Manager Dashboard">
-        <LazyOptimizedDashboard />
+        <React.Suspense fallback={<div>Loading dashboard...</div>}>
+          <OptimizedManagerDashboard />
+        </React.Suspense>
       </PageErrorBoundary>
     } />
     
