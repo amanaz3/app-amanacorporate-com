@@ -1,7 +1,12 @@
-import React, { memo, useState } from 'react';
+import React, { memo, useCallback, useState } from 'react';
+import { useCustomers } from '@/hooks/useOptimizedQuery';
+import MemoizedTable from '@/components/Optimized/MemoizedTable';
+import { Customer } from '@/types/customer';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Eye, Edit } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { Customer } from '@/types/customer';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useAuth } from '@/contexts/SecureAuthContext';
 import { useTableSelection } from '@/hooks/useTableSelection';
@@ -18,7 +23,6 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
 import { BulkActionsToolbar } from './BulkActionsToolbar';
 import { ReassignBulkDialog } from './ReassignBulkDialog';

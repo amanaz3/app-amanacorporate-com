@@ -1,4 +1,4 @@
-import { supabase } from '@/lib/supabase';
+import { supabase } from '@/integrations/supabase/client';
 import { Customer } from '@/types/customer';
 
 export class OptimizedCustomerService {

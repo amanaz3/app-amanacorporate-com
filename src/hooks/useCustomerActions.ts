@@ -1,7 +1,7 @@
 import { Customer, StatusChange, Document } from '@/types/customer';
 import { CustomerService } from '@/services/customerService';
 import { useAuth } from '@/contexts/SecureAuthContext';
-import { supabase } from '@/lib/supabase';
+import { supabase } from '@/integrations/supabase/client';
 
 export const useCustomerActions = (
   customers: Customer[],

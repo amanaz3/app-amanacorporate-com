@@ -1,5 +1,5 @@
 // Enhanced file upload with comprehensive error handling and monitoring
-import { supabase } from '@/lib/supabase';
+import { supabase } from '@/integrations/supabase/client';
 
 interface UploadProgress {
   loaded: number;

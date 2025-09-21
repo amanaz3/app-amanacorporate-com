@@ -1,5 +1,6 @@
 
-import React, { useEffect } from 'react';
+import React from 'react';
+import AppErrorBoundary from '@/components/ErrorBoundary/AppErrorBoundary';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Toaster } from '@/components/ui/toaster';
@@ -25,8 +26,8 @@ const queryClient = new QueryClient({
 });
 
 function App() {
-  useEffect(() => {
-    // Initialize monitoring systems
+  React.useEffect(() => {
+    // Initialize monitoring systems in production
     ErrorTracker.init();
     PerformanceMonitor.init();
     PerformanceMonitor.trackPageLoad();
@@ -44,10 +45,10 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ErrorBoundary
+      <AppErrorBoundary
         onError={(error, errorInfo) => {
           // Log application-level errors
-          ErrorTracker.captureError(error, { component: 'App', ...errorInfo });
+          console.error('App Error:', error, errorInfo);
         }}
       >
         <Router>
@@ -64,7 +65,7 @@ function App() {
           </AuthProvider>
           <Toaster />
         </Router>
-      </ErrorBoundary>
+      </AppErrorBoundary>
     </QueryClientProvider>
   );
 }
