@@ -95,7 +95,7 @@ const BankAccountApplicationForm = () => {
 
   const { watch, trigger, getValues } = form;
   const anySuitableBank = watch('anySuitableBank');
-  const additionalNotes = watch('additionalNotes') || '';
+  const additionalNotes = String(watch('additionalNotes') || '');
 
   const validateStep = async (step: number) => {
     switch (step) {
