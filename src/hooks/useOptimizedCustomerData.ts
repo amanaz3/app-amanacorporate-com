@@ -152,8 +152,8 @@ export const useOptimizedCustomerData = (pageSize: number = 50) => {
   useEffect(() => {
     if (isAuthenticated && user) {
       console.log('Auth state changed, fetching optimized data...');
-      fetchCustomers(1, false);
-      fetchDashboardStats();
+      fetchCustomers(1, false, true); // Force refresh to sync existing data
+      fetchDashboardStats(true);
     } else {
       console.log('User not authenticated, clearing data');
       setCustomers([]);
