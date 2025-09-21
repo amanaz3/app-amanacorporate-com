@@ -226,12 +226,28 @@ const BankAccountApplicationForm = () => {
         return;
       }
 
+      // Send confirmation email
+      try {
+        await supabase.functions.invoke('send-application-confirmation', {
+          body: {
+            customerName: sanitizedData.fullName,
+            customerEmail: sanitizedData.email,
+            companyName: sanitizedData.company,
+            applicationId: customer.id,
+          },
+        });
+        console.log('Confirmation email sent successfully');
+      } catch (emailError) {
+        console.error('Failed to send confirmation email:', emailError);
+        // Don't fail the whole submission if email fails
+      }
+
       // Success - show thank you dialog
       setShowThankYou(true);
       
       toast({
         title: "Application Submitted Successfully!",
-        description: "Thank you for your application. We will contact you shortly.",
+        description: "Thank you for your application. A confirmation email has been sent to your email address.",
         variant: "default",
       });
 
