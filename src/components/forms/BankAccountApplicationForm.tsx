@@ -618,7 +618,12 @@ const BankAccountApplicationForm = () => {
       
       <div className="p-6 pt-0">
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
+          <form onSubmit={form.handleSubmit(onSubmit)} onKeyDown={(e) => {
+            if (e.key === 'Enter' && currentStep < 4) {
+              e.preventDefault();
+              nextStep();
+            }
+          }}>
             {renderStep()}
             
             <div className="flex justify-between mt-8">
