@@ -1014,6 +1014,7 @@ export type Database = {
         | "Rejected"
         | "Need More Info"
         | "Paid"
+        | "Ready for Bank"
       document_category:
         | "mandatory"
         | "freezone"
@@ -1161,6 +1162,7 @@ export const Constants = {
         "Rejected",
         "Need More Info",
         "Paid",
+        "Ready for Bank",
       ],
       document_category: [
         "mandatory",
