@@ -34,6 +34,11 @@ const formSchema = z.object({
   
   // Step 4: Additional Information
   additionalNotes: z.string().max(500, 'Additional notes cannot exceed 500 characters').optional(),
+  
+  // Step 5: Optional Extra Services
+  vatRegistration: z.boolean().default(false),
+  corporateTaxFiling: z.boolean().default(false),
+  goamlRegistration: z.boolean().default(false),
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -90,6 +95,9 @@ const BankAccountApplicationForm = () => {
       secondPreferenceBank: '',
       thirdPreferenceBank: '',
       additionalNotes: '',
+      vatRegistration: false,
+      corporateTaxFiling: false,
+      goamlRegistration: false,
     },
   });
 
@@ -105,6 +113,7 @@ const BankAccountApplicationForm = () => {
         return await trigger(['licenseType']);
       case 3:
       case 4:
+      case 5:
         return true; // No mandatory fields
       default:
         return true;
@@ -113,7 +122,7 @@ const BankAccountApplicationForm = () => {
 
   const nextStep = async () => {
     const isValid = await validateStep(currentStep);
-    if (isValid && currentStep < 4) {
+    if (isValid && currentStep < 5) {
       setCurrentStep(currentStep + 1);
     }
   };
@@ -234,6 +243,9 @@ const BankAccountApplicationForm = () => {
           secondPreferenceBank: sanitizedData.secondPreferenceBank,
           thirdPreferenceBank: sanitizedData.thirdPreferenceBank,
           additionalNotes: sanitizedData.additionalNotes,
+          vatRegistration: sanitizedData.vatRegistration,
+          corporateTaxFiling: sanitizedData.corporateTaxFiling,
+          goamlRegistration: sanitizedData.goamlRegistration,
         }
       };
 
@@ -596,6 +608,89 @@ const BankAccountApplicationForm = () => {
           </div>
         );
 
+      case 5:
+        return (
+          <div className="space-y-6">
+            <div>
+              <h3 className="text-lg font-semibold mb-2">Optional Extra Services</h3>
+              <p className="text-sm text-muted-foreground mb-6">
+                Select additional services you may require for your business setup.
+              </p>
+            </div>
+            
+            <div className="space-y-4">
+              <FormField
+                control={form.control}
+                name="vatRegistration"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                    <FormControl>
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                    <div className="space-y-1 leading-none">
+                      <FormLabel>
+                        VAT Registration
+                      </FormLabel>
+                      <FormDescription>
+                        Register your business for Value Added Tax (VAT) compliance
+                      </FormDescription>
+                    </div>
+                  </FormItem>
+                )}
+              />
+              
+              <FormField
+                control={form.control}
+                name="corporateTaxFiling"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                    <FormControl>
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                    <div className="space-y-1 leading-none">
+                      <FormLabel>
+                        Corporate Tax Filing
+                      </FormLabel>
+                      <FormDescription>
+                        Assistance with corporate tax filing and compliance services
+                      </FormDescription>
+                    </div>
+                  </FormItem>
+                )}
+              />
+              
+              <FormField
+                control={form.control}
+                name="goamlRegistration"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                    <FormControl>
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                    <div className="space-y-1 leading-none">
+                      <FormLabel>
+                        GoAML Registration
+                      </FormLabel>
+                      <FormDescription>
+                        Anti-Money Laundering (AML) compliance registration
+                      </FormDescription>
+                    </div>
+                  </FormItem>
+                )}
+              />
+            </div>
+          </div>
+        );
+
       default:
         return null;
     }
@@ -610,10 +705,10 @@ const BankAccountApplicationForm = () => {
         </p>
         <div className="mt-4">
           <div className="flex justify-between text-sm text-muted-foreground mb-2">
-            <span>Step {currentStep} of 4</span>
-            <span>{Math.round((currentStep / 4) * 100)}% Complete</span>
+            <span>Step {currentStep} of 5</span>
+            <span>{Math.round((currentStep / 5) * 100)}% Complete</span>
           </div>
-          <Progress value={(currentStep / 4) * 100} className="w-full" />
+          <Progress value={(currentStep / 5) * 100} className="w-full" />
         </div>
       </div>
       
@@ -622,7 +717,7 @@ const BankAccountApplicationForm = () => {
           <form 
             onSubmit={form.handleSubmit(onSubmit)}
             onKeyDown={(e) => {
-              if (e.key === 'Enter' && currentStep < 4) {
+              if (e.key === 'Enter' && currentStep < 5) {
                 e.preventDefault();
                 nextStep();
               }
@@ -642,7 +737,7 @@ const BankAccountApplicationForm = () => {
                 Previous
               </Button>
               
-              {currentStep < 4 ? (
+              {currentStep < 5 ? (
                 <Button
                   type="button"
                   onClick={nextStep}

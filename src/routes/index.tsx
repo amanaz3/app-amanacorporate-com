@@ -114,6 +114,15 @@ const AppRoutes: React.FC = () => {
           </MainLayout>
         </ProtectedRoute>
       } />
+      <Route path="/applications/new" element={
+        <ProtectedRoute>
+          <MainLayout>
+            <PageErrorBoundary pageName="New Bank Account Application">
+              <LazyCreateApplication />
+            </PageErrorBoundary>
+          </MainLayout>
+        </ProtectedRoute>
+      } />
       <Route path="/applications/:applicationId" element={
         <ProtectedRoute>
           <MainLayout>
