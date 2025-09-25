@@ -54,8 +54,12 @@ const AppRoutes: React.FC = () => {
       {/* Public Routes */}
       {PublicRoutes}
       
-      {/* Root redirect */}
-      <Route path="/" element={<Navigate to="/dashboard" replace />} />
+      {/* Root - Login Page */}
+      <Route path="/" element={
+        <PageErrorBoundary pageName="Login">
+          <SecureLogin />
+        </PageErrorBoundary>
+      } />
       
       {/* Admin Routes - Admin access required */}
       <Route path="/admin/*" element={
