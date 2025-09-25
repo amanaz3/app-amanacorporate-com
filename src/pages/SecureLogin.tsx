@@ -5,6 +5,7 @@ import { useAuth } from '@/contexts/SecureAuthContext';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Shield } from 'lucide-react';
 import SignInForm from '@/components/Auth/SignInForm';
+import { getDashboardUrl, isAuthDomain } from '@/utils/domainConfig';
 
 const SecureLogin = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -13,16 +14,14 @@ const SecureLogin = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Always redirect to dashboard for security and consistent user experience
-  // This prevents users from landing on previous user's pages and provides clean UX
-  const from = '/dashboard';
-
   useEffect(() => {
     // Only redirect if we're sure the user is authenticated and has a valid session
     if (!authLoading && isAuthenticated && session) {
-      navigate(from, { replace: true });
+      // Cross-domain redirect to app domain
+      const dashboardUrl = getDashboardUrl();
+      window.location.href = dashboardUrl;
     }
-  }, [authLoading, isAuthenticated, session, navigate, from]);
+  }, [authLoading, isAuthenticated, session]);
 
   // Show loading spinner while auth is loading
   if (authLoading) {

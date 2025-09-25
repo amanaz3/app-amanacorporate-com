@@ -6,6 +6,7 @@ import { useAuthOptimized } from '@/hooks/useAuthOptimized';
 import ErrorTracker from '@/utils/errorTracking';
 import FeatureAnalytics from '@/utils/featureAnalytics';
 import { ProductionRateLimit } from '@/utils/productionRateLimit';
+import { getLogoutUrl } from '@/utils/domainConfig';
 
 type UserRole = 'admin' | 'user' | 'manager';
 
@@ -146,8 +147,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const { error } = await supabase.auth.signOut();
       
       if (!error) {
-        // Clear any cached session data and redirect to login
-        window.location.href = '/login';
+        // Clear any cached session data and redirect to auth domain login
+        const logoutUrl = getLogoutUrl();
+        window.location.href = logoutUrl;
         FeatureAnalytics.trackUserAction('logout_success');
         toast({
           title: 'Signed Out',

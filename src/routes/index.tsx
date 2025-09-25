@@ -3,266 +3,243 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import PageErrorBoundary from '@/components/PageErrorBoundary';
 import ProtectedRoute from '@/components/Security/ProtectedRoute';
 import MainLayout from '@/components/Layout/MainLayout';
-import SecureLogin from '@/pages/SecureLogin';
-import IframeBankAccountForm from '@/pages/IframeBankAccountForm';
 
-// Import route groups
-import { PublicRoutes } from './PublicRoutes';
+// Route Group Imports
 import { AdminRoutes } from './AdminRoutes';
 import { UserRoutes } from './UserRoutes';
 import { ManagerRoutes } from './ManagerRoutes';
 import { PartnerRoutes } from './PartnerRoutes';
 import { ApplicationRoutes } from './ApplicationRoutes';
+import { PublicRoutes } from './PublicRoutes';
+import { isAuthDomain, isAppDomain } from '@/utils/domainConfig';
 
-// Import lazy components
-import { 
-  LazyNotFound, 
-  LazySettings, 
-  LazyProductManagement, 
+// Lazy Component Imports
+import {
   LazyOptimizedDashboard,
   LazyCustomerList,
   LazyCustomerDetail,
-  LazyCompletedApplications,
-  LazyRejectedApplications,
-  LazyApplicationsList,
-  LazyApplicationDetail,
-  LazyCreateApplication,
+  LazySettings,
+  LazyProductManagement,
+  LazyBankManagement,
+  LazySystemLogs,
   LazyProductionMonitor,
   LazyCIATriadDashboard,
-  LazyBankManagement,
-  LazyNotificationCenter,
-  LazySystemLogs
+  LazyNotFound,
+  LazyPartnerSignupApplication,
+  LazyPartnerApplication,
+  LazyOTPVerification,
+  LazyOpenBankAccount
 } from '@/components/LazyComponents';
 
-const AppRoutes: React.FC = () => {
-  return (
-    <Routes>
-      {/* Iframe-compatible routes - No authentication required */}
-      <Route path="/iframe/bank-account-form" element={
-        <PageErrorBoundary pageName="Iframe Bank Account Form">
+// Additional lazy components
+const SecureLogin = React.lazy(() => import('@/pages/SecureLogin'));
+const IframeBankAccountForm = React.lazy(() => import('@/pages/IframeBankAccountForm'));
+
+/**
+ * Auth Domain Routes - for auth.amanacorporate.com
+ * Only handles login and public authentication-related routes
+ */
+const AuthDomainRoutes = () => (
+  <Routes>
+    {/* Login Page */}
+    <Route path="/login" element={
+      <PageErrorBoundary pageName="Login">
+        <React.Suspense fallback={<div>Loading...</div>}>
+          <SecureLogin />
+        </React.Suspense>
+      </PageErrorBoundary>
+    } />
+    
+    {/* Root redirect to login */}
+    <Route path="/" element={<Navigate to="/login" replace />} />
+    
+    {/* Public Partner Routes */}
+    <Route path="/partners/signup" element={
+      <PageErrorBoundary pageName="Partner Signup Application">
+        <LazyPartnerSignupApplication />
+      </PageErrorBoundary>
+    } />
+    
+    <Route path="/partners/apply" element={
+      <PageErrorBoundary pageName="Partner Application">
+        <LazyPartnerApplication />
+      </PageErrorBoundary>
+    } />
+    
+    <Route path="/partners/verify-otp" element={
+      <PageErrorBoundary pageName="OTP Verification">
+        <LazyOTPVerification />
+      </PageErrorBoundary>
+    } />
+    
+    {/* Open Bank Account Page */}
+    <Route path="/open-bank-account" element={
+      <PageErrorBoundary pageName="Open Bank Account">
+        <LazyOpenBankAccount />
+      </PageErrorBoundary>
+    } />
+    
+    {/* Iframe-compatible form */}
+    <Route path="/iframe/bank-account-form" element={
+      <PageErrorBoundary pageName="Bank Account Form">
+        <React.Suspense fallback={<div>Loading...</div>}>
           <IframeBankAccountForm />
-        </PageErrorBoundary>
-      } />
-      
-      {/* Public Routes - No authentication required */}
-      <Route path="/login" element={
-        <PageErrorBoundary pageName="Login">
-          <SecureLogin />
-        </PageErrorBoundary>
-      } />
-      
-      {/* Public Routes */}
-      {PublicRoutes}
-      
-      {/* Root - Login Page */}
-      <Route path="/" element={
-        <PageErrorBoundary pageName="Login">
-          <SecureLogin />
-        </PageErrorBoundary>
-      } />
-      
-      {/* Admin Routes - Admin access required */}
-      <Route path="/admin/*" element={
-        <ProtectedRoute requireAdmin>
-          <MainLayout>
-            {AdminRoutes}
-          </MainLayout>
-        </ProtectedRoute>
-      } />
-      
-      {/* Dashboard Routes */}
-      <Route path="/dashboard" element={
-        <ProtectedRoute requireAdmin>
-          <MainLayout>
-            <PageErrorBoundary pageName="Admin Dashboard">
-              <LazyOptimizedDashboard />
-            </PageErrorBoundary>
-          </MainLayout>
-        </ProtectedRoute>
-      } />
-      
-      {/* User Routes - Any authenticated user */}
-      <Route path="/user/*" element={
-        <ProtectedRoute>
-          <MainLayout>
-            {UserRoutes}
-          </MainLayout>
-        </ProtectedRoute>
-      } />
-      
-      {/* Manager Routes - Admin access required */}
-      <Route path="/managers/*" element={
-        <ProtectedRoute requireAdmin>
-          <MainLayout>
-            {ManagerRoutes}
-          </MainLayout>
-        </ProtectedRoute>
-      } />
-      
-      {/* Partner Routes - Admin access required */}
-      <Route path="/partners/*" element={
-        <ProtectedRoute requireAdmin>
-          <MainLayout>
-            {PartnerRoutes}
-          </MainLayout>
-        </ProtectedRoute>
-      } />
-      
-      {/* Application Routes - Any authenticated user */}
-      <Route path="/applications" element={
-        <ProtectedRoute>
-          <MainLayout>
-            <PageErrorBoundary pageName="Applications List">
-              <LazyApplicationsList />
-            </PageErrorBoundary>
-          </MainLayout>
-        </ProtectedRoute>
-      } />
-      <Route path="/applications/new" element={
-        <ProtectedRoute>
-          <MainLayout>
-            <PageErrorBoundary pageName="New Bank Account Application">
-              <LazyCreateApplication />
-            </PageErrorBoundary>
-          </MainLayout>
-        </ProtectedRoute>
-      } />
-      <Route path="/applications/:applicationId" element={
-        <ProtectedRoute>
-          <MainLayout>
-            <PageErrorBoundary pageName="Application Detail">
-              <LazyApplicationDetail />
-            </PageErrorBoundary>
-          </MainLayout>
-        </ProtectedRoute>
-      } />
-      <Route path="/customers/:customerId/applications/create" element={
-        <ProtectedRoute>
-          <MainLayout>
-            <PageErrorBoundary pageName="Create Application">
-              <LazyCreateApplication />
-            </PageErrorBoundary>
-          </MainLayout>
-        </ProtectedRoute>
-      } />
-      
-      {/* Customer Routes - Any authenticated user */}
-      <Route path="/customers" element={
-        <ProtectedRoute>
-          <MainLayout>
-            <PageErrorBoundary pageName="Customer List">
-              <LazyCustomerList />
-            </PageErrorBoundary>
-          </MainLayout>
-        </ProtectedRoute>
-      } />
-      <Route path="/customers/:id" element={
-        <ProtectedRoute>
-          <MainLayout>
-            <PageErrorBoundary pageName="Customer Details">
-              <LazyCustomerDetail />
-            </PageErrorBoundary>
-          </MainLayout>
-        </ProtectedRoute>
-      } />
-      <Route path="/completed" element={
-        <ProtectedRoute>
-          <MainLayout>
-            <PageErrorBoundary pageName="Completed Applications">
-              <LazyCompletedApplications />
-            </PageErrorBoundary>
-          </MainLayout>
-        </ProtectedRoute>
-      } />
-      <Route path="/rejected" element={
-        <ProtectedRoute>
-          <MainLayout>
-            <PageErrorBoundary pageName="Rejected Applications">
-              <LazyRejectedApplications />
-            </PageErrorBoundary>
-          </MainLayout>
-        </ProtectedRoute>
-      } />
-      
-      {/* Settings Routes - Any authenticated user */}
-      <Route path="/settings" element={
-        <ProtectedRoute>
-          <MainLayout>
-            <PageErrorBoundary pageName="Settings">
-              <LazySettings />
-            </PageErrorBoundary>
-          </MainLayout>
-        </ProtectedRoute>
-      } />
-      
-      {/* Products Routes - Admin only */}
-      <Route path="/products" element={
-        <ProtectedRoute requireAdmin>
-          <MainLayout>
-            <PageErrorBoundary pageName="Product Management">
-              <LazyProductManagement />
-            </PageErrorBoundary>
-          </MainLayout>
-        </ProtectedRoute>
-      } />
-      
-      {/* Bank Management Routes - Admin only */}
-      <Route path="/admin/banks" element={
-        <ProtectedRoute requireAdmin>
-          <MainLayout>
-            <PageErrorBoundary pageName="Bank Management">
-              <LazyBankManagement />
-            </PageErrorBoundary>
-          </MainLayout>
-        </ProtectedRoute>
-      } />
-      
-      {/* System Logs Routes - Admin only */}
-      <Route path="/admin/logs" element={
-        <ProtectedRoute requireAdmin>
-          <MainLayout>
-            <PageErrorBoundary pageName="System Logs">
-              <LazySystemLogs />
-            </PageErrorBoundary>
-          </MainLayout>
-        </ProtectedRoute>
-      } />
-      
-      {/* Monitoring Routes - Admin only */}
-      <Route path="/monitoring/performance" element={
-        <ProtectedRoute requireAdmin>
-          <MainLayout>
-            <PageErrorBoundary pageName="Performance Monitor">
-              <LazyProductionMonitor />
-            </PageErrorBoundary>
-          </MainLayout>
-        </ProtectedRoute>
-      } />
-      
-      {/* Security Routes - Admin only */}
-      <Route path="/security/cia-dashboard" element={
-        <ProtectedRoute requireAdmin>
-          <MainLayout>
-            <PageErrorBoundary pageName="CIA Triad Dashboard">
-              <LazyCIATriadDashboard />
-            </PageErrorBoundary>
-          </MainLayout>
-        </ProtectedRoute>
-      } />
-      
-      {/* Legacy route redirects */}
-      <Route path="/manager-dashboard" element={<Navigate to="/managers" replace />} />
-      <Route path="/partner-dashboard" element={<Navigate to="/partners" replace />} />
-      <Route path="/user-dashboard" element={<Navigate to="/user" replace />} />
-      
-      {/* 404 - Not Found */}
-      <Route path="*" element={
-        <PageErrorBoundary pageName="Not Found">
-          <LazyNotFound />
-        </PageErrorBoundary>
-      } />
-    </Routes>
-  );
+        </React.Suspense>
+      </PageErrorBoundary>
+    } />
+    
+    {/* Catch all - redirect to login */}
+    <Route path="*" element={<Navigate to="/login" replace />} />
+  </Routes>
+);
+
+/**
+ * App Domain Routes - for app.amanacorporate.com
+ * Handles all authenticated dashboard and application routes
+ */
+const AppDomainRoutes = () => (
+  <Routes>
+    {/* Protected Routes with MainLayout */}
+    <Route path="/*" element={
+      <ProtectedRoute>
+        <MainLayout>
+          <Routes>
+            {/* Dashboard - Default route */}
+            <Route path="/" element={<Navigate to="/dashboard" replace />} />
+            <Route path="/dashboard" element={
+              <PageErrorBoundary pageName="Dashboard">
+                <LazyOptimizedDashboard />
+              </PageErrorBoundary>
+            } />
+            
+            {/* Admin Routes - Admin access required */}
+            <Route path="/admin/*" element={
+              <ProtectedRoute requireAdmin>
+                {AdminRoutes}
+              </ProtectedRoute>
+            } />
+            
+            {/* User Dashboard Routes */}
+            <Route path="/user/*" element={UserRoutes} />
+            
+            {/* Manager Routes */}
+            <Route path="/manager/*" element={ManagerRoutes} />
+            
+            {/* Partner Routes */}
+            <Route path="/partner/*" element={PartnerRoutes} />
+            
+            {/* Applications Routes */}
+            <Route path="/applications/*" element={ApplicationRoutes} />
+            
+            {/* Customer Management */}
+            <Route path="/customers" element={
+              <PageErrorBoundary pageName="Customer List">
+                <LazyCustomerList />
+              </PageErrorBoundary>
+            } />
+            <Route path="/customers/:customerId" element={
+              <PageErrorBoundary pageName="Customer Detail">
+                <LazyCustomerDetail />
+              </PageErrorBoundary>
+            } />
+            
+            {/* Settings */}
+            <Route path="/settings" element={
+              <PageErrorBoundary pageName="Settings">
+                <LazySettings />
+              </PageErrorBoundary>
+            } />
+            
+            {/* Product Management */}
+            <Route path="/products" element={
+              <PageErrorBoundary pageName="Product Management">
+                <LazyProductManagement />
+              </PageErrorBoundary>
+            } />
+            
+            {/* Bank Management */}
+            <Route path="/bank-management" element={
+              <ProtectedRoute requireAdmin>
+                <PageErrorBoundary pageName="Bank Management">
+                  <LazyBankManagement />
+                </PageErrorBoundary>
+              </ProtectedRoute>
+            } />
+
+            {/* System Logs - Admin only */}
+            <Route path="/system-logs" element={
+              <ProtectedRoute requireAdmin>
+                <PageErrorBoundary pageName="System Logs">
+                  <LazySystemLogs />
+                </PageErrorBoundary>
+              </ProtectedRoute>
+            } />
+
+            {/* Security Monitoring - Admin only */}
+            <Route path="/security-monitor" element={
+              <ProtectedRoute requireAdmin>
+                <PageErrorBoundary pageName="Security Monitor">
+                  <LazyCIATriadDashboard />
+                </PageErrorBoundary>
+              </ProtectedRoute>
+            } />
+
+            {/* Performance Monitoring - Admin only */}
+            <Route path="/analytics" element={
+              <ProtectedRoute requireAdmin>
+                <PageErrorBoundary pageName="Analytics Dashboard">
+                  <LazyProductionMonitor />
+                </PageErrorBoundary>
+              </ProtectedRoute>
+            } />
+            
+            {/* Legacy redirects */}  
+            <Route path="/completed" element={<Navigate to="/admin/applications/all?status=completed" replace />} />
+            <Route path="/rejected" element={<Navigate to="/admin/applications/all?status=rejected" replace />} />
+            <Route path="/pending" element={<Navigate to="/admin/applications/all?status=pending" replace />} />
+            
+            {/* 404 for app routes */}
+            <Route path="*" element={
+              <PageErrorBoundary pageName="Not Found">
+                <LazyNotFound />
+              </PageErrorBoundary>
+            } />
+          </Routes>
+        </MainLayout>
+      </ProtectedRoute>
+    } />
+  </Routes>
+);
+
+/**
+ * Main App Routes Component
+ * Determines which routing to use based on domain
+ */
+const AppRoutes = () => {
+  const currentDomain = window.location.hostname;
+  
+  // For development, check current path to determine intent
+  if (currentDomain === 'localhost') {
+    const currentPath = window.location.pathname;
+    const authPaths = ['/login', '/partners', '/open-bank-account', '/iframe'];
+    const isAuthPath = authPaths.some(path => currentPath.startsWith(path)) || currentPath === '/';
+    
+    if (isAuthPath) {
+      return <AuthDomainRoutes />;
+    } else {
+      return <AppDomainRoutes />;
+    }
+  }
+  
+  // Production domain routing
+  if (isAuthDomain()) {
+    return <AuthDomainRoutes />;
+  } else if (isAppDomain()) {
+    return <AppDomainRoutes />;
+  }
+  
+  // Fallback - show auth routes
+  return <AuthDomainRoutes />;
 };
 
 export default AppRoutes;
